@@ -87,7 +87,14 @@ function findChrome() {
   throw new Error("No Chrome/Chromium found. Set CHROME_PATH to a Chromium-based browser binary.");
 }
 
+// Headless Chrome occasionally dies during startup on busy CI runners; one retry
+// with a fresh profile clears it without hiding a real failure.
 async function launch() {
+  try { return await launchOnce(); }
+  catch (e) { await sleep(1000); try { return await launchOnce(); } catch { throw e; } }
+}
+
+async function launchOnce() {
   const profile = mkdtempSync(join(tmpdir(), "shoot-profile-"));
   const proc = spawn(findChrome(), [
     "--headless=new", "--remote-debugging-port=0", `--user-data-dir=${profile}`,
@@ -110,6 +117,7 @@ async function launch() {
       }
     }, 50);
     proc.on("exit", code => { clearInterval(poll); clearTimeout(timer);
+      rmSync(profile, { recursive: true, force: true });
       fail(new Error(`Chrome exited (${code})${stderr.trim() ? `: ${stderr.trim().split("\n").slice(-3).join(" | ")}` : ""}`)); });
   });
   const exited = new Promise(r => proc.once("exit", r));

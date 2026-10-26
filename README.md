@@ -2,9 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/astack-skills?color=24563a&label=npm)](https://www.npmjs.com/package/astack-skills)
 
-I'm Andrew ([@andrewwilkinson](https://x.com/andrewwilkinson)). Product engineer in London, building at [Peer](https://peer.xyz), eight years deep in crypto, founded Galleon, and keeper of a GitHub that is mostly a graveyard of side projects I'm proud of.
+I'm Andrew ([@andrewwilkinson](https://x.com/andrewwilkinson)). Product engineer in London, eight years deep in crypto, founded Galleon, and keeper of a GitHub that is mostly a graveyard of side projects I'm proud of.
 
-These are the skills I use every day to ship my own products, things like [USDCtoFiat](https://usdctofiat.xyz), [Peerlytics](https://peerlytics.xyz), [KnowFulham](https://knowfulham.com), [Lettance](https://lettance.com) and [RampRidge](https://www.rampridge.xyz), with Claude and Codex doing most of the typing. Cleaned up so anyone can use them.
+These are the skills I use every day, with Claude and Codex doing most of the typing: at work on [Peer](https://peer.xyz), on [USDCtoFiat](https://usdctofiat.xyz) and [Peerlytics](https://peerlytics.xyz), across [my open source repos](https://github.com/ADWilkinson), and in the agents I run myself, from self-hosted agent infrastructure to an agentic Slack bot. Cleaned up so anyone can use them.
 
 Agents are very good at saying "done". They're less good at checking the mobile layout, noticing the event never fired, or spotting that production is still serving yesterday's build. And left alone, everything they design ends up purple, glassy and three cards wide.
 

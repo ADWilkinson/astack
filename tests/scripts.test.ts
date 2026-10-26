@@ -8,6 +8,12 @@ const script = (skill: string, name: string) => resolve(root, "skills", skill, "
 const temp = mkdtempSync(resolve(tmpdir(), "astack-scripts-"));
 afterAll(() => rmSync(temp, { recursive: true, force: true }));
 
+// Parse a script's JSON output, surfacing its stderr when it printed nothing useful.
+function parsed(r: { code: number | null; out: string; err: string }) {
+  try { return JSON.parse(r.out); }
+  catch { throw new Error(`script exited ${r.code} without JSON\nstderr: ${r.err}\nstdout: ${r.out}`); }
+}
+
 // Async so the in-process fixture server can answer while the script runs.
 async function node(args: string[]) {
   const p = Bun.spawn(["node", ...args], { cwd: temp, stdout: "pipe", stderr: "pipe", env: { ...process.env, NO_COLOR: "1" } });
@@ -175,7 +181,7 @@ test.skipIf(!chrome)("shoot captures both themes and flags overflow, stranded wo
   const calm = resolve(temp, "calm.html");
   writeFileSync(calm, `<!doctype html><meta name="viewport" content="width=device-width"><style>body{margin:0;font:16px/1.5 sans-serif}</style>
     <p style="width:300px">This sentence wraps across two lines and ends with the words after every walk.</p>`);
-  const quiet = JSON.parse((await node([script("dogfood", "shoot.mjs"), calm, "--widths", "390", "--themes", "light", "--out", resolve(temp, "calm"), "--json"])).out);
+  const quiet = parsed(await node([script("dogfood", "shoot.mjs"), calm, "--widths", "390", "--themes", "light", "--out", resolve(temp, "calm"), "--json"]));
   expect(quiet.captures[0].strandedWords).toEqual([]);
   const dead = await node([script("dogfood", "shoot.mjs"), "127.0.0.1:9", "--widths", "390", "--themes", "light", "--out", resolve(temp, "dead")]);
   expect(dead.code).toBe(1);
