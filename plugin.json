@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "astack",
   "version": "0.5.0",
-  "description": "A standalone skill suite for context, creative craft, implementation, measurement and delivery.",
+  "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "author": {
     "name": "Andrew Wilkinson",
     "url": "https://github.com/ADWilkinson"

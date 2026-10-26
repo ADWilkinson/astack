@@ -2,7 +2,7 @@
   "name": "astack-skills",
   "version": "0.5.0",
   "private": false,
-  "description": "A standalone skill suite for context, creative craft, implementation, measurement and delivery.",
+  "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "license": "MIT",
   "repository": "https://github.com/ADWilkinson/astack",
   "packageManager": "bun@1.4.2",
@@ -33,12 +33,17 @@
     "plugin.json",
     ".claude-plugin/",
     ".codex-plugin/",
-    "docs/",
-    "examples/",
-    "evals/",
-    "SCOPE.md",
-    "CONTRIBUTING.md",
-    "CHANGELOG.md",
-    "AGENTS.md"
-  ]
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "claude-code",
+    "codex",
+    "agent-skills",
+    "skills",
+    "ai-agents",
+    "shipping",
+    "design",
+    "deslop"
+  ],
+  "homepage": "https://github.com/ADWilkinson/astack"
 }
