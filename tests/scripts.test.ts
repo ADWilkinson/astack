@@ -185,5 +185,6 @@ test.skipIf(!chrome)("shoot captures both themes and flags overflow, stranded wo
   expect(quiet.captures[0].strandedWords).toEqual([]);
   const dead = await node([script("dogfood", "shoot.mjs"), "127.0.0.1:9", "--widths", "390", "--themes", "light", "--out", resolve(temp, "dead")]);
   expect(dead.code).toBe(1);
-  expect(dead.out).toContain("navigation failed");
+  // macOS reports the refused connection in the capture; Linux runners can fail earlier, on stderr.
+  expect(`${dead.out}\n${dead.err}`).toMatch(/navigation failed|ERR_CONNECTION|ECONNREFUSED|Chrome exited/);
 }, 150000);
