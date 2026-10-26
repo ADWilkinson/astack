@@ -1,0 +1,4 @@
+body { margin: 0; font: 17px/1.55 system-ui, sans-serif; color: #102028; background: #f6fafb; }
+header, main { max-width: 720px; margin: 0 auto; padding: 20px; }
+header { display: flex; justify-content: space-between; }
+pre { background: #102028; color: #d6f1f4; padding: 14px; border-radius: 8px; overflow-x: auto; }

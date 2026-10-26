@@ -1,0 +1,1 @@
+This is the site for Pawpath, a small dog-walking business in Hackney run by Jess. It looks like every AI-generated landing page and nothing like a friendly local dog walker. Can you give it a proper identity that fits the business? Keep all the real information (walks, prices, areas, contact details) and make sure it works well on phones. It's a single file, index.html.

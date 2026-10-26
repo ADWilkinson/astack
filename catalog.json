@@ -1,0 +1,70 @@
+{
+  "skills": [
+    {
+      "name": "astack",
+      "title": "astack",
+      "summary": "Own a product task up to a proven, review-ready PR",
+      "example": "astack this: add annual pricing with tests, mobile checks and tracking."
+    },
+    {
+      "name": "oneshot",
+      "title": "oneshot",
+      "summary": "Idea to merged, deployed, verified live and announced",
+      "example": "oneshot this: add annual pricing and take it all the way to production."
+    },
+    {
+      "name": "context",
+      "title": "Context",
+      "summary": "Gather and reconcile what changes the task",
+      "example": "Read the Slack thread, the issue and the analytics before we touch checkout."
+    },
+    {
+      "name": "web-design",
+      "title": "Web design",
+      "summary": "Design UI and motion that look like this product, not AI",
+      "example": "This page looks AI-generated. Give it a real direction and check mobile and dark."
+    },
+    {
+      "name": "web-graphics",
+      "title": "Web graphics",
+      "summary": "Build bespoke isometric, flat and ASCII graphics",
+      "example": "Make an isometric hero showing three inboxes merging into one queue."
+    },
+    {
+      "name": "deslop",
+      "title": "Deslop",
+      "summary": "Strip AI tells from copy, UI and code",
+      "example": "Deslop the landing page copy and components, keep the facts and voice."
+    },
+    {
+      "name": "instrument",
+      "title": "Instrument",
+      "summary": "Track the outcome and prove the event arrives",
+      "example": "Track first listing published and give me a funnel I can trust."
+    },
+    {
+      "name": "discoverability",
+      "title": "Discoverability",
+      "summary": "Fix why search and AI answers miss the product",
+      "example": "Audit why ChatGPT and Google don't surface us for 'best invoicing app for freelancers'."
+    },
+    {
+      "name": "dogfood",
+      "title": "Dogfood",
+      "summary": "Use the product for real, fix what breaks",
+      "example": "Dogfood onboarding on my signed-in account on mobile and fix what you hit."
+    },
+    {
+      "name": "ship",
+      "title": "Ship",
+      "summary": "Get to green, merge, deploy and prove it is live",
+      "example": "Ship this: clear the review threads and CI, deploy, verify production."
+    },
+    {
+      "name": "launch",
+      "title": "Launch",
+      "summary": "Ready the page, kit, posts and tracker for launch",
+      "example": "Prepare the launch: share card, page audit, posts, directories and tracking."
+    }
+  ]
+}

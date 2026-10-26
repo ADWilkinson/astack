@@ -1,0 +1,3 @@
+interface: 
+  display_name: Context
+  short_description: Gather and reconcile what changes the task

@@ -1,0 +1,9 @@
+[
+  {
+    "path": "src/export.ts", "line": null, "originalLine": 58, "isOutdated": true, "isResolved": false,
+    "comments": [
+      { "author": "dana", "body": "The stream never calls res.end() when the cursor returns zero rows, so exports for empty accounts will hang until the 30s timeout." },
+      { "author": "priya", "body": "Good catch, will fix." }
+    ]
+  }
+]

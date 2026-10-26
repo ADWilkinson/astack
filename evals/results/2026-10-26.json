@@ -1,0 +1,68 @@
+[
+ {
+  "task": "release-claim",
+  "astack": 18,
+  "baseline": 18,
+  "judge_preferred": "baseline",
+  "judge_note": "tie; B more actionable next steps (CI rerun on real commit, concrete hang fix); A only one to flag merge commit unchecked",
+  "blind_labels": {
+   "A": "skill",
+   "B": "base"
+  }
+ },
+ {
+  "task": "checkout-tracking",
+  "astack": 19,
+  "baseline": 14,
+  "judge_preferred": "astack",
+  "judge_note": "B (skill) blocks post-success double completion, allowlisted props, pence, funnel with window and test filter; A leaks raw error_message",
+  "blind_labels": {
+   "A": "base",
+   "B": "skill"
+  }
+ },
+ {
+  "task": "launch-ready",
+  "astack": 20,
+  "baseline": 16,
+  "judge_preferred": "astack",
+  "judge_note": "A (skill) per-channel ref tracking + readout, sitemap, 404, docker line wraps at 390; B clipped command, stale app.js, no measurement",
+  "blind_labels": {
+   "A": "skill",
+   "B": "base"
+  }
+ },
+ {
+  "task": "signup-qa",
+  "astack": 20,
+  "baseline": 17,
+  "judge_preferred": "astack",
+  "judge_note": "A (skill) replayed mobile+desktop, tight diff; B phone-only, change on false premise, touched another project browser",
+  "blind_labels": {
+   "A": "skill",
+   "B": "base"
+  }
+ },
+ {
+  "task": "copy-landing",
+  "astack": 20,
+  "baseline": 18,
+  "judge_preferred": "astack",
+  "judge_note": "B (skill) removed unsupported 10k claim and redundant closer; A kept and strengthened claim",
+  "blind_labels": {
+   "A": "base",
+   "B": "skill"
+  }
+ },
+ {
+  "task": "brand-page",
+  "astack": 20,
+  "baseline": 14,
+  "judge_preferred": "astack",
+  "judge_note": "A (skill) DESIGN.md, no new claims, all tap targets ok; B eyebrow labels, invented copy, small header target, no design record",
+  "blind_labels": {
+   "A": "skill",
+   "B": "base"
+  }
+ }
+]

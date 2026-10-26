@@ -1,0 +1,27 @@
+{
+  "description": "Canonical copies of scripts used by more than one skill. `bun run metadata` copies each into the listed skills so every skill folder stays self-contained; `bun run check` rejects drift.",
+  "files": {
+    "scripts/shoot.mjs": [
+      "astack",
+      "web-design",
+      "web-graphics",
+      "dogfood",
+      "ship",
+      "launch",
+      "oneshot"
+    ],
+    "scripts/page-audit.mjs": [
+      "discoverability",
+      "launch"
+    ],
+    "scripts/pr-state.mjs": [
+      "ship",
+      "astack",
+      "oneshot"
+    ],
+    "scripts/verify-live.mjs": [
+      "ship",
+      "oneshot"
+    ]
+  }
+}

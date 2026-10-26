@@ -1,0 +1,9 @@
+{
+  "number": 412,
+  "title": "Stream CSV exports instead of buffering",
+  "state": "MERGED",
+  "headRefOid": "c41f9e2a7b0d5e3f6a8c9b1d2e4f5a6b7c8d9e0f",
+  "mergeCommit": "e7a3b91c4d2f6e8a0b5c7d9e1f3a5b7c9d1e3f5a",
+  "mergedAt": "2026-10-26T15:48:00Z",
+  "reviewDecision": "APPROVED"
+}

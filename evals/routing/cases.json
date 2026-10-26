@@ -1,0 +1,245 @@
+[
+ {
+  "q": "can you take the annual billing feature from the linear ticket all the way to prod and let the team know when it's done",
+  "expect": [
+   "astack"
+  ],
+  "also_ok": [
+   "ship"
+  ]
+ },
+ {
+  "q": "own this: the onboarding checklist idea from yesterday's thread, build it properly",
+  "expect": [
+   "astack"
+  ]
+ },
+ {
+  "q": "before you touch the refund flow, read the slack thread and the old PR so you know what was decided",
+  "expect": [
+   "context"
+  ]
+ },
+ {
+  "q": "pick up where the last person left off on the fix/webhooks branch, figure out what state it's in",
+  "expect": [
+   "context"
+  ]
+ },
+ {
+  "q": "break this migration to the new pricing model down into steps with how we'll know each part works",
+  "expect": [],
+  "also_ok": [
+   "astack",
+   "context"
+  ]
+ },
+ {
+  "q": "what's the plan for rolling out SSO across the three apps? don't build anything yet",
+  "expect": [],
+  "also_ok": [
+   "astack",
+   "context"
+  ]
+ },
+ {
+  "q": "our settings page looks like a generic shadcn template, give it some personality",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "redesign the pricing page, it's cluttered and doesn't work on mobile",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "we need a design system doc for this repo so future changes stay consistent",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "make an isometric illustration of our three services feeding one dashboard for the homepage hero",
+  "expect": [
+   "web-graphics"
+  ]
+ },
+ {
+  "q": "I want an ASCII art banner for the CLI docs page",
+  "expect": [
+   "web-graphics"
+  ]
+ },
+ {
+  "q": "make an OG image for the blog",
+  "expect": [
+   "web-graphics",
+   "launch"
+  ]
+ },
+ {
+  "q": "the modal just pops in, can you make opening and closing feel smoother",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "animate the hero illustration so the parts assemble when it scrolls into view",
+  "expect": [
+   "web-design",
+   "web-graphics"
+  ]
+ },
+ {
+  "q": "this README reads like chatgpt wrote it, fix the tone",
+  "expect": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "deslop the changes in this PR",
+  "expect": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "write me a voice guide from my last 20 blog posts so you can write like me",
+  "expect": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "there are so many pointless comments and try/catches in this module, clean it up",
+  "expect": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "how many people actually finish onboarding? add tracking so we can find out",
+  "expect": [
+   "instrument"
+  ]
+ },
+ {
+  "q": "set up posthog events for the new export feature and give me a funnel",
+  "expect": [
+   "instrument"
+  ]
+ },
+ {
+  "q": "why doesn't chatgpt mention us when people ask for the best open source uptime monitor",
+  "expect": [
+   "discoverability"
+  ]
+ },
+ {
+  "q": "google search console says half our pages are 'crawled, not indexed', can you figure out why",
+  "expect": [
+   "discoverability"
+  ]
+ },
+ {
+  "q": "write a comparison page us vs competitor for SEO",
+  "expect": [
+   "discoverability"
+  ]
+ },
+ {
+  "q": "use the app like a new customer on my logged-in account and fix anything broken",
+  "expect": [
+   "dogfood"
+  ]
+ },
+ {
+  "q": "QA the checkout before we launch, on mobile too",
+  "expect": [
+   "dogfood"
+  ]
+ },
+ {
+  "q": "our AI assistant sometimes gives wrong answers about pricing, test it properly",
+  "expect": [
+   "dogfood"
+  ]
+ },
+ {
+  "q": "CI is red on my PR, sort it out",
+  "expect": [
+   "ship"
+  ]
+ },
+ {
+  "q": "address the review comments on #231 and get it merged",
+  "expect": [
+   "ship"
+  ]
+ },
+ {
+  "q": "deploy this and make sure production is actually serving it",
+  "expect": [
+   "ship"
+  ]
+ },
+ {
+  "q": "babysit this PR until it's green",
+  "expect": [
+   "ship"
+  ]
+ },
+ {
+  "q": "post an update in #eng that the export fix is live",
+  "expect": []
+ },
+ {
+  "q": "let the team know where we are on the migration, it's blocked on the vendor",
+  "expect": []
+ },
+ {
+  "q": "run this report every monday at 9 and post it to slack",
+  "expect": []
+ },
+ {
+  "q": "I keep doing this dependency audit by hand, can we automate it",
+  "expect": []
+ },
+ {
+  "q": "we're launching on product hunt next week, get everything ready",
+  "expect": [
+   "launch"
+  ]
+ },
+ {
+  "q": "draft the show HN post and the tweet for tomorrow",
+  "expect": [
+   "launch"
+  ]
+ },
+ {
+  "q": "submit us to the usual startup directories and keep track",
+  "expect": [
+   "launch"
+  ]
+ },
+ {
+  "q": "what does this regex do: ^(?=.*\\d).{8,}$",
+  "expect": []
+ },
+ {
+  "q": "rename the getUser function to fetchUser across the repo",
+  "expect": []
+ },
+ {
+  "q": "add a unit test for the date parser edge case",
+  "expect": []
+ },
+ {
+  "q": "explain the difference between useMemo and useCallback",
+  "expect": []
+ },
+ {
+  "q": "bump the eslint version",
+  "expect": []
+ }
+]

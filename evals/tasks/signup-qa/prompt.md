@@ -1,0 +1,1 @@
+Can you test our signup flow like a real user would and fix whatever's broken? It's a small static site in this folder: open index.html, sign up, and you should land on welcome.html. People have complained but we're not sure what's wrong. Most of our users are on phones.

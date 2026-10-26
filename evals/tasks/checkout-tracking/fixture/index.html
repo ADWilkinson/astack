@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tote &amp; Co checkout</title>
+<script src="analytics.js"></script></head>
+<body>
+<main>
+  <section id="cart">
+    <h1>Your basket</h1>
+    <ul id="items"></ul>
+    <p>Total: <strong id="total"></strong></p>
+    <button id="checkout">Checkout</button>
+  </section>
+  <form id="details" hidden>
+    <h2>Delivery details</h2>
+    <label>Name <input name="name" required></label>
+    <label>Email <input name="email" type="email" required></label>
+    <label>Postcode <input name="postcode" required></label>
+    <button id="pay" type="submit">Pay now</button>
+    <p id="error" role="alert"></p>
+  </form>
+  <section id="done" hidden><h2>Thanks! Order <span id="order-id"></span> is confirmed.</h2></section>
+</main>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

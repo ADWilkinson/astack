@@ -1,0 +1,5 @@
+interface: 
+  display_name: oneshot
+  short_description: "Idea to merged, deployed, verified live and announced"
+policy: 
+  allow_implicit_invocation: false

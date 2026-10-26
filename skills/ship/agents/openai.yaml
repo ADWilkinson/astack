@@ -1,0 +1,3 @@
+interface: 
+  display_name: Ship
+  short_description: "Get to green, merge, deploy and prove it is live"

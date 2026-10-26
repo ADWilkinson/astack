@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Join Fieldnotes</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<main class="panel">
+  <h1>Join Fieldnotes</h1>
+  <p>Save birding sightings and share them with your local group.</p>
+  <form id="signup" novalidate>
+    <label for="name">Your name</label>
+    <input id="name" name="name" autocomplete="name">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email">
+    <label for="password">Password <small>(at least 8 characters)</small></label>
+    <input id="password" name="password" type="password" autocomplete="new-password">
+    <div class="row">
+      <label class="check"><input type="checkbox" id="terms"> I agree to the terms</label>
+      <button type="submit">Create account</button>
+    </div>
+    <p id="msg" role="alert"></p>
+  </form>
+</main>
+<script src="signup.js"></script>
+</body>
+</html>

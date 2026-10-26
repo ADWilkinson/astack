@@ -1,0 +1,6 @@
+{
+  "name": "adwilkinson",
+  "owner": {"name":"Andrew Wilkinson","url":"https://github.com/ADWilkinson"},
+  "description": "Andrew Wilkinson's standalone product delivery skill package.",
+  "plugins": [{"name":"astack","source":"./","description":"Context, craft, implementation, measurement and delivery in one standalone skill suite.","category":"productivity"}]
+}

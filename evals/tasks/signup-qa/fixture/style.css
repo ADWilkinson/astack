@@ -1,0 +1,10 @@
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 Georgia, serif; background: #f4f1e8; color: #23261f; }
+.panel { width: 520px; margin: 48px auto; padding: 32px; background: #fff; border-radius: 12px; }
+label { display: block; margin-top: 14px; }
+input { width: 100%; padding: 10px; font: inherit; border: 1px solid #b8b3a4; border-radius: 6px; }
+.row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; white-space: nowrap; }
+.check { display: flex; gap: 8px; align-items: center; margin: 0; }
+.check input { width: auto; }
+button { padding: 12px 22px; font: inherit; background: #2f5d3a; color: #fff; border: 0; border-radius: 6px; }
+#msg { min-height: 1.5em; color: #8a2a1b; }

@@ -1,0 +1,8 @@
+$ curl -si https://app.example.com/api/version
+HTTP/2 200
+content-type: application/json
+cache-control: public, max-age=3600
+age: 2911
+x-cache: HIT
+
+{"sha":"5d1c8e0a2b4f6d8e0a1c3e5f7a9b1d3e5f7a9c1e","builtAt":"2026-10-25T09:14:00Z"}

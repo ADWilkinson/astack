@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pawpath | Dog walking in Hackney</title>
+<meta name="description" content="Small-group and solo dog walks around London Fields, Victoria Park and Hackney Marshes, with a photo update after every walk. Text or call Jess on 07700 900123.">
+<meta name="theme-color" content="#24563a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1a14" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='17' r='14' fill='%23dceb4b'/%3E%3Cellipse cx='16' cy='21' rx='5.5' ry='4.5' fill='%2317231b'/%3E%3Ccircle cx='9.5' cy='14' r='2.4' fill='%2317231b'/%3E%3Ccircle cx='13.5' cy='10.5' r='2.4' fill='%2317231b'/%3E%3Ccircle cx='18.5' cy='10.5' r='2.4' fill='%2317231b'/%3E%3Ccircle cx='22.5' cy='14' r='2.4' fill='%2317231b'/%3E%3C/svg%3E">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafcf7;
+    --surface: #ffffff;
+    --ink: #17231b;
+    --muted: #4a5a4e;
+    --line: #d3ddcd;
+    --park: #24563a;
+    --park-ink: #f3f8ee;
+    --grass: #dcebcd;
+    --grass-deep: #c5dcb1;
+    --ball: #dceb4b;
+    --ball-ink: #17231b;
+    --water: #a9d2df;
+    --path: #24563a;
+
+    --display: ui-rounded, "SF Pro Rounded", "Avenir Next", Avenir, "Nunito", "Segoe UI", system-ui, sans-serif;
+    --text: "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, sans-serif;
+
+    --r-control: 12px;
+    --r-panel: 20px;
+    --ease: cubic-bezier(.2, .8, .2, 1);
+    --gutter: 20px;
+    --max: 1120px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1a14;
+      --surface: #16241c;
+      --ink: #e7efe2;
+      --muted: #a7b6aa;
+      --line: #2b3d31;
+      --park: #1c3a29;
+      --park-ink: #eef5e8;
+      --grass: #1b3123;
+      --grass-deep: #24402e;
+      --water: #2e5a68;
+      --path: #dceb4b;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 17px/1.55 var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--ball); color: var(--ball-ink); }
+  :where(h1, h2, h3) { font-family: var(--display); font-weight: 800; line-height: 1.1; margin: 0; text-wrap: balance; }
+  :where(p) { margin: 0; text-wrap: pretty; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--ball); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* Header */
+  .top { padding: 18px 0; }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-height: 44px; }
+  .brand svg { width: 38px; height: 38px; flex: none; }
+  .brand b { font: 800 26px/1 var(--display); letter-spacing: -0.02em; color: var(--park); }
+  @media (prefers-color-scheme: dark) { .brand b { color: var(--ink); } }
+  .brand small { display: block; font: 500 13px/1.2 var(--text); color: var(--muted); letter-spacing: 0; }
+  .top nav { display: none; gap: 4px; }
+  .top nav a { text-decoration: none; padding: 10px 14px; border-radius: var(--r-control); font-weight: 600; }
+  .top nav a:hover { background: var(--grass); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding: 12px 22px;
+    border-radius: var(--r-control); border: 2px solid transparent;
+    font: 700 17px/1.2 var(--text); text-decoration: none;
+    transition: background-color .16s var(--ease), border-color .16s var(--ease), transform .1s var(--ease);
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-ball { background: var(--ball); color: var(--ball-ink); border-color: #b9c933; }
+  .btn-ball:hover { background: #e7f35e; }
+  .btn-line { border-color: currentColor; color: var(--ink); }
+  .btn-line:hover { background: var(--grass); }
+
+  /* Hero */
+  .hero { padding: 8px 0 48px; }
+  .hero .wrap { display: grid; gap: 28px; }
+  .hero h1 { font-size: clamp(38px, 9.4vw, 64px); letter-spacing: -0.025em; color: var(--park); }
+  @media (prefers-color-scheme: dark) { .hero h1 { color: var(--ink); } }
+  .lede { font-size: 19px; color: var(--muted); margin-top: 16px; max-width: 34em; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .hero .phone-line { margin-top: 14px; color: var(--muted); font-size: 15px; }
+  .hero .phone-line a { font-weight: 700; color: var(--ink); }
+
+  .map {
+    margin: 0; background: var(--grass); border-radius: var(--r-panel);
+    padding: 10px; position: relative;
+  }
+  .map svg { display: block; width: 100%; height: auto; }
+  .map figcaption { font-size: 14px; color: var(--muted); padding: 6px 8px 4px; }
+  .park-shape { fill: var(--grass-deep); }
+  .park-label { font: 800 15px var(--display); fill: var(--ink); }
+  .park-sub { font: 500 12px var(--text); fill: var(--muted); }
+  .water { fill: none; stroke: var(--water); stroke-width: 7; stroke-linecap: round; }
+  .water-label { font: italic 500 11px var(--text); fill: var(--muted); }
+  .route { fill: none; stroke: var(--path); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 2 9; }
+  .pin { fill: var(--ball); stroke: var(--ink); stroke-width: 2; }
+  .tree { fill: var(--park); opacity: .55; }
+  @media (prefers-color-scheme: dark) { .tree { fill: #3f6b4f; opacity: .9; } }
+
+  /* Section headings */
+  section { padding: 56px 0; }
+  .sec-head { margin-bottom: 24px; }
+  .sec-head h2 { font-size: clamp(30px, 6vw, 42px); letter-spacing: -0.02em; }
+  .sec-head p { color: var(--muted); margin-top: 8px; max-width: 36em; }
+
+  /* Prices */
+  .walks { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .walk {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px;
+    padding: 20px 0; border-bottom: 1px solid var(--line);
+  }
+  .walk h3 { font-size: 23px; }
+  .walk .len { grid-column: 1; color: var(--muted); font-weight: 600; font-size: 15px; }
+  .walk .price { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 800 36px/1 var(--display); letter-spacing: -0.02em; }
+  .walk .price small { display: block; font: 500 13px/1.3 var(--text); color: var(--muted); letter-spacing: 0; text-align: right; }
+  .walk .note { grid-column: 1 / -1; margin-top: 6px; }
+  .tag { display: inline-block; margin-left: 6px; padding: 2px 9px; border-radius: 999px; background: var(--grass); font-size: 13px; font-weight: 700; color: var(--ink); vertical-align: 3px; }
+
+  .promises { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 12px; }
+  .promises li { display: flex; gap: 12px; align-items: flex-start; }
+  .promises svg { width: 24px; height: 24px; flex: none; margin-top: 1px; color: var(--park); }
+  @media (prefers-color-scheme: dark) { .promises svg { color: var(--ball); } }
+
+  /* How it works: the path */
+  .how { background: var(--grass); }
+  .steps { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 28px; counter-reset: step; }
+  .steps::before {
+    content: ""; position: absolute; left: 21px; top: 30px; bottom: 30px;
+    border-left: 4px dotted var(--path);
+  }
+  .step { position: relative; padding-left: 64px; counter-increment: step; }
+  .step::before {
+    content: counter(step); position: absolute; left: 0; top: -4px;
+    width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--ball); color: var(--ball-ink); border: 2px solid var(--ink);
+    font: 800 20px/1 var(--display);
+  }
+  .step h3 { font-size: 22px; margin-bottom: 6px; }
+  .step p { max-width: 30em; }
+
+  /* Book */
+  .book { background: var(--park); color: var(--park-ink); }
+  .book .sec-head h2 { color: var(--park-ink); }
+  .book .sec-head p { color: #c9dcc9; }
+  .contact { display: grid; gap: 12px; }
+  .contact a {
+    display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 4px 14px;
+    padding: 16px 18px; border-radius: var(--r-panel); text-decoration: none;
+    background: rgba(255, 255, 255, .07); border: 2px solid rgba(255, 255, 255, .16);
+    transition: background-color .16s var(--ease), border-color .16s var(--ease);
+  }
+  .contact a:hover { background: rgba(255, 255, 255, .13); border-color: var(--ball); }
+  .contact .ic { grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 50%; background: var(--ball); color: var(--ball-ink); display: grid; place-items: center; }
+  .contact .ic svg { width: 22px; height: 22px; }
+  .contact .what { font-size: 15px; color: #c9dcc9; }
+  .contact .val { font: 800 22px/1.2 var(--display); overflow-wrap: anywhere; }
+  .contact .val.email { font-size: 17px; }
+  .book .small { margin-top: 20px; color: #c9dcc9; font-size: 15px; }
+
+  footer { padding: 28px 0 32px; color: var(--muted); font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+  /* Phone call bar */
+  .callbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: var(--surface); border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 18px rgba(23, 35, 27, .08);
+  }
+  .callbar .btn { min-height: 48px; padding: 10px 12px; }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+
+  @media (min-width: 720px) {
+    :root { --gutter: 32px; }
+    .callbar { display: none; }
+    body { padding-bottom: 0; }
+    .top nav { display: flex; }
+    section { padding: 80px 0; }
+    .walk { grid-template-columns: 220px minmax(0, 1fr) auto; align-items: baseline; padding: 24px 0; }
+    .walk h3 { grid-column: 1; grid-row: 1; }
+    .walk h3 .tag { display: table; margin: 6px 0 2px; vertical-align: 0; }
+    .walk .len { grid-column: 1; grid-row: 2; }
+    .walk .note { grid-column: 2; grid-row: 1 / span 2; margin: 0; align-self: center; }
+    .walk .price { grid-column: 3; grid-row: 1 / span 2; }
+    .promises { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+    .steps::before { left: 46px; right: calc((100% - 64px) / 3); top: 21px; bottom: auto; border-left: 0; border-top: 4px dotted var(--path); }
+    .step { padding: 64px 0 0; }
+    .step::before { top: 0; }
+    .contact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 960px) {
+    .hero { padding: 24px 0 72px; }
+    .hero .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: center; gap: 56px; }
+    .prices .wrap { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr); gap: 56px; }
+    .prices .promises { grid-column: 2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Pawpath, dog walking in Hackney">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="21" r="17" fill="#dceb4b" stroke="#17231b" stroke-width="2"/>
+        <path d="M6 30 C 14 26, 22 34, 34 27" fill="none" stroke="#17231b" stroke-width="2" stroke-dasharray="1.5 4" stroke-linecap="round"/>
+        <ellipse cx="20" cy="22" rx="5.2" ry="4.3" fill="#17231b"/>
+        <circle cx="13.6" cy="16.6" r="2.3" fill="#17231b"/>
+        <circle cx="17.6" cy="12.8" r="2.3" fill="#17231b"/>
+        <circle cx="22.4" cy="12.8" r="2.3" fill="#17231b"/>
+        <circle cx="26.4" cy="16.6" r="2.3" fill="#17231b"/>
+      </svg>
+      <span><b>pawpath</b><small>Dog walking in Hackney</small></span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#prices">Prices</a>
+      <a href="#how">How it works</a>
+      <a href="#book">Book a meet</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div>
+      <h1 id="hero-title">Good walks for Hackney dogs, round the parks you know.</h1>
+      <p class="lede">Small-group and solo walks around London Fields, Victoria Park and Hackney Marshes, with a photo update after every walk.</p>
+      <div class="actions">
+        <a class="btn btn-ball" href="#book">Book a free meet</a>
+        <a class="btn btn-line" href="#prices">See prices</a>
+      </div>
+      <p class="phone-line">Or text Jess on <a class="num" href="sms:+447700900123">07700&nbsp;900123</a></p>
+    </div>
+
+    <figure class="map">
+      <svg viewBox="0 0 420 330" role="img" aria-labelledby="map-title map-desc">
+        <title id="map-title">Where we walk</title>
+        <desc id="map-desc">A sketch map of the three parks Pawpath walks in: London Fields, Victoria Park and Hackney Marshes, joined by a dotted walking route.</desc>
+        <!-- River Lea, east side -->
+        <path class="water" d="M372 8 C 352 70, 392 120, 366 182 S 384 284, 360 326"/>
+        <text class="water-label" x="384" y="214" transform="rotate(78 384 214)">River Lea</text>
+        <!-- Regent's Canal, south -->
+        <path class="water" d="M8 282 C 80 270, 120 300, 190 286 S 300 262, 330 272"/>
+        <text class="water-label" x="40" y="304">Regent's Canal</text>
+
+        <!-- Hackney Marshes -->
+        <path class="park-shape" d="M262 24 C 300 12, 350 22, 352 58 C 356 98, 334 128, 296 130 C 258 132, 238 104, 240 72 C 241 48, 246 30, 262 24 Z"/>
+        <circle class="tree" cx="318" cy="42" r="6"/><circle class="tree" cx="290" cy="122" r="5"/><circle class="tree" cx="340" cy="76" r="5"/>
+        <text class="park-label" x="262" y="92">Hackney</text>
+        <text class="park-label" x="262" y="110">Marshes</text>
+
+        <!-- London Fields -->
+        <path class="park-shape" d="M40 120 C 60 104, 118 104, 132 122 C 146 140, 138 176, 112 184 C 84 192, 46 186, 36 164 C 28 148, 30 130, 40 120 Z"/>
+        <circle class="tree" cx="54" cy="126" r="5"/><circle class="tree" cx="104" cy="122" r="6"/>
+        <text class="park-label" x="44" y="152">London</text>
+        <text class="park-label" x="44" y="170">Fields</text>
+
+        <!-- Victoria Park -->
+        <path class="park-shape" d="M196 196 C 232 176, 320 182, 338 206 C 354 228, 334 262, 296 266 C 252 270, 206 262, 192 242 C 182 228, 184 204, 196 196 Z"/>
+        <circle class="tree" cx="214" cy="252" r="5"/><circle class="tree" cx="318" cy="208" r="6"/><circle class="tree" cx="300" cy="254" r="5"/>
+        <text class="park-label" x="228" y="238">Victoria Park</text>
+
+        <!-- Walking route -->
+        <path class="route" d="M128 154 C 172 150, 200 104, 252 68 M 128 164 C 160 194, 184 214, 208 222"/>
+
+        <!-- Pins -->
+        <g><circle class="pin" cx="124" cy="159" r="7"/><circle class="pin" cx="257" cy="64" r="7"/><circle class="pin" cx="212" cy="224" r="7"/></g>
+      </svg>
+      <figcaption>London Fields, Victoria Park and Hackney Marshes. Not to scale.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="prices" id="prices" aria-labelledby="prices-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="prices-title">Walks and prices</h2>
+      <p>Collected from your door and brought home again.</p>
+    </div>
+    <ul class="walks">
+      <li class="walk">
+        <h3>Group walk <span class="tag">Weekdays</span></h3>
+        <span class="len num">60 minutes</span>
+        <p class="price num">£16<small>per walk</small></p>
+        <p class="note">Up to 4 dogs, never more.</p>
+      </li>
+      <li class="walk">
+        <h3>Solo walk</h3>
+        <span class="len num">45 minutes</span>
+        <p class="price num">£22<small>per walk</small></p>
+        <p class="note">Just your dog. Good for puppies and nervous dogs.</p>
+      </li>
+      <li class="walk">
+        <h3>Puppy visit</h3>
+        <span class="len num">30 minutes</span>
+        <p class="price num">£14<small>per visit</small></p>
+        <p class="note">At home: feed, play and a toilet break.</p>
+      </li>
+    </ul>
+    <ul class="promises">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+        <span>Fully insured.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 10h4M14.5 13.5h3"/></svg>
+        <span>All walkers are DBS checked.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9.5 14.5l5 0"/></svg>
+        <span>Cancel free up to 6pm the day before.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="how-title">How it works</h2>
+    </div>
+    <ol class="steps">
+      <li class="step">
+        <h3>Meet at your door</h3>
+        <p>A free 20-minute meet at home, so your dog meets their walker before the first walk.</p>
+      </li>
+      <li class="step">
+        <h3>Out to the park</h3>
+        <p>A group of at most 4 dogs, or a solo walk. Collected from your door and returned to it.</p>
+      </li>
+      <li class="step">
+        <h3>A photo and a note</h3>
+        <p>After every walk you get a photo and a short note by text.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="book" id="book" aria-labelledby="book-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="book-title">Book a free meet with Jess</h2>
+      <p>Text, call or email and Jess will arrange a time to come round.</p>
+    </div>
+    <div class="contact">
+      <a href="sms:+447700900123">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z"/></svg></span>
+        <span class="what">Text Jess</span>
+        <span class="val num">07700&nbsp;900123</span>
+      </a>
+      <a href="tel:+447700900123">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z"/></svg></span>
+        <span class="what">Call Jess</span>
+        <span class="val num">07700&nbsp;900123</span>
+      </a>
+      <a href="mailto:walks@pawpath.example?subject=Free%20meet">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
+        <span class="what">Email</span>
+        <span class="val email">walks@pawpath.example</span>
+      </a>
+    </div>
+    <p class="small">The first meet is free and takes about 20 minutes.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Pawpath, dog walking in Hackney</span>
+    <span>London Fields, Victoria Park and Hackney Marshes</span>
+  </div>
+</footer>
+
+<nav class="callbar" aria-label="Contact Jess">
+  <a class="btn btn-ball" href="sms:+447700900123">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z"/></svg>
+    Text Jess
+  </a>
+  <a class="btn btn-line" href="tel:+447700900123">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z"/></svg>
+    Call
+  </a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+[
+ {
+  "q": "fix the typo in the hero headline, 'recieve' should be 'receive'",
+  "expect": []
+ },
+ {
+  "q": "make the primary button blue instead of green",
+  "expect": []
+ },
+ {
+  "q": "the build fails locally with a TypeScript error in utils.ts",
+  "expect": []
+ },
+ {
+  "q": "our pages take 6 seconds to load on mobile, speed them up",
+  "expect": []
+ },
+ {
+  "q": "add a loading spinner to the save button",
+  "expect": [],
+  "also_ok": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "review this PR for bugs before I merge it",
+  "expect": [],
+  "also_ok": [
+   "ship"
+  ]
+ },
+ {
+  "q": "summarise what was decided in this slack thread before I start on the ticket",
+  "expect": [
+   "context"
+  ]
+ },
+ {
+  "q": "the signup numbers on the dashboard look wrong since tuesday, can you check",
+  "expect": [
+   "instrument"
+  ],
+  "also_ok": [
+   "context"
+  ]
+ },
+ {
+  "q": "did yesterday's deploy actually go out? the bug is still showing for me",
+  "expect": [
+   "ship"
+  ]
+ },
+ {
+  "q": "write release notes for v2.3 for our changelog page",
+  "expect": [
+   "launch"
+  ],
+  "also_ok": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "write a tweet announcing the new export feature",
+  "expect": [
+   "launch"
+  ],
+  "also_ok": [
+   "deslop"
+  ]
+ },
+ {
+  "q": "add dark mode to the marketing site",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "the empty state on the projects page is just a blank white box, make it useful",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "add a favicon and app icons for all platforms from our logo svg",
+  "expect": [
+   "web-graphics"
+  ]
+ },
+ {
+  "q": "make a 404 page with a little illustration of a lost dog",
+  "expect": [
+   "web-graphics",
+   "web-design"
+  ]
+ },
+ {
+  "q": "the dropdown menu flickers when you open and close it quickly",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "write an email to our users explaining the price change",
+  "expect": [
+   "deslop"
+  ],
+  "also_ok": []
+ },
+ {
+  "q": "go through the app on mobile and list everything that feels off, don't fix anything",
+  "expect": [
+   "dogfood"
+  ]
+ },
+ {
+  "q": "set up a github action that runs the e2e tests every night and tells me if they fail",
+  "expect": []
+ },
+ {
+  "q": "we're getting traffic from chatgpt but it describes our pricing wrong",
+  "expect": [
+   "discoverability"
+  ]
+ },
+ {
+  "q": "tell #design the new illustrations are up on staging",
+  "expect": []
+ },
+ {
+  "q": "build the referral program from the spec in the notion doc and get it live",
+  "expect": [
+   "astack"
+  ],
+  "also_ok": [
+   "context",
+   "ship"
+  ]
+ },
+ {
+  "q": "how should we sequence the database migration and the API change so nothing breaks?",
+  "expect": [],
+  "also_ok": [
+   "astack"
+  ]
+ },
+ {
+  "q": "convert this class component to hooks",
+  "expect": []
+ }
+]

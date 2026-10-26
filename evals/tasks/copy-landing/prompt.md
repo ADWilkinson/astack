@@ -1,0 +1,1 @@
+This is the landing page for Ledgerly, a small invoicing tool for UK freelancers. Honestly it reads like every other AI-written startup page and I'm a bit embarrassed by it. Can you fix it up? Keep it to this page (index.html and styles.css).

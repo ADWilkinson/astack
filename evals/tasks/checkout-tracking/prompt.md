@@ -1,0 +1,1 @@
+We run a small shop (Tote & Co) and have no idea how many people who start checkout actually finish an order, or where they drop off. We use PostHog. Can you add the tracking we need to this checkout? The code is in this folder; analytics.js is a local stand-in for the PostHog snippet.
