@@ -57,8 +57,8 @@ Both pull in the other skills as they need them.
 | [astack](skills/astack/SKILL.md) | "astack this" | Takes a task from idea to a proven, review-ready PR, with a done-check at every stage. |
 | [oneshot](skills/oneshot/SKILL.md) | "oneshot this" | The same, all the way: merged, deployed, verified live and announced. You call it by name. |
 | [context](skills/context/SKILL.md) | "read the thread first" | Pulls the Slack thread, issue, PRs, git history and analytics that actually change the task into a short brief. |
-| [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, and checks it on a phone in light and dark. |
-| [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, flat illustrations, ASCII art, icons and share cards, built in code. |
+| [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, stress-tests it with worst-case data, and checks it on a phone in light and dark. |
+| [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, animated sticker icons, flat illustrations, ASCII art, icons and share cards, built in code. |
 | [deslop](skills/deslop/SKILL.md) | "this sounds like AI" | Finds the tells in copy, UI and code, fixes them, and can learn your voice from your own writing. |
 | [instrument](skills/instrument/SKILL.md) | "can we measure this" | Tracking that fires once, on real success, and a query you can actually trust. |
 | [discoverability](skills/discoverability/SKILL.md) | "why doesn't ChatGPT mention us" | Checks what Google and AI crawlers really see, fixes it, measures before and after. |

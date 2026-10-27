@@ -146,5 +146,22 @@
  {
   "q": "convert this class component to hooks",
   "expect": []
+ },
+ {
+  "q": "change the toast duration constant from 4000 to 6000",
+  "expect": []
+ },
+ {
+  "q": "export the existing coin sticker to webm for the launch tweet",
+  "expect": [
+   "web-graphics"
+  ],
+  "also_ok": [
+   "launch"
+  ]
+ },
+ {
+  "q": "rename the AnimatedIcon component to Sticker everywhere",
+  "expect": []
  }
 ]

@@ -1,6 +1,6 @@
 ---
 name: web-design
-description: Design and build web interfaces that look like a specific product made them, not a template, including their animation and transitions. Use for new pages, redesigns, landing pages, brand refreshes, component work, "make this look better", "this looks AI-generated", "animate this", "make it feel smoother", or any UI change where hierarchy, typography, colour, layout, motion or responsive behaviour matter. Keeps a DESIGN.md so the direction survives between sessions.
+description: Design and build web interfaces that look like a specific product made them, not a template, including their animation and transitions. Use for new pages, redesigns, landing pages, brand refreshes, component work, "make this look better", "this looks AI-generated", "animate this", "make it feel smoother", "the animation is janky", "it feels wrong on my phone", "try it with long names", or any UI change where hierarchy, typography, colour, layout, motion or responsive behaviour matter. Keeps a DESIGN.md so the direction survives between sessions.
 ---
 
 # Web design
@@ -45,13 +45,13 @@ When the user gives references, study them properly: [reference study](reference
 ## 3. Build in the product's system
 
 - Use existing tokens, primitives and components. Add a token before adding a one-off value.
-- Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout.
+- Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout. Before calling a data-driven screen done, run it on [worst-case data](references/worst-case-data.md): the longest plausible name, an unbreakable email, a count of 1 and of 1,284, an empty list, a missing avatar.
 - Design the states with the screen: loading, empty, error, success, disabled, overflow. An empty state that looks broken is a bug.
 - Hide what has nothing to say. Zero rows, zero balances and empty charts become an honest empty state or disappear; no walls of zeros.
 - Headers are labels. A subtitle that re-explains the header gets deleted.
-- Mobile is its own layout: reorder by priority, use horizontal snap rails where desktop uses grids, `dvh`/`svh` not `100vh`, inputs at 16px or larger, tap targets 44px.
+- Mobile is its own layout: reorder by priority, use horizontal snap rails where desktop uses grids, `dvh`/`svh` not `100vh`, inputs at 16px or larger, tap targets 44px. Anything people use on a phone gets the [mobile baseline](references/mobile.md): no tap flash, hover gated to real pointers, press feedback on touch, safe areas, no zoom on focus.
 
-Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: one orchestrated moment, a small timing system, interruption-safe, reduced motion handled, and watched as a filmstrip.
+Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: decide whether it should animate at all (never for keyboard or high-frequency actions), ease-out and under 300ms for UI, press feedback and origin-aware popovers, interruptible transitions, only `transform` and `opacity`, reduced motion handled, and watched as a filmstrip. The same reference diagnoses janky animation by cause.
 
 ## 4. Look at it
 
@@ -68,6 +68,7 @@ Open every screenshot and actually read it. Then go through, in this order:
 3. **Hierarchy and rhythm**: more space above a heading than below it; consistent gaps within groups, larger between groups; one primary action per view.
 4. **Generic**: run `deslop`'s scan or check [anti-patterns](references/anti-patterns.md). Would a stranger guess this product from a screenshot with the logo removed?
 5. **Craft**: alignment to the pixel at 2x, optical balance of icons and text, tabular numbers in columns.
+6. **Stress**: the worst-case fixture at the real container width, 320px and 200% text. Touch details need a real phone; say so if you had none.
 
 Fix the worst problem, re-shoot, repeat. Compare against references at the same width and state. Two or three full loops is normal for new work.
 

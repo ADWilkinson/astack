@@ -65,6 +65,12 @@ const RULES = [
   ["caps-eyebrow", "ui", "info", /\buppercase\b[^"'`]*\btracking-(?:widest|\[0\.[1-9]\d*em\])|\btracking-(?:widest|\[0\.[1-9]\d*em\])[^"'`]*\buppercase\b|text-transform:\s*uppercase;\s*letter-spacing:\s*0?\.[12]\d*em/g, "Tracked-out all-caps label; the eyebrow above every heading."],
   ["generic-cta", "ui", "info", />\s*(?:Get Started|Learn More|Start (?:your )?(?:free )?trial|Join the waitlist|Explore (?:now|features))\s*</g, "Generic CTA label; name what happens next ('Create a listing', 'See rates')."],
   ["emoji-in-ui", "ui", "medium", />[^<{]*?(?:🚀|✨|🔥|💡|⚡|🎉|👋|💪|🙌|📈|🎯)[^<]*?</gu, "Emoji in interface copy; usually stands in for an icon system or a point of view."],
+  // Motion and mobile details that make an interface feel slightly off.
+  ["transition-all", "ui", "medium", /\btransition-all\b|transition:\s*all\b/g, "Transitions every property, including layout ones nobody meant to animate. Name them: transform, opacity."],
+  ["ease-in-ui", "ui", "info", /\bease-in\b(?!-out)|(?:transition|animation)(?:-timing-function)?:[^;]*\bease-in\b(?!-out)/g, "ease-in starts slowly, exactly when the user is watching; UI enters and exits on ease-out."],
+  ["scale-from-zero", "ui", "info", /\bscale-0\b|scale\(\s*0\s*\)|\bscale:\s*0\b/g, "Enters from nothing. Start at scale 0.95 with opacity 0."],
+  ["zoom-disabled", "ui", "high", /user-scalable\s*=\s*(?:no|0)|maximum-scale\s*=\s*1(?:\.0)?\b/g, "Disables pinch zoom for everyone. Fix the cause instead: inputs at 16px stop iOS focus zoom."],
+  ["vh-shell", "ui", "info", /\b(?:min-)?h-screen\b|(?:min-)?height:\s*100vh\b/g, "100vh is taller than the visible area on phones; use dvh for app shells and svh for heroes."],
   ["narrating-comment", "code", "info", /(?:\/\/|#)\s*(?:This (?:function|method|component|code)|Function to|Helper (?:function )?to|Initiali[sz]e the|Define the|Create a new|Loop through|Check if|Return the|Import (?:the )?(?:necessary|required))\b/g, "Comment paraphrases the next line; keep comments that explain why."],
   ["placeholder-code", "code", "high", /(?:\/\/|#)\s*(?:TODO:? implement|Add (?:your|more) .{0,30} here|Rest of (?:the )?code|\.\.\. ?existing code|implementation goes here)|\bthrow new Error\(["']Not implemented["']\)/gi, "Placeholder left in shipped code."],
   ["swallowed-error", "code", "medium", /catch\s*(?:\(\s*\w*\s*\))?\s*\{\s*\}|except(?:\s+\w+)?:\s*\n\s*pass\b/g, "Empty catch hides failures; handle, log with context, or let it throw."],

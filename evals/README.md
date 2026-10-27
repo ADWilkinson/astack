@@ -34,8 +34,8 @@ Six realistic tasks, each a natural request plus a small synthetic project with 
 
 Whether the skill descriptions make an agent load the right skill, and only when it helps.
 
-- `cases.json`: 42 direct requests, some of which should load nothing.
-- `cases-hard.json`: 24 near-misses: small edits that need no skill, requests that sit between two skills.
+- `cases.json`: 48 direct requests, some of which should load nothing.
+- `cases-hard.json`: 27 near-misses: small edits that need no skill, requests that sit between two skills.
 - A fresh agent sees only the skill names and descriptions and picks skills per request. `score.py cases.json run.json` scores a run.
 
 ## Results

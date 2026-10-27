@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, expect, test } from "bun:test";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 
@@ -86,6 +86,17 @@ test("slop-scan reports each match once even when JSX text and string literals o
   expect(seamless.length).toBe(1);
 });
 
+test("slop-scan flags motion and mobile details that feel off", async () => {
+  writeFileSync(resolve(temp, "menu.css"), `.menu { transition: all 300ms ease-in; transform: scale(0); height: 100vh; }\n.calm { transition: transform 200ms ease-in-out; }\n`);
+  writeFileSync(resolve(temp, "shell.html"), `<meta name="viewport" content="width=device-width, maximum-scale=1"><div class="h-screen transition-all scale-0"></div>`);
+  const result = JSON.parse((await node([script("deslop", "slop-scan.mjs"), "menu.css", "shell.html", "--json"])).out);
+  const hits = result.files.flatMap((f: any) => f.hits);
+  for (const rule of ["transition-all", "ease-in-ui", "scale-from-zero", "zoom-disabled", "vh-shell"])
+    expect(hits.map((h: any) => h.rule)).toContain(rule);
+  expect(hits.filter((h: any) => h.rule === "ease-in-ui").every((h: any) => h.line === 1)).toBe(true);
+  expect((await node([script("deslop", "slop-scan.mjs"), "shell.html", "--fail-on", "high"])).code).toBe(2);
+});
+
 test("iso compiles a scene with all three faces, painter order and a fitted viewBox", async () => {
   const { compile } = await import(script("web-graphics", "iso.mjs"));
   const svg: string = compile({ unit: 10, padding: 0, items: [
@@ -156,7 +167,7 @@ test("verify-live finds a revision in headers, checks content and fails on a wro
 
 test("every script prints help and exits cleanly", async () => {
   for (const [skill, name] of [["ship", "pr-state.mjs"], ["ship", "verify-live.mjs"], ["ship", "shoot.mjs"], ["deslop", "slop-scan.mjs"],
-    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"]]) {
+    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"], ["web-graphics", "fi.mjs"]]) {
     const r = await node([script(skill, name), "--help"]);
     expect(r.code).toBe(0);
     expect(r.out).toContain("Usage");
@@ -188,3 +199,25 @@ test.skipIf(!chrome)("shoot captures both themes and flags overflow, stranded wo
   // macOS reports the refused connection in the capture; Linux runners can fail earlier, on stderr.
   expect(`${dead.out}\n${dead.err}`).toMatch(/navigation failed|ERR_CONNECTION|ECONNREFUSED|Chrome exited/);
 }, 150000);
+
+test.skipIf(!chrome)("fi passes the bundled sticker set and names what is wrong with a broken one", async () => {
+  const kit = resolve(root, "skills/web-graphics/kit");
+  const ok = await node([script("web-graphics", "fi.mjs"), "check", resolve(kit, "icons.ts"), "coins", "padlock"]);
+  if (ok.code !== 0) throw new Error(`fi check failed (${ok.code}): ${ok.err}\n${ok.out}`);
+  expect(ok.out).toContain("2 icons pass");
+  const dir = resolve(temp, "stickers");
+  mkdirSync(dir, { recursive: true });
+  copyFileSync(resolve(kit, "fun.ts"), resolve(dir, "fun.ts"));
+  writeFileSync(resolve(dir, "icons.ts"), `import { rect } from './fun'
+import type { Icon } from './fun'
+export const broken: Icon = { name: 'broken', frames: 120, layers: [{ id: 'a', parent: 'nope', shapes: [{ d: rect(0, 0, 500, 500), fill: 'purple' }] }] }
+`);
+  const bad = await node([script("web-graphics", "fi.mjs"), "check", resolve(dir, "icons.ts")]);
+  expect(bad.code).toBe(1);
+  expect(bad.out).toContain('parent "nope" not found');
+  expect(bad.out).toContain('"purple" is not a palette slot');
+  expect(bad.out).toContain("touches the canvas edge");
+  const frame = await node([script("web-graphics", "fi.mjs"), "frame", resolve(kit, "icons.ts"), "coins", "40", "--px", "120", "--out", resolve(temp, "coins.png")]);
+  if (frame.code !== 0) throw new Error(`fi frame failed (${frame.code}): ${frame.err}`);
+  expect(readFileSync(resolve(temp, "coins.png")).subarray(1, 4).toString()).toBe("PNG");
+}, 120000);

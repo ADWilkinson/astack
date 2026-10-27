@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+Motion and mobile craft from [Emil Kowalski's skills](https://github.com/emilkowalski/skills) and animated stickers from [fun-isometric](https://skills.klvn.dev/fun-isometric) by Kelvin Adithya, both MIT and credited where they are used.
+
+- `web-graphics` makes animated sticker icons: flat-fill slabs with a thick outline that move on After Effects grade keyframe presets, for onboarding, empty states and rewards. The kit (`kit/fun.ts`, `motions.ts`, 24 worked icons, a React `<Sticker>`) is bundled, recolours from a brand's two colours, and plays live on canvas or exports to alpha webm and HEVC with a poster.
+- New `fi.mjs` checks, sheets, frames and exports stickers. It is a dependency-free port of the original renderer: types are stripped per file and Chrome is driven over the DevTools protocol, so nothing installs Playwright at run time. Runs on Node 22.13+ or Bun.
+- `web-design` motion reference rewritten around a decision order: whether it should animate at all (never keyboard or high-frequency actions), ease by what is happening (never `ease-in` on UI), durations under 300ms, press feedback, origin-aware popovers, interruptible transitions and `@starting-style`, gesture rules, and a symptom table for janky animation. Reviews come back as a Before / After / Why table.
+- New `web-design` references: a mobile baseline (tap flash, stuck hover, `dvh`/`svh`, input zoom, safe areas, `touch-action`) and a worst-case data method with a catalogue of plausible values that break layouts.
+- `slop-scan.mjs` flags `transition: all`, `ease-in` on UI, `scale(0)` entrances, disabled zoom and `100vh` app shells.
+- Routing eval gains nine cases for stickers, janky motion, mobile feel and worst-case data.
+
 ## 0.5.0
 
 Each skill was reviewed against tstack, pstack, gstack, impeccable, Anthropic's skills and the slop packs, and kept, rewritten or extended accordingly.

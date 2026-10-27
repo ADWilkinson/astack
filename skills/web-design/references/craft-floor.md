@@ -34,14 +34,18 @@ The minimum for anything that ships. Check these while building, then once more 
 
 - Every interactive element has a visible focus style, a hover style on pointer devices, and a pressed state.
 - Tap targets 44 by 44px on touch layouts, including icon buttons and close buttons.
+- Hover styles sit inside `@media (hover: hover) and (pointer: fine)`; touch gets `:active` instead.
 - Buttons say what happens ("Send invoice"), links say where they go. No "Click here", no bare "Submit" when there is a better verb.
 - Disabled controls explain why when it is not obvious.
 - Loading shows what is pending without implying success; skeletons match the real layout to avoid shift.
 
 ## Motion
 
-- One signature ease and two or three durations, from tokens. No bounce or overshoot unless the brand is playful on purpose.
-- Respect `prefers-reduced-motion`: the reduced version shows the final state, never an invisible or half-animated one.
+- One signature ease and two or three durations, from tokens. Ease-out for anything entering or leaving, never `ease-in`; UI motion under 300ms. No bounce or overshoot unless the brand is playful on purpose.
+- Pressable things scale to about 0.97 on `:active`; popovers grow from their trigger; nothing enters from `scale(0)`.
+- No animation on keyboard-driven or high-frequency actions.
+- Only `transform` and `opacity` animate by default; never `transition: all`.
+- Respect `prefers-reduced-motion`: movement goes, the end state is complete, never an invisible or half-animated element.
 
 ## Refuse unless the brief asks
 

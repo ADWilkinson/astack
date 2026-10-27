@@ -30,11 +30,13 @@ Both brand-page results, with and without astack, landed on warm cream with a se
 
 ## Routing eval
 
-Re-run on 26 October 2026 against the final 11-skill suite. `oneshot` is user-invoked only, so the agent sees 10 descriptions.
+Re-run on 27 October 2026 for 0.6.0, after the `web-graphics` and `web-design` descriptions grew to cover animated stickers, janky motion, mobile feel and worst-case data. `oneshot` is user-invoked only, so the agent sees 10 descriptions. Nine cases were added for the new triggers, including three near-misses (a constant change and a rename that need no skill, a sticker export that sits beside `launch`).
 
 | Set | Cases | Correct |
 | --- | ---: | ---: |
-| Direct requests (`cases.json`) | 42 | 42 |
-| Near-misses (`cases-hard.json`): small edits that need no skill, requests between two skills | 24 | 24 |
+| Direct requests (`cases.json`) | 48 | 48 |
+| Near-misses (`cases-hard.json`): small edits that need no skill, requests between two skills | 27 | 27 |
+
+The 26 October run on 0.5.0 scored 42 of 42 and 24 of 24 on the earlier sets.
 
 The first pass on the smaller suite scored 63 of 66. Two misses were outdated expectations ("all the way to prod" now correctly loads `astack` plus `ship`, since `astack` stops at the PR). One was a real gap: "the dashboard numbers look wrong" loaded nothing, so `instrument`'s description now covers metrics that look off. The agent sees only names and descriptions; the direct set was written alongside the descriptions, so it is the weaker of the two tests.

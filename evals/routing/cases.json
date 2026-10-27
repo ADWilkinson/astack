@@ -241,5 +241,47 @@
  {
   "q": "bump the eslint version",
   "expect": []
+ },
+ {
+  "q": "we need little animated icons for the onboarding steps, the playful lottie kind, in our brand blue",
+  "expect": [
+   "web-graphics"
+  ]
+ },
+ {
+  "q": "make an empty-state illustration for the inbox that moves a bit when it appears",
+  "expect": [
+   "web-graphics"
+  ],
+  "also_ok": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "the drawer animation stutters on my phone when the page is loading, can you find out why",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "our web app feels like a website on iphone: grey flash when you tap, the page zooms into inputs",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "try the members table with really long names and emails and a huge member count and fix whatever breaks",
+  "expect": [
+   "web-design"
+  ],
+  "also_ok": [
+   "dogfood"
+  ]
+ },
+ {
+  "q": "review the popover and dropdown animations in the settings page, they feel sluggish",
+  "expect": [
+   "web-design"
+  ]
  }
 ]

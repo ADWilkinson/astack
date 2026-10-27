@@ -1,6 +1,6 @@
 ---
 name: web-graphics
-description: Make bespoke graphics for the web, such as isometric scenes, flat illustrations, ASCII and halftone art, diagrams, icons, mascots, social cards and hero images, as editable code-built assets that hold up in the actual page. Use when asked for an illustration, a hero graphic, an explainer visual, an icon set, an OG image, "make a graphic for", or when a page needs visual identity beyond layout.
+description: Make bespoke graphics for the web, such as isometric scenes, animated sticker icons, flat illustrations, ASCII and halftone art, diagrams, icons, mascots, social cards and hero images, as editable code-built assets that hold up in the actual page. Use when asked for an illustration, a hero graphic, an explainer visual, an icon set, animated or Lottie-style icons, onboarding or empty-state art that moves, an OG image, "make a graphic for", or when a page needs visual identity beyond layout.
 ---
 
 # Web graphics
@@ -34,6 +34,7 @@ A set of graphics shares this grammar. Variants change a few meaningful objects 
 
 Read the relevant section of [techniques](references/techniques.md):
 
+- **Animated stickers** (playful slab icons that move: onboarding, empty states, rewards, feature icons): follow [stickers](references/stickers.md). Draw on [the bundled kit](kit/fun.ts), animate only with its keyframe presets, and check with [`scripts/fi.mjs`](scripts/fi.mjs) (`check`, `sheet`, `frame`, `export` to alpha video). It needs no install beyond Chrome and ffmpeg.
 - **Isometric**: write the scene as JSON and compile with [`scripts/iso.mjs`](scripts/iso.mjs) (`node <skill-dir>/scripts/iso.mjs --example` shows the format). It handles projection, face shading and draw order, which is where hand-written isometric SVG breaks.
 - **Flat and icons**: a 24-unit grid, shared corner radius and stroke; check silhouettes at 16px.
 - **ASCII and halftone**: deterministic generation, never `Math.random()` during render.
@@ -56,6 +57,7 @@ Look at each capture at the smallest real size first. Check: does the focal poin
 - Inline SVG gets `role="img"` and an `aria-label` or `<title>` when it carries meaning, `aria-hidden="true"` when decorative.
 - Responsive: `viewBox` without fixed width/height in CSS contexts; `width: 100%; height: auto`.
 - Size: SVG under ~30 KB unless it is the hero; strip editor metadata.
+- Anything that moves has a still: reduced motion shows a frame where the graphic reads whole, and an exported video ships with its poster.
 - Report the grammar, files, sizes inspected and anything unverified.
 
 ## Refuse
@@ -65,3 +67,4 @@ Look at each capture at the smallest real size first. Check: does the focal poin
 - Fake dashboards, invented numbers or real-looking personal data inside illustrations.
 - Texture or low-contrast art behind legal, pricing or operational text.
 - Prompt text delivered as if it were the asset.
+- Hand-written sine wobbles or CSS keyframe jiggles on illustrations. Motion comes from a preset or a spring with a reason.
