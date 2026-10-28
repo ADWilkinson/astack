@@ -1,0 +1,15 @@
+[
+ {
+  "task": "launch-assets",
+  "skills": "astack 0.7.0",
+  "astack": 19,
+  "baseline": 17,
+  "judge_preferred": "astack",
+  "judge_note": "Both fixed font path, copy, purple badge and kept out 500+; astack's clip is a seekable composition that re-rendered bit-identically (SSIM 1.000) and its cards use tokens only; baseline used an off-token panel colour, an undocumented clip pipeline with a hard-coded scratch path, and a clip that is ~8s of a static screen. Baseline's cards were more legible at feed size.",
+  "caveat": "astack lost a point on report accuracy because its README re-render commands named tools/ paths; that path was introduced by the blinding step, which rewrote .claude/skills/launch/scripts/ to tools/.",
+  "blind_labels": {
+   "A": "skill",
+   "B": "base"
+  }
+ }
+]

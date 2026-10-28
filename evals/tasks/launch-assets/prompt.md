@@ -1,0 +1,1 @@
+Ledgerline goes public on Thursday. I need the share card for the site (and a square one for LinkedIn) plus a short demo clip of the app for the launch post. Brand is in DESIGN.md, the copy we agreed is in NOTES.md, and there's a card someone started in launch/card. Put everything in launch/.

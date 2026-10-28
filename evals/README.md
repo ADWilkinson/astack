@@ -4,7 +4,7 @@ Two kinds of evidence that astack changes outcomes, not just structure.
 
 ## Comparison eval (`tasks/`)
 
-Six realistic tasks, each a natural request plus a small synthetic project with planted problems:
+Seven realistic tasks, each a natural request plus a small synthetic project with planted problems:
 
 | Task | Request | What is planted |
 | --- | --- | --- |
@@ -14,6 +14,7 @@ Six realistic tasks, each a natural request plus a small synthetic project with 
 | `signup-qa` | "Test signup like a real user and fix what's broken" | Mobile overflow hiding the button, an off-by-one password rule, a storage key mismatch |
 | `release-claim` | "Engineering says it's shipped; is it?" | Checks on an old commit, a skipped test, an unresolved real bug, a stale cached version endpoint |
 | `launch-ready` | "Launching tomorrow on X and Show HN, get the site ready and draft posts" | noindex, robots disallow, JS-only content, wrong share card, no measurement |
+| `launch-assets` | "Make the share card, a square one and a short demo clip; brand in DESIGN.md, copy in NOTES.md" | A brand font that silently falls back to a plausible serif, reworded signed-off copy, an off-token badge, a tempting untrue claim |
 
 ### Method
 

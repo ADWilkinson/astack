@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Ledgerline: October close</title>
+<style>
+  @font-face { font-family: Fraunces; src: url(fonts/Fraunces-Variable.ttf) format("truetype"); font-weight: 100 900; }
+  body { margin: 0; background: #F7F4EE; color: #1C1B19; font: 15px/1.5 "Helvetica Neue", Arial, sans-serif; }
+  header { display: flex; justify-content: space-between; align-items: baseline; padding: 24px 40px; border-bottom: 1px solid #DAD4C8; }
+  h1 { font: 600 28px/1.2 Fraunces, Georgia, serif; margin: 0; }
+  .meta { color: #5F5B53; }
+  main { padding: 24px 40px; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { text-align: left; color: #5F5B53; font-weight: 500; padding: 10px 8px; border-bottom: 1px solid #DAD4C8; }
+  td { padding: 12px 8px; border-bottom: 1px solid #DAD4C8; }
+  td.amt { text-align: right; }
+  .ok { color: #1F6B4F; font-weight: 600; }
+  .flag { color: #B4471E; font-weight: 600; }
+  .summary { margin: 0 0 16px; }
+</style></head>
+<body>
+<header><h1>October close</h1><span class="meta">Northwind Studio Ltd · demo data</span></header>
+<main>
+  <p class="summary"><span class="ok">212 matched</span> · <span class="flag">3 need you</span></p>
+  <table>
+    <thead><tr><th>Bank line</th><th>Date</th><th class="amt">Amount</th><th>Invoice</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>STRIPE PAYOUT 8831</td><td>2 Oct</td><td class="amt">£4,210.00</td><td>INV-1042</td><td class="ok">Matched</td></tr>
+      <tr><td>BACS ACME HOLDINGS</td><td>3 Oct</td><td class="amt">£1,180.50</td><td>INV-1039</td><td class="ok">Matched</td></tr>
+      <tr><td>CARD AWS EMEA</td><td>5 Oct</td><td class="amt">−£342.17</td><td>BILL-221</td><td class="ok">Matched</td></tr>
+      <tr><td>FPS J SMITH CONSULTING</td><td>9 Oct</td><td class="amt">£960.00</td><td>No invoice</td><td class="flag">Needs you</td></tr>
+      <tr><td>BACS GLOBEX LTD</td><td>14 Oct</td><td class="amt">£2,400.00</td><td>INV-1047 (£2,040.00)</td><td class="flag">Amount differs</td></tr>
+      <tr><td>DD OFFICE LEASE</td><td>28 Oct</td><td class="amt">−£1,850.00</td><td>BILL-230</td><td class="ok">Matched</td></tr>
+    </tbody>
+  </table>
+</main>
+</body></html>

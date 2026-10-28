@@ -1,5 +1,15 @@
 # Results
 
+## Comparison eval, 28 October 2026 (astack 0.7.0, `launch-assets`)
+
+A new task for the review gates and video added in 0.7.0. It asks for a share card, a square card and a demo clip. The planted problems: a brand serif that silently falls back to Georgia, which still looks plausible; a reworded headline; an off-token purple badge; and a tempting untrue "500+ teams" claim. Scored blind as before. Raw scores and notes: [results/2026-10-28.json](results/2026-10-28.json).
+
+| Task | astack | Baseline | Judge preferred | Deciding difference |
+| --- | ---: | ---: | --- | --- |
+| launch-assets | **19** | 17 | astack | Both fixed every planted problem. astack's clip was a seekable composition that re-rendered bit-identically and its cards used only tokens; the baseline's clip pipeline was undocumented with a hard-coded scratch path, its panel colour was off-token, and its clip held a static screen for about 8 seconds. |
+
+The baseline caught the font fallback by eye this time, so the gain was in reproducibility and evidence, not detection. The baseline's cards were more legible at feed size, which the rubric did not reward strongly. astack lost one point because its README named `tools/` paths; the blinding step introduced those by rewriting `.claude/skills/launch/scripts/`, so treat that point as an artefact of the method. One run per arm.
+
 ## Comparison eval, 26 October 2026 (astack 0.3.0 skills)
 
 Same model, same request, same files; one agent had astack installed, one did not. Each pair was scored blind by a separate judge against the hidden rubric (10 criteria, 0 to 2, max 20). Raw scores and judge notes: [results/2026-10-26.json](results/2026-10-26.json).
