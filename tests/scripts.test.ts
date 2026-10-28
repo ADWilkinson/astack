@@ -270,7 +270,7 @@ test.skipIf(!chrome)("render-gate fails fallen-back fonts, changed copy, clippin
   expect(clamped.out).toContain("required copy is truncated");
 }, 120000);
 
-const ffmpeg = Bun.spawnSync(["ffmpeg", "-version"], { stdout: "ignore", stderr: "ignore" }).exitCode === 0;
+const ffmpeg = Bun.which("ffmpeg") !== null;
 test.skipIf(!chrome || !ffmpeg)("film renders a seekable composition and fails black openings and clock-driven motion", async () => {
   writeFileSync(resolve(temp, "film.html"), `<!doctype html><html data-duration="1"><style>body{margin:0;background:#F6F8FA;font:600 48px Arial,sans-serif;color:#0E1726}
     h1{margin:40px;animation:in .4s both}.bar{position:absolute;left:0;bottom:0;height:12px;background:#2457D6;animation:grow 1s linear both}
