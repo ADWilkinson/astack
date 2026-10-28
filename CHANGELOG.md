@@ -27,6 +27,7 @@ Review gates and video from LangChain's open-source design agent, [Content Studi
 - `launch` builds share cards with `render-gate.mjs` and demo clips with `film.mjs`. A new film reference covers storyboard, animatic, motion, contact sheets and changelog clips from a pull request.
 - `web-design` anti-patterns gain a section for sets and assets: scaled instead of recomposed, template sameness, silent font fallback, faked weight.
 - New `launch-assets` comparison eval task. Scored blind: astack 19, baseline 17. Both fixed every planted problem; astack's clip re-rendered bit-identically and its cards stayed on tokens.
+- `shoot.mjs`, `render-gate.mjs` and `film.mjs` now stop Chrome's helper processes along with the browser, so the temporary profile is removed cleanly on Linux instead of failing the run.
 
 ## 0.6.0
 
