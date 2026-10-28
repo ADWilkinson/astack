@@ -175,25 +175,32 @@ async function launch() {
     "--headless=new", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check",
     "--mute-audio", "--disable-extensions", "--disable-background-networking",
     ...(process.env.CI || process.getuid?.() === 0 ? ["--no-sandbox"] : []), "about:blank",
-  ], { stdio: ["ignore", "ignore", "pipe"] });
+  ], { stdio: ["ignore", "ignore", "pipe"], detached: process.platform !== "win32" });
+  // Chrome's helpers (crashpad, zygote) outlive the main process and keep writing the profile.
+  const stop = () => { try { process.kill(process.platform === "win32" ? proc.pid : -proc.pid, "SIGKILL"); } catch { /* already gone */ } };
+  const remove = () => {
+    try { rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 }); }
+    catch (e) { process.stderr.write(`warning: could not remove ${profile}: ${e.code ?? e.message}\n`); }
+  };
+  const kill = () => { stop(); remove(); };
+  cleanups.push(kill);
   let stderr = "";
   proc.stderr.on("data", d => { stderr = (stderr + d).slice(-2000); });
+  const exited = new Promise(r => proc.once("exit", r));
   const port = await new Promise((ok, fail) => {
-    const timer = setTimeout(() => fail(new Error("Chrome did not expose a DevTools port")), 15000);
+    const timer = setTimeout(() => { clearInterval(poll); fail(new Error("Chrome did not expose a DevTools port")); }, 15000);
     const poll = setInterval(() => {
       const f = join(profile, "DevToolsActivePort");
       const p = existsSync(f) && readFileSync(f, "utf8").split("\n")[0];
       if (p) { clearInterval(poll); clearTimeout(timer); ok(Number(p)); }
     }, 50);
     proc.on("exit", code => { clearInterval(poll); clearTimeout(timer); fail(new Error(`Chrome exited (${code}) ${stderr.trim().split("\n").slice(-2).join(" | ")}`)); });
-  });
-  const kill = () => { try { proc.kill("SIGKILL"); } catch { /* already gone */ } rmSync(profile, { recursive: true, force: true }); };
-  cleanups.push(kill);
+  }).catch(async e => { stop(); await Promise.race([exited, sleep(3000)]); remove(); cleanups.splice(cleanups.indexOf(kill), 1); throw e; });
   const close = async () => {
     cleanups.splice(cleanups.indexOf(kill), 1);
-    try { proc.kill("SIGKILL"); } catch { /* already gone */ }
-    await sleep(200);
-    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+    stop();
+    await Promise.race([exited, sleep(3000)]);
+    remove();
   };
   return { port, close };
 }

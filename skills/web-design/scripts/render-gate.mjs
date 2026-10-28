@@ -157,7 +157,9 @@ async function launchOnce() {
   let stderr = "";
   proc.stderr.on("data", d => { stderr = (stderr + d).slice(-2000); });
   const port = await new Promise((ok, fail) => {
-    const timer = setTimeout(() => fail(new Error("Chrome did not expose a DevTools port")), 15000);
+    const timer = setTimeout(() => { clearInterval(poll);
+      try { process.kill(process.platform === "win32" ? proc.pid : -proc.pid, "SIGKILL"); } catch { /* already exited */ }
+      fail(new Error("Chrome did not expose a DevTools port")); }, 15000);
     const poll = setInterval(() => {
       const file = join(profile, "DevToolsActivePort");
       if (existsSync(file)) {
