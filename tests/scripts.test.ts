@@ -236,8 +236,10 @@ test("render-gate and film refuse bad arguments with exit 2, never a pass", asyn
 });
 
 test.skipIf(!chrome)("render-gate fails fallen-back fonts, changed copy, clipping and off-token colours, and passes a clean card", async () => {
-  writeFileSync(resolve(temp, "DESIGN.md"), `---\ncolors:\n  bg: "#F6F8FA"\n  ink: "#0E1726"\n  accent: "#2457D6"\ntypography:\n  display: "Astack Missing Face, serif"\n  text: "Arial, sans-serif"\n---\n# Fixture\n`);
-  writeFileSync(resolve(temp, "card.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;color:#0E1726;font-family:Arial,sans-serif}
+  // Linux runners ship Liberation Sans instead of Arial, and the gate rightly calls that a fallback.
+  const face = process.platform === "linux" ? "Liberation Sans" : "Arial";
+  writeFileSync(resolve(temp, "DESIGN.md"), `---\ncolors:\n  bg: "#F6F8FA"\n  ink: "#0E1726"\n  accent: "#2457D6"\ntypography:\n  display: "Astack Missing Face, serif"\n  text: \"${face}, sans-serif\"\n---\n# Fixture\n`);
+  writeFileSync(resolve(temp, "card.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;color:#0E1726;font-family:"${face}",sans-serif}
     h1{font-family:"Astack Missing Face",serif;font-size:64px;margin:40px}
     .tag{color:#e4572e;width:120px;white-space:nowrap;overflow:hidden;margin:40px}
     .edge{position:absolute;right:-40px;bottom:20px;font-size:40px}</style>
@@ -246,7 +248,7 @@ test.skipIf(!chrome)("render-gate fails fallen-back fonts, changed copy, clippin
     <span style="position:absolute;left:40px;top:300px;clip-path:inset(50%)">clip path hidden text</span>
     <p style="color:oklch(0.6 0.25 300);margin:40px">Wide gamut note</p>`);
   const bad = await node([script("launch", "render-gate.mjs"), "card.html", "--size", "1200x630", "--design", "DESIGN.md",
-    "--expect", "Rates you can see today", "--fonts", "Arial", "--out", resolve(temp, "renders"), "--json"]);
+    "--expect", "Rates you can see today", "--fonts", face, "--out", resolve(temp, "renders"), "--json"]);
   expect(bad.code).toBe(1);
   const report = parsed(bad);
   const messages = report.renders[0].findings.map((f: any) => `${f.check}: ${f.message}`).join("\n");
@@ -259,8 +261,6 @@ test.skipIf(!chrome)("render-gate fails fallen-back fonts, changed copy, clippin
   expect(messages).not.toContain("clip path hidden");
   expect(messages).toMatch(/rgb\(\d+, \d+, \d+\) is not a token: color on p\n|rgb\(\d+, \d+, \d+\) is not a token: color on p$/m);
   expect(readFileSync(report.renders[0].file).subarray(1, 4).toString()).toBe("PNG");
-  // Linux runners ship Liberation Sans instead of Arial, and the gate rightly calls that a fallback.
-  const face = process.platform === "linux" ? "Liberation Sans" : "Arial";
   writeFileSync(resolve(temp, "clean.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;color:#0E1726;font-family:"${face}",sans-serif}
     b{color:#2457D6}</style><h1 style="margin:40px">Rates you can <b>see</b></h1>
     <p style="width:200px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;margin:40px">A deliberately clamped description that runs long</p>`);
