@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "astack",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "author": {
     "name": "Andrew Wilkinson",

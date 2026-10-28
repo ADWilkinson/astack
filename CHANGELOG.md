@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.7.0
+
+Review gates and video from LangChain's open-source design agent, [Content Studio](https://github.com/langchain-ai/design-agent) (Apache-2.0), credited where they are used. Its idea is that the model makes the creative calls and code renders, measures and refuses.
+
+- New `render-gate.mjs` in `web-design`, `web-graphics` and `launch`. It renders a page, card or slide at each size as a fresh layout, then fails:
+  - a brand face that silently fell back (Chrome reports which font actually painted each run);
+  - supplied copy that changed, or a deliberate clamp that cuts required copy;
+  - text clipped by its box or cropped by the canvas edge;
+  - painted colours and faces outside the DESIGN.md tokens.
+
+  Exit 2 means it could not check and is never a pass.
+- New `film.mjs` in `launch`. It renders an HTML composition to MP4 frame by frame: every CSS and Web Animations animation is paused and seeked, so a demo clip is code and every take is identical. It fails:
+  - a black or flat opening;
+  - a film where nothing moves;
+  - clock-driven motion, found by re-seeking frames and comparing them;
+  - the wrong size or duration;
+  - failed fonts or requests.
+- New `web-design` review rubric:
+  - three gates before scoring (accuracy, the deterministic gates, the ask);
+  - six areas scored 1 to 5 with evidence;
+  - a ship / fix / rework verdict;
+  - a failure-pattern table.
+
+  `astack`'s independent verifier and `launch` use it for visual work.
+- `launch` builds share cards with `render-gate.mjs` and demo clips with `film.mjs`. A new film reference covers storyboard, animatic, motion, contact sheets and changelog clips from a pull request.
+- `web-design` anti-patterns gain a section for sets and assets: scaled instead of recomposed, template sameness, silent font fallback, faked weight.
+- New `launch-assets` comparison eval task. Scored blind: astack 19, baseline 17. Both fixed every planted problem; astack's clip re-rendered bit-identically and its cards stayed on tokens.
+
 ## 0.6.0
 
 Motion and mobile craft from [Emil Kowalski's skills](https://github.com/emilkowalski/skills) and animated stickers from [fun-isometric](https://skills.klvn.dev/fun-isometric) by Kelvin Adithya, both MIT and credited where they are used.
