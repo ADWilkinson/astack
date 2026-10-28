@@ -22,6 +22,11 @@
     "scripts/verify-live.mjs": [
       "ship",
       "oneshot"
+    ],
+    "scripts/render-gate.mjs": [
+      "web-design",
+      "web-graphics",
+      "launch"
     ]
   }
 }

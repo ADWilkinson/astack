@@ -20,7 +20,7 @@ launch/
 
 ## Share card
 
-- Author in HTML or SVG at 1200x630 with the product's fonts and colours; render with `node <skill-dir>/scripts/shoot.mjs launch/card/card.html --widths 1200 --height 630 --themes light --scale 1 --out launch/card`. Rename the output to `og.png`.
+- Author in HTML or SVG at 1200x630 with the product's fonts and colours; render and gate with `node <skill-dir>/scripts/render-gate.mjs launch/card/card.html --size 1200x630 --size 1200x1200 --design DESIGN.md --expect-file launch/card/copy.txt --out launch/card`. Rename the outputs to `og.png` and `og-square.png`. Each size is a fresh layout; recompose the square, never scale it.
 - One message: the product name, what it does in under eight words, and either the product itself (a real screenshot crop) or one strong graphic. No paragraphs.
 - Keep important content inside the central ~1000x500; platforms crop edges.
 - Test it on a dark and a light feed background; a white card with no border disappears on a white feed.
@@ -36,9 +36,10 @@ launch/
 ## Demo clip
 
 - 6 to 15 seconds, one action from start to result. Start on the meaningful frame, not a blank page.
-- Record at a fixed viewport (1920x1080 or 1080x1920 for vertical) with reduced motion off and a steady pace; avoid cursor wandering.
-- Deterministic: same data and same timing each take, so you can re-record after a fix.
-- Check the export: duration, dimensions, no black first frame, file size within each platform's limit.
+- Build it as an HTML composition and render it with `film.mjs` ([film](film.md)): real screenshots from `shoot.mjs` as the material, captions and motion in CSS. 1920x1080, or 1080x1920 for vertical.
+- Deterministic: the same composition renders the same film every time, so a fix is an edit and a re-render. `film.mjs` fails a clip that does not.
+- `film.mjs` checks size, duration, a black or flat opening frame, a film where nothing moves, and failed fonts or requests. Then check the file size against each platform's limit.
+- Record the live product instead only when the interaction itself is the point; keep the viewport fixed, the pace steady and the cursor purposeful.
 
 ## Tracker
 

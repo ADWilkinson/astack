@@ -167,7 +167,7 @@ test("verify-live finds a revision in headers, checks content and fails on a wro
 
 test("every script prints help and exits cleanly", async () => {
   for (const [skill, name] of [["ship", "pr-state.mjs"], ["ship", "verify-live.mjs"], ["ship", "shoot.mjs"], ["deslop", "slop-scan.mjs"],
-    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"], ["web-graphics", "fi.mjs"]]) {
+    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"], ["web-graphics", "fi.mjs"], ["launch", "render-gate.mjs"], ["launch", "film.mjs"]]) {
     const r = await node([script(skill, name), "--help"]);
     expect(r.code).toBe(0);
     expect(r.out).toContain("Usage");
@@ -221,3 +221,77 @@ export const broken: Icon = { name: 'broken', frames: 120, layers: [{ id: 'a', p
   if (frame.code !== 0) throw new Error(`fi frame failed (${frame.code}): ${frame.err}`);
   expect(readFileSync(resolve(temp, "coins.png")).subarray(1, 4).toString()).toBe("PNG");
 }, 120000);
+
+test("render-gate and film refuse bad arguments with exit 2, never a pass", async () => {
+  for (const args of [[script("web-design", "render-gate.mjs")], [script("web-design", "render-gate.mjs"), "missing.html"],
+    [script("web-design", "render-gate.mjs"), "x.html", "--size", "big"], [script("launch", "film.mjs"), "missing.html"],
+    [script("launch", "film.mjs"), "x.html", "--size", "1281x720"]]) {
+    writeFileSync(resolve(temp, "x.html"), "<p>x</p>");
+    expect((await node(args)).code).toBe(2);
+  }
+  writeFileSync(resolve(temp, "empty.md"), "---\nname: x\n---\n");
+  const r = await node([script("web-design", "render-gate.mjs"), "x.html", "--design", "empty.md"]);
+  expect(r.code).toBe(2);
+  expect(r.err).toContain("no colour or font tokens");
+});
+
+test.skipIf(!chrome)("render-gate fails fallen-back fonts, changed copy, clipping and off-token colours, and passes a clean card", async () => {
+  writeFileSync(resolve(temp, "DESIGN.md"), `---\ncolors:\n  bg: "#F6F8FA"\n  ink: "#0E1726"\n  accent: "#2457D6"\ntypography:\n  display: "Astack Missing Face, serif"\n  text: "Arial, sans-serif"\n---\n# Fixture\n`);
+  writeFileSync(resolve(temp, "card.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;color:#0E1726;font-family:Arial,sans-serif}
+    h1{font-family:"Astack Missing Face",serif;font-size:64px;margin:40px}
+    .tag{color:#e4572e;width:120px;white-space:nowrap;overflow:hidden;margin:40px}
+    .edge{position:absolute;right:-40px;bottom:20px;font-size:40px}</style>
+    <h1>Rates you can see</h1><p class="tag">A long tag line that clips</p><div class="edge">cropped words</div>
+    <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">screen reader only text</span>
+    <span style="position:absolute;left:40px;top:300px;clip-path:inset(50%)">clip path hidden text</span>
+    <p style="color:oklch(0.6 0.25 300);margin:40px">Wide gamut note</p>`);
+  const bad = await node([script("launch", "render-gate.mjs"), "card.html", "--size", "1200x630", "--design", "DESIGN.md",
+    "--expect", "Rates you can see today", "--fonts", "Arial", "--out", resolve(temp, "renders"), "--json"]);
+  expect(bad.code).toBe(1);
+  const report = parsed(bad);
+  const messages = report.renders[0].findings.map((f: any) => `${f.check}: ${f.message}`).join("\n");
+  expect(messages).toContain('"Astack Missing Face" fell back');
+  expect(messages).toContain('missing or changed: "Rates you can see today"');
+  expect(messages).toContain("cut off by its box: p.tag");
+  expect(messages).toContain("cropped by the canvas edge: div.edge");
+  expect(messages).toContain("rgb(228, 87, 46) is not a token");
+  expect(messages).not.toContain("screen reader only");
+  expect(messages).not.toContain("clip path hidden");
+  expect(messages).toMatch(/rgb\(\d+, \d+, \d+\) is not a token: color on p\n|rgb\(\d+, \d+, \d+\) is not a token: color on p$/m);
+  expect(readFileSync(report.renders[0].file).subarray(1, 4).toString()).toBe("PNG");
+  writeFileSync(resolve(temp, "clean.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;color:#0E1726;font-family:Arial,sans-serif}
+    b{color:#2457D6}</style><h1 style="margin:40px">Rates you can <b>see</b></h1>
+    <p style="width:200px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;margin:40px">A deliberately clamped description that runs long</p>`);
+  const ok = await node([script("launch", "render-gate.mjs"), "clean.html", "--size", "1200x630", "--size", "600x600", "--design", "DESIGN.md",
+    "--expect", "Rates you can see", "--fonts", "Arial", "--out", resolve(temp, "renders")]);
+  if (ok.code !== 0) throw new Error(`render-gate failed a clean card (${ok.code}): ${ok.err}\n${ok.out}`);
+  const clamped = await node([script("launch", "render-gate.mjs"), "clean.html", "--size", "1200x630", "--expect", "A deliberately clamped description that runs long", "--out", resolve(temp, "renders")]);
+  expect(clamped.code).toBe(1);
+  expect(clamped.out).toContain("required copy is truncated");
+}, 120000);
+
+const ffmpeg = Bun.spawnSync(["ffmpeg", "-version"], { stdout: "ignore", stderr: "ignore" }).exitCode === 0;
+test.skipIf(!chrome || !ffmpeg)("film renders a seekable composition and fails black openings and clock-driven motion", async () => {
+  writeFileSync(resolve(temp, "film.html"), `<!doctype html><html data-duration="1"><style>body{margin:0;background:#F6F8FA;font:600 48px Arial,sans-serif;color:#0E1726}
+    h1{margin:40px;animation:in .4s both}.bar{position:absolute;left:0;bottom:0;height:12px;background:#2457D6;animation:grow 1s linear both}
+    @keyframes in{from{opacity:.5;transform:translateY(20px)}}@keyframes grow{from{width:0}to{width:100%}}</style><h1>Rates you can see</h1><div class="bar"></div></html>`);
+  const ok = await node([script("launch", "film.mjs"), "film.html", "--size", "640x360", "--fps", "12", "--out", resolve(temp, "film.mp4"),
+    "--poster", resolve(temp, "poster.png"), "--json"]);
+  if (ok.code !== 0) throw new Error(`film failed (${ok.code}): ${ok.err}\n${ok.out}`);
+  const report = parsed(ok);
+  expect([report.width, report.height, report.frames, report.duration]).toEqual([640, 360, 12, 1]);
+  expect(readFileSync(resolve(temp, "poster.png")).subarray(1, 4).toString()).toBe("PNG");
+  writeFileSync(resolve(temp, "black.html"), `<!doctype html><html data-duration="1"><style>body{margin:0;background:#000}h1{color:#fff;animation:in .2s .8s both}@keyframes in{from{opacity:0}}</style><h1>late</h1></html>`);
+  const black = await node([script("launch", "film.mjs"), "black.html", "--size", "640x360", "--fps", "12", "--out", resolve(temp, "black.mp4")]);
+  expect(black.code).toBe(1);
+  expect(black.out).toContain("opens on black");
+  writeFileSync(resolve(temp, "clock.html"), `<!doctype html><style>body{margin:0;background:#fff;font:48px Arial}</style><h1 id=h>0</h1><script>let n=0;setInterval(()=>h.textContent=++n,30)</script>`);
+  const clock = await node([script("launch", "film.mjs"), "clock.html", "--size", "640x360", "--fps", "12", "--duration", "1", "--out", resolve(temp, "clock.mp4")]);
+  expect(clock.code).toBe(1);
+  expect(clock.out).toContain("not deterministic");
+  expect((await node([script("launch", "film.mjs"), "clock.html", "--size", "640x360", "--out", resolve(temp, "x.mp4")])).code).toBe(2);
+  writeFileSync(resolve(temp, "still.html"), `<!doctype html><style>body{margin:0;background:#F6F8FA;font:48px Arial}</style><h1>Nothing moves here</h1>`);
+  const still = await node([script("launch", "film.mjs"), "still.html", "--size", "640x360", "--fps", "12", "--duration", "1.5", "--out", resolve(temp, "still.mp4")]);
+  expect(still.code).toBe(1);
+  expect(still.out).toContain("nothing moves");
+}, 180000);

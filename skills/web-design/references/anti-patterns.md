@@ -82,6 +82,17 @@ Template chrome that appears whatever the subject:
 | buzzword-hero | "Unlock seamless…", "Supercharge your…", "The future of…" | What it does, for whom, in plain words. |
 | emoji-copy | 🚀 ✨ 🔥 in headings and buttons | Words. |
 
+## Sets and assets
+
+| Pattern | Looks like | Instead |
+| --- | --- | --- |
+| scaled-not-recomposed | The square or portrait size is the landscape layout shrunk | Recompose each size; spend extra height on content |
+| template-sameness | Every slide or card is one layout recoloured | Vary the spatial idea, keep the system |
+| silent-fallback | The brand face failed to load and the render shipped in a system font | `render-gate.mjs --design DESIGN.md` catches it |
+| faked-weight | A light face stroked or outlined to look bold | A real weight, or more size |
+
+The full list of failure patterns, with how to score a piece, is in the [review rubric](review-rubric.md).
+
 ## The screenshot test
 
 Remove the logo and product name from a screenshot. If it could be any startup's landing page, it has too many of the above. A good page is recognisable from one section.

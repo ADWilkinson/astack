@@ -31,10 +31,12 @@ Fix before announcing:
 
 Put it in one folder (`launch/` or `docs/launch/`). Contents and formats in [kit](references/kit.md):
 
-- **Share card** rendered from HTML/SVG source by script, committed with its source.
-- **Demo media**: 3 to 5 screenshots at real sizes, and a 6 to 15 second clip of the core action if motion helps. Real product, real-looking data, no fake metrics.
+- **Share card** rendered from HTML/SVG source with `render-gate.mjs`, committed with its source. The gate fails a card whose font fell back, whose copy drifted from `copy.md`, or whose text is cropped.
+- **Demo media**: 3 to 5 screenshots at real sizes, and a 6 to 15 second clip of the core action if motion helps. Build the clip as an HTML composition and render it with `film.mjs`, so a fix is an edit and a re-render ([film](references/film.md)). Real product, real-looking data, no fake metrics.
 - **Copy**: one-line description (60 characters or fewer), a short paragraph, a longer description, the X/LinkedIn post, a Show HN or community post if it fits, a changelog entry. Rules in [copy](references/copy.md).
 - **Tracker**: a CSV of where you will post or submit.
+
+Before anything goes out, score the card, screenshots and clip with `web-design`'s review rubric if it is installed, from your own renders at feed size. Only a ship verdict goes out.
 
 ## 3. Write copy that survives scrutiny
 

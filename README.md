@@ -78,6 +78,8 @@ Most skill packs tell the model to be thorough. These come with small scripts so
 - `slop-scan.mjs` finds the usual suspects, from "seamless" to gradient headlines to emoji bullets, and explains why each one reads as generated. <!-- slop-scan: ignore-line -->
 - `page-audit.mjs` shows what crawlers and link previews see, like a forgotten noindex or a broken share card.
 - `iso.mjs` turns a small scene description into clean isometric SVG with the geometry right, because nobody should hand-roll isometric maths.
+- `render-gate.mjs` renders a card, slide or page at each size and fails it when the brand font quietly fell back, the copy drifted from what was asked, text got clipped, or a colour isn't one of your tokens.
+- `film.mjs` turns an HTML page with CSS animations into an MP4, frame by frame, so a demo clip is code you can fix and re-render. It refuses films that open on black, never move, or come out different each take.
 
 ## Does it actually help?
 

@@ -19,7 +19,7 @@ Copy these eight lines into your todo list before any task-specific items. Close
 4. **Use it**: the real journey, in a browser or runtime, to the real outcome; fix and replay. (`dogfood`)
 5. **Measure**: the success action fires once, on real success, and arrives. (`instrument`, when there is a success action)
 6. **Clean**: `deslop` scan on changed copy, UI and code; every medium or high hit fixed or dismissed with a reason.
-7. **Verify independently**: a fresh agent that did not write the change exercises it and returns PASS or FAIL with evidence. (`ship`; docs-only or trivial changes may skip)
+7. **Verify independently**: a fresh agent that did not write the change exercises it and returns PASS or FAIL with evidence. For visual work it also scores its own renders with `web-design`'s review rubric and gives ship, fix or rework. (`ship`; docs-only or trivial changes may skip)
 8. **PR ready**: `node <skill-dir>/scripts/pr-state.mjs` reports no blockers on the current head; the PR body says what changed, how it was proven, and what was not verified. (`ship`)
 
 For visual changes, capture 390 and 1440 in light and dark with [`scripts/shoot.mjs`](scripts/shoot.mjs) and look at the images. Use [completion checks](references/completion-checks.md) as the final gate.

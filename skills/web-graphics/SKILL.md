@@ -48,6 +48,14 @@ node <skill-dir>/scripts/shoot.mjs http://localhost:3000/ --widths 390,1440     
 node <skill-dir>/scripts/shoot.mjs art/hero.svg --widths 400 --height 300 --themes light,dark
 ```
 
+For anything with fixed sizes, brand tokens or supplied words (social cards, slides, hero art with text), render and gate every size in one go:
+
+```sh
+node <skill-dir>/scripts/render-gate.mjs card/card.html --size 1200x630 --size 1080x1350 --design DESIGN.md --expect "Exact card headline" --out card
+```
+
+Each size is a fresh load, so the layout recomposes instead of scaling. It fails on fallen-back fonts, changed copy, clipped or edge-cropped text and off-token colours. Exit 2 means it could not check.
+
 Look at each capture at the smallest real size first. Check: does the focal point read; are strokes consistent; does dark mode invert or clash; is text in the graphic legible; does texture turn to noise when small; is anything cropped on mobile. Fix the specific defect and re-shoot. Do not regenerate from scratch without a diagnosis.
 
 ## 5. Deliver
@@ -58,7 +66,8 @@ Look at each capture at the smallest real size first. Check: does the focal poin
 - Responsive: `viewBox` without fixed width/height in CSS contexts; `width: 100%; height: auto`.
 - Size: SVG under ~30 KB unless it is the hero; strip editor metadata.
 - Anything that moves has a still: reduced motion shows a frame where the graphic reads whole, and an exported video ships with its poster.
-- Report the grammar, files, sizes inspected and anything unverified.
+- Before a set ships, score it with `web-design`'s review rubric if it is installed: idea, hierarchy, copy, craft, brand and fit for place, with a ship / fix / rework verdict.
+- Report the grammar, files, sizes inspected, gate results and anything unverified.
 
 ## Refuse
 

@@ -70,11 +70,21 @@ Open every screenshot and actually read it. Then go through, in this order:
 5. **Craft**: alignment to the pixel at 2x, optical balance of icons and text, tabular numbers in columns.
 6. **Stress**: the worst-case fixture at the real container width, 320px and 200% text. Touch details need a real phone; say so if you had none.
 
+Then gate what eyes miss. When the project has a DESIGN.md or the brief supplies copy, run:
+
+```sh
+node <skill-dir>/scripts/render-gate.mjs http://localhost:3000/page --size 390x844 --size 1440x900 --design DESIGN.md --expect "Exact headline"
+```
+
+It fails on a brand face that silently fell back, supplied copy that changed, text clipped by its box or cropped by the canvas, and painted colours or faces outside the tokens. Exit 2 means it could not check, which is not a pass.
+
 Fix the worst problem, re-shoot, repeat. Compare against references at the same width and state. Two or three full loops is normal for new work.
+
+For new pages, redesigns and anything public, finish with a verdict from the [review rubric](references/review-rubric.md): three gates, six areas scored 1 to 5 with evidence, ship / fix / rework. When an independent agent is available, it scores from its own renders, not yours.
 
 ## 5. Finish
 
-Report the screens and states you inspected (widths, themes), the decisions you made, and anything not inspected (authenticated states you could not reach, real data you did not have). Commit DESIGN.md changes with the UI.
+Report the screens and states you inspected (widths, themes), the gate results and rubric verdict, the decisions you made, and anything not inspected (authenticated states you could not reach, real data you did not have). Commit DESIGN.md changes with the UI.
 
 ## Rules
 
