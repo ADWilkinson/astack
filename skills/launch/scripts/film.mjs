@@ -109,6 +109,12 @@ async function launch() {
   catch (e) { await sleep(1000); try { return await launchOnce(); } catch { throw new Unchecked(e.message); } }
 }
 
+// Best effort: a leftover temp profile must never fail the check itself.
+function removeProfile(profile) {
+  try { rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 }); }
+  catch (e) { process.stderr.write(`warning: could not remove ${profile}: ${e.code ?? e.message}\n`); }
+}
+
 async function launchOnce() {
   const profile = mkdtempSync(join(tmpdir(), "film-profile-"));
   const proc = spawn(findChrome(), [
@@ -119,7 +125,7 @@ async function launchOnce() {
     ...(process.env.CI || process.getuid?.() === 0 ? ["--no-sandbox"] : []),
     ...(process.env.SHOOT_CHROME_FLAGS ? process.env.SHOOT_CHROME_FLAGS.split(/\s+/) : []),
     "about:blank",
-  ], { stdio: ["ignore", "ignore", "pipe"] });
+  ], { stdio: ["ignore", "ignore", "pipe"], detached: process.platform !== "win32" });
   let stderr = "";
   proc.stderr.on("data", d => { stderr = (stderr + d).slice(-2000); });
   const port = await new Promise((ok, fail) => {
@@ -132,14 +138,15 @@ async function launchOnce() {
       }
     }, 50);
     proc.on("exit", code => { clearInterval(poll); clearTimeout(timer);
-      rmSync(profile, { recursive: true, force: true });
+      removeProfile(profile);
       fail(new Error(`Chrome exited (${code})${stderr.trim() ? `: ${stderr.trim().split("\n").slice(-3).join(" | ")}` : ""}`)); });
   });
   const exited = new Promise(r => proc.once("exit", r));
   const close = async () => {
-    try { proc.kill("SIGKILL"); } catch { /* already exited */ }
+    // Chrome's helpers (crashpad, zygote) outlive the main process and keep writing the profile.
+    try { process.kill(process.platform === "win32" ? proc.pid : -proc.pid, "SIGKILL"); } catch { /* already exited */ }
     await Promise.race([exited, sleep(3000)]);
-    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+    removeProfile(profile);
   };
   return { port, close };
 }
