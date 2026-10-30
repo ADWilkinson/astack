@@ -1,6 +1,6 @@
 ---
 name: deslop
-description: Strip the tells of generated work from copy, UI and code, such as inflated vocabulary, "not just X but Y", staged reveals, em-dash rhythm, emoji bullets, gradient-and-glass UI, narrating comments and defensive clutter, while keeping facts, behaviour and voice. Use when the user says deslop, "this sounds like AI", "make it sound human", "tighten this", before publishing copy or merging UI, or when writing anything public. Also builds a voice profile from someone's real writing.
+description: "Write or revise public copy, UI and code without generated tells, preserving facts and voice. Use for \"deslop\", \"sounds like AI\", tightening prose, user emails, removing generic UI or learning a voice from real writing."
 ---
 
 # Deslop

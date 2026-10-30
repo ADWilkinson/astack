@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Get a change across the line to its agreed target, whether a reviewed PR, a merge, staging or production, by working through review comments, failing CI, conflicts and visual checks, then prove the target is serving it. Use for "ship it", "get this merged", "fix CI", "address the review comments", "babysit this PR", "deploy and verify", or whenever work is done locally but not delivered.
+description: "Deliver an existing change to its agreed PR, merge, staging or production target. Use for failing CI, review comments, conflicts, babysitting a PR, deployment verification or checking someone else's \"it shipped\" claim."
 ---
 
 # Ship
@@ -43,7 +43,7 @@ Work in this order, batching every known fix into one push: **conflicts, then re
 
 - Read the first real error in the log (`gh run view <id> --log-failed | head -200`), not the last line, and reproduce it locally with the command CI runs.
 - A failure in code the diff never touched usually means a stale base: check with `git merge-base --is-ancestor origin/main HEAD` and rebase rather than retry.
-- Evidence of infrastructure trouble (runner died, network, registry down) earns **one** fresh run. An identical second failure means it was never a flake: read the logs properly.
+- Evidence of infrastructure trouble (runner died, network, registry down) can justify a fresh run. If the failure repeats, diagnose it before another retry; repetition alone does not establish the cause.
 - Only a failure in the diff's own code gets a code change.
 
 **Review threads: verify, then fix or decline.**
@@ -67,11 +67,11 @@ It prints one line per change (a check finishing, a new review comment, the head
 
 Never game a gate: no skipping, deleting or loosening tests, no raising timeouts or thresholds, no `--no-verify`, no disabling a check to get green. See [review and release](references/review-and-release.md) for the full list and for CI diagnosis.
 
-## 4. Get an independent verdict
+## 4. Choose verification for the risk
 
-The author is the worst judge of their own change. Before calling a PR ready (or merging it), have a fresh agent that did not write the code exercise it the way a user would: run the app, follow the changed journey, try the edge cases, and return **PASS**, **PASS with notes** or **FAIL**, with evidence (screenshots, commands, output). Give it the PR, the acceptance criteria and how to run the app; not your conclusions.
+Run required checks and exercise the affected behavior. A routine change with decisive deterministic evidence needs no extra model loop. Use a fresh reviewer for subjective quality, security, money, migrations or uncertainty that the checks do not settle; preserve any repository requirement for review. Give it the PR, acceptance criteria and how to run the app, without your conclusions. It should return **PASS**, **PASS with notes** or **FAIL**, with source evidence and any limits.
 
-A verdict covers one head commit. Any later push needs a fresh one. Docs-only and trivial changes may skip it; say so in the PR. If subagents are not available, say the verdict is self-assessed.
+A verdict covers the head it examined. After a later push, refresh checks and review for the affected paths. Report whether verification used deterministic checks, an independent reviewer or self-assessment; never label the author's check independent.
 
 ## 5. Check the experience
 
@@ -104,7 +104,7 @@ When asked whether a claimed release is real (before support tells a customer, b
 4. **Is review finished?** Unresolved threads, including outdated ones: check each against the code that shipped.
 5. **Was the user's case exercised on the target?** The specific scenario (account size, browser, data) that was failing, run where the user is.
 
-Then give: the verdict, each failed gate with its evidence, the ordered steps to make the claim true (fix, re-run checks on the deployed commit, verify serving, exercise the case), and an honest holding line for the person waiting.
+Then give: the verdict, each failed gate with its evidence, the ordered steps to make the claim true (fix, re-run checks on the deployed commit, verify serving, exercise the case), and an honest holding line for the person waiting. Scope claims to the evidence supplied: a missing passing run is not proof none ever existed, and a cached older SHA does not establish what the origin serves now.
 
 ## 7. Report
 

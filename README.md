@@ -40,15 +40,15 @@ Two ways in, depending on whether you're watching.
 astack this: add annual pricing to the billing page. phones matter most
 ```
 
-`astack` takes it to a PR you'd be happy to merge. It reads the context, plans, builds, uses the thing like a customer, adds tracking, cleans up the slop, gets a second agent to check the work, and stops there for you.
+`astack` takes it to a PR you'd be happy to merge. It reads the context, plans, builds, uses the thing like a customer, adds relevant tracking, cleans up the diff, and verifies the result. A separate reviewer joins when the risk or judgment calls for one.
 
 ```text
 oneshot this: add annual pricing and get it live
 ```
 
-`oneshot` is for when you're not watching. Same work, then it merges, deploys, proves production is serving it and tells the team. It only runs when you ask for it by name.
+`oneshot` is for when you're not watching. Same work, then it merges, deploys, proves production is serving it and sends any authorized update. It only runs when you ask for it by name.
 
-Both pull in the other skills as they need them.
+Both keep one working context and load other skills only when their procedure helps the next step. Required repository checks and delivery proof still apply.
 
 ## Skills
 
@@ -63,7 +63,7 @@ Both pull in the other skills as they need them.
 | [instrument](skills/instrument/SKILL.md) | "can we measure this" | Tracking that fires once, on real success, and a query you can actually trust. |
 | [discoverability](skills/discoverability/SKILL.md) | "why doesn't ChatGPT mention us" | Checks what Google and AI crawlers really see, fixes it, measures before and after. |
 | [dogfood](skills/dogfood/SKILL.md) | "use it like a customer" | Walks the real journeys signed in, fixes what breaks and goes round again. |
-| [ship](skills/ship/SKILL.md) | "ship it" | Clears CI and review comments, gets an independent check, deploys, and proves production is serving it. Also checks other people's "it's shipped". |
+| [ship](skills/ship/SKILL.md) | "ship it" | Clears CI and review comments, verifies the affected behavior, deploys, and proves production is serving it. Also checks other people's "it's shipped". |
 | [launch](skills/launch/SKILL.md) | "we launch tomorrow" | Share cards, page checks, posts for X and Show HN, a tracker and how you'll read the results. |
 
 Each one has a short guide in [docs/skills](docs/skills/).

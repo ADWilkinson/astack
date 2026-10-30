@@ -1,6 +1,6 @@
 ---
 name: web-design
-description: Design and build web interfaces that look like a specific product made them, not a template, including their animation and transitions. Use for new pages, redesigns, landing pages, brand refreshes, component work, "make this look better", "this looks AI-generated", "animate this", "make it feel smoother", "the animation is janky", "it feels wrong on my phone", "try it with long names", or any UI change where hierarchy, typography, colour, layout, motion or responsive behaviour matter. Keeps a DESIGN.md so the direction survives between sessions.
+description: "Design product-specific web UI, responsive layouts and motion; keep the direction in DESIGN.md. Use for new pages, redesigns, generic-looking UI, janky animation, awkward phone behavior or layouts stressed by long or empty data."
 ---
 
 # Web design

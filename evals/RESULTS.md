@@ -50,3 +50,24 @@ Re-run on 27 October 2026 for 0.6.0, after the `web-graphics` and `web-design` d
 The 26 October run on 0.5.0 scored 42 of 42 and 24 of 24 on the earlier sets.
 
 The first pass on the smaller suite scored 63 of 66. Two misses were outdated expectations ("all the way to prod" now correctly loads `astack` plus `ship`, since `astack` stops at the PR). One was a real gap: "the dashboard numbers look wrong" loaded nothing, so `instrument`'s description now covers metrics that look off. The agent sees only names and descriptions; the direct set was written alongside the descriptions, so it is the weaker of the two tests.
+
+## Single-loop guidance, 30 October 2026 (unreleased)
+
+Compared the old suite with the revised instructions in Claude Opus 5.5 and Codex GPT-6.1 Sol, preserving each client's configured model and using two fresh repeats per client. The main loop now loads procedures as needed; a separate reviewer is conditional on risk, subjective judgment or repository rules. Raw aggregate results: [results/2026-10-30-single-loop.json](results/2026-10-30-single-loop.json).
+
+| Check | Before | Final candidate |
+| --- | ---: | ---: |
+| Routing, 75 requests x 2 clients x 2 repeats | 297/300 | 300/300 |
+| Release-claim fixture, independent 10-criterion grading | 76/80 | 76/80 |
+| Checkout implementations passing four browser cases each | 4/4 | 4/4 |
+| Discovery description characters, all 11 skills | 4,727 | 2,367 |
+
+The first shortened catalogue regressed: favicon creation and writing user emails sometimes loaded nothing, while whole-task requests sometimes loaded redundant context procedures. That candidate was rejected. Restoring those cues and making the main skill's context ownership explicit produced the final routing result. No previously passing routing case regressed in the final repeats.
+
+The release-claim runs read the fixture files through native client tools. Both versions caught checks on an old commit, a skipped large-export test, an unresolved empty-export bug, unverified serving and missing customer-case proof. No material finding was lost. Scores retain deductions for unsupported wording or incomplete cache-bypass detail; these were not perfect answers.
+
+The description reduction measures discovery text only. It does not halve total context or establish lower billed cost. The routing cases were batched into one call per repeat; they are not 300 independent conversations. Two repeats and synthetic fixtures cannot establish a general performance improvement. Review was independent of the working runs but from the same model family.
+
+The checkout task made each native client implement tracking and submission guards in a fresh copy of the synthetic fixture, with two repeats per version. An external headless Chrome replay checked concurrent and post-success submission, confirmed success counting, declines with failure reporting, payload privacy and a throwing analytics sink at phone and desktop sizes. All eight implementations passed all four cases. The browser used a local-only PostHog stub with remote requests blocked and `navigator.webdriver=false` to select the human-tracking path. The original automated-browser probe showed deliberate bot suppression in one implementation; that result was retained separately and independently reviewed. These checks do not prove production arrival, identity merging or every funnel property.
+
+Checkout implementation timing was mixed: Claude averaged 157.3 seconds before and 235.7 after; Codex averaged 302.8 before and 267.8 after. Output-token counts and full reported usage are retained in the JSON. Different implementation/test choices and restricted-shell refusals affect these times. The sample supports retained task outcomes and smaller discovery descriptions, not a general speed or cost win.

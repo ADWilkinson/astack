@@ -1,6 +1,6 @@
 ---
 name: dogfood
-description: Use the product like a real user, signed in, with real data, through to the result they came for, then fix what breaks and repeat until the journeys pass. Use for "test this end to end", "QA the app", "use it like a customer", "find what's broken", pre-launch checks, after a big change, or for AI features whose answers need repeated real trials. Fixes as it goes when fixes are authorised.
+description: "Walk real product journeys, fix authorized problems and replay through the outcome. Use for end-to-end QA, signed-in mobile checks, pre-launch testing and repeated trials of AI features. Review-only requests produce findings."
 ---
 
 # Dogfood
