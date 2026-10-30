@@ -1,6 +1,6 @@
 ---
 name: launch
-description: Get a product or feature ready to be seen in public and put it in front of people, covering share cards and metadata, a launch-ready landing page, demo media, announcement posts, changelog, directory and community listings with a tracker, and launch-week measurement. Use for "launch this", "prepare a launch kit", "write the launch post", "submit to directories", "make an OG image", Product Hunt / Show HN / X launches, or before telling the public about anything new.
+description: "Prepare a product launch, share cards, OG images, demo clips, announcement copy, changelog or community listings, with a distribution tracker and measurement. Use for launch kits, X/Show HN posts and directory submissions."
 ---
 
 # Launch
@@ -44,7 +44,7 @@ Specific, verifiable, in the product's voice. Lead with what someone can do now.
 
 ## 4. Distribute deliberately
 
-Order the tracker by fit, not by count: the communities where the product's users already are come first. Respect each place's rules (self-promotion limits, required formats, no voting rings). Posting, submitting and messaging go out under the user's accounts: draft everything, and send or submit only with their go-ahead for each destination. Update the tracker with status and the live URL as each goes out.
+Order the tracker by fit, not by count: the communities where the product's users already are come first. Respect each place's rules (self-promotion limits, required formats, no voting rings). Draft the material, then send or submit within the user's authority for each destination; reuse authority already given for that action and target. Update the tracker with status and the live URL as each goes out.
 
 ## 5. Measure the week
 

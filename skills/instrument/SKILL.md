@@ -1,6 +1,6 @@
 ---
 name: instrument
-description: Add product analytics that answer a real question, such as events, funnels, conversion and activation metrics, and prove them end to end, so the event fires once on real success, arrives in the right project with clean properties and identity, and a saved query reads it. Use when adding tracking, "can we measure this", setting up PostHog/Amplitude/Mixpanel/GA events, building a funnel, when a dashboard number looks wrong or changed suddenly, or before shipping a feature whose impact matters.
+description: "Add or diagnose product analytics and prove events arrive once on real success with safe properties. Use for tracking, conversion funnels, PostHog/GA events or dashboard numbers that look wrong or change suddenly."
 ---
 
 # Instrument

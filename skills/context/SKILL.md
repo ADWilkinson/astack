@@ -1,6 +1,6 @@
 ---
 name: context
-description: Gather what actually changes a task before starting it, from Slack threads, issues, PRs, docs, git history, the live product and analytics, and reconcile it into a short brief. Use when picking up a ticket, a Slack ask, a half-finished branch, "look into X", or any task where earlier decisions, corrections or numbers live somewhere other than the prompt.
+description: "Reconcile prior decisions and current evidence into a brief that changes the next step. Use when picking up a ticket, thread or unfinished branch whose scope depends on history outside the prompt."
 ---
 
 # Context
@@ -21,7 +21,7 @@ Search for those answers. Stop reading sources that answer nothing on the list.
 
 If the task touches existing code, anchor first: the files and line ranges involved, `git blame` on them, the last commits and the PRs those commits came from (`gh pr view <n> --json title,body,comments,reviews`). That anchor tells you which threads and decisions to look for.
 
-Then go through each kind of evidence that is available: code history, the issue tracker, docs, team chat, error tracking, analytics. One that has nothing relevant is still a finding; write "searched, nothing" rather than skipping it silently. One you cannot reach is a gap; say so.
+Follow the sources most likely to settle the named unknowns: code history, the issue tracker, docs, team chat, error tracking or analytics. Stop when the next action is clear. Report an unreachable source when it leaves a material question unresolved; an exhaustive source sweep is not a completion requirement.
 
 Use the connected tools; prefer the original over a summary of it. Commands that pay off:
 
@@ -34,10 +34,10 @@ git log -p --follow -- path/to/file | head -200
 git blame -L 120,160 path/to/file
 ```
 
-- **Slack / chat**: read the whole thread including late replies; the correction is usually at the bottom. Search with the channel and date bounds (`in:#channel after:2026-01-01 "keyword"`), then open each hit in context.
-- **Docs and specs**: check the date and whether later code or chat superseded them.
-- **Live product**: open the real page or call the real endpoint. What it does today beats what a doc says it does.
-- **Analytics**: read the definition (event, filters, window) before reading the number. A number without its definition is not context.
+- Slack / chat: read the whole thread including late replies; the correction is usually at the bottom. Search with the channel and date bounds (`in:#channel after:2026-01-01 "keyword"`), then open each hit in context.
+- Docs and specs: check the date and whether later code or chat superseded them.
+- Live product: open the real page or call the real endpoint. What it does today beats what a doc says it does.
+- Analytics: read the definition (event, filters, window) before reading the number. A number without its definition is not context.
 
 See [source selection](references/source-selection.md) for which source wins when they disagree, and for multi-source tasks.
 

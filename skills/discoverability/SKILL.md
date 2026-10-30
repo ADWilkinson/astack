@@ -1,6 +1,6 @@
 ---
 name: discoverability
-description: Find out why the right people do not find or choose a product through Google, Bing and AI answer engines (ChatGPT, Claude, Perplexity, AI Overviews), fix the cause, and measure the result. Use for SEO audits, "why aren't we ranking", "does ChatGPT recommend us", GEO/AEO, indexing problems, canonical/robots/sitemap issues, comparison and alternatives pages, or before and after a content push.
+description: "Diagnose and fix why Google, Bing or AI answers miss or misdescribe a product. Use for SEO/GEO/AEO, ranking or indexing problems, canonical/robots/sitemap checks and search-focused content."
 ---
 
 # Discoverability

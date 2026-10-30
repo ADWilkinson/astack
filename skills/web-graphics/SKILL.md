@@ -1,6 +1,6 @@
 ---
 name: web-graphics
-description: Make bespoke graphics for the web, such as isometric scenes, animated sticker icons, flat illustrations, ASCII and halftone art, diagrams, icons, mascots, social cards and hero images, as editable code-built assets that hold up in the actual page. Use when asked for an illustration, a hero graphic, an explainer visual, an icon set, animated or Lottie-style icons, onboarding or empty-state art that moves, an OG image, "make a graphic for", or when a page needs visual identity beyond layout.
+description: "Build editable web illustrations, isometric scenes, animated stickers or Lottie-style icons, ASCII/halftone art, diagrams, mascots and social cards. Use for hero graphics, favicons, app icon sets, moving empty-state art or sticker exports."
 ---
 
 # Web graphics

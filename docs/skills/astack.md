@@ -2,7 +2,7 @@
 
 ## What it does
 
-Runs a product task up to a pull request you'd be happy to merge: context, plan, build, use it like a customer, measure, deslop, an independent check by a second agent, and a green PR with no open threads. It writes the stages into its todo list and closes each one with proof or a written reason for skipping.
+Runs a product task up to a pull request you'd be happy to merge: context, plan, build, use it like a customer, measure, clean the diff, and verify the affected behavior with a green PR. The main agent keeps the context and loads supporting procedures when needed. Independent review is for risk or judgment that checks cannot settle.
 
 ## When to reach for it
 
@@ -10,12 +10,12 @@ You have a feature, fix, page or experiment and want it finished, not planned. "
 
 ## It's working if
 
-You didn't have to ask about mobile, tracking or CI. The final message links the PR, the checks, the independent verdict and the screenshots, lists the decisions it made for you, and says plainly what it didn't verify.
+You didn't have to ask about mobile, tracking or CI. The final message links the PR, the checks, the verification evidence and relevant screenshots, lists the decisions it made for you, and says plainly what it didn't verify.
 
 ## Common questions
 
-**Does it always run every stage?** No. Small tasks compress the loop; a stage is skipped with a one-clause reason, never silently.
+**Does it always run every stage?** No. Small tasks compress the loop; only relevant procedures are loaded; remaining verification gaps are stated.
 
-**Will it merge or deploy?** No. It stops at a review-ready PR. Say `oneshot` when you want it taken all the way.
+**Will it merge or deploy?** The default is a review-ready PR. An explicit delivery target and existing authority govern any further work.
 
 [Skill source](../../skills/astack/SKILL.md)

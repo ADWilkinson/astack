@@ -22,7 +22,7 @@
 
 ## Signs the context is wrong
 
-- The brief has no "Open" line. Something is always uncertain; find it.
+- A material unknown is hidden. If no remaining uncertainty changes the next step, say "Open: none material" and proceed.
 - The brief repeats the prompt. You read nothing that changed the work.
 - A number appears without project, population, filter and window.
 - A "decided" item has no link or date.

@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-30",
+  "scope": "astack source and installed personal Claude/Codex suite",
+  "repetitions_per_client": 2,
+  "models": {
+    "claude": "claude-opus-5-5",
+    "codex": "gpt-6.1-sol"
+  },
+  "routing": {
+    "cases_per_run": 75,
+    "baseline_correct": 297,
+    "candidate_correct": 300,
+    "total_per_variant": 300,
+    "regressed_case_ids": [],
+    "initial_overtrimmed_candidate": "Rejected after routing regressions in favicon/app-icon creation, writing user emails and redundant context loading. Restored specific cues and repeated both clients."
+  },
+  "discovery": {
+    "description_characters_before": 4727,
+    "description_characters_after": 2367,
+    "reduction_percent": 49.9,
+    "limit": "Description size only, not total context or billed tokens."
+  },
+  "release_claim": {
+    "independent_rubric_max_per_run": 20,
+    "before": {
+      "claude": [
+        19,
+        20
+      ],
+      "codex": [
+        19,
+        18
+      ]
+    },
+    "after": {
+      "claude": [
+        19,
+        19
+      ],
+      "codex": [
+        19,
+        19
+      ]
+    },
+    "baseline_total": 76,
+    "candidate_total": 76,
+    "total_possible": 80,
+    "material_findings_lost": [],
+    "limits": [
+      "Two repeats per client; same-family reviewer.",
+      "Residual wording errors and incomplete cache-bypass procedure detail remain; not a perfect score."
+    ]
+  },
+  "limits": [
+    "Synthetic tasks, not production releases.",
+    "No general latency or cost improvement established.",
+    "Routing requests are grouped in one model call per repeat; individual cases are not independent sessions.",
+    "CLI runs preserve each client configured model; tools and synthetic fixtures are held fixed within the task comparison."
+  ]
+}

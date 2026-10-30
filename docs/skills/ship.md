@@ -2,7 +2,7 @@
 
 ## What it does
 
-Gets a change to its agreed target: reviews the diff, classifies CI failures before retrying, works review threads with some scepticism, gets an independent PASS from an agent that didn't write the change, refuses to game gates, deploys and proves the target is serving it.
+Gets a change to its agreed target: reviews the diff, classifies CI failures before retrying, works review threads with some scepticism, uses independent review when risk or unresolved judgment warrants it, refuses to game gates, deploys and proves the target is serving it.
 
 ## When to reach for it
 

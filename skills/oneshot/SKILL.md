@@ -1,12 +1,12 @@
 ---
 name: oneshot
-description: Trigger this only when the user says "oneshot" (or "oneshot this", "full send"). The user is not watching and wants the task taken all the way, from idea to merged, deployed, verified live in production and reported to the team, with no further prompting.
+description: "Use only when explicitly requested as \"oneshot\" or \"full send\": implement, merge, deploy and verify live within the user's scope, then send any authorized delivery update."
 disable-model-invocation: true
 ---
 
 # oneshot
 
-The user said oneshot because they are not watching this thread. Your updates and final message go unread until long after you stop. You own the work from its current state to a change that is live, proven and announced.
+Own the work from its current state to the authorized live result, with serving proof and any authorized delivery update.
 
 If the user did not clearly ask for oneshot, do not assume this level of autonomy; use `astack` instead.
 
@@ -14,28 +14,28 @@ If the user did not clearly ask for oneshot, do not assume this level of autonom
 
 ## The grant
 
-Saying oneshot gives you permission, for this task only, to:
+An explicit oneshot request sets the end-to-end delivery intent for this task. Follow the user's actual scope, repository gates and any narrower authority. The delivery path may include:
 
 - do everything `astack` may do without asking;
 - merge the PR once the merge gate passes, with the repo's merge method;
 - force-push the PR's own branch with `--force-with-lease` after a rebase;
 - deploy through the repo's documented pipeline to the target the user named, or to production when the repo deploys on merge;
-- post the delivery update to the channel or thread where the work was requested;
-- use any test method the proof needs, including browsers, simulators and running the app, even where project files say to ask first. Rules about *how* to test still apply.
+- post a delivery update when the user authorized that destination;
+- use proportionate test methods, including browsers, simulators and running the app, within the task's existing testing authority.
 
 It does not cover: deleting data, spending money, changing secrets or permissions, touching other repos or other people's branches, or messaging anyone else. A harness approval prompt still applies.
 
 ## Steps
 
-Copy these into your todo list first. Close each with proof or `skip: <reason>`.
+Keep one working plan with the acceptance criteria and evidence. Load supporting skills only for procedures the current step needs.
 
-1. **Run the astack stages** 1 to 7: context, plan, build, use it, measure, clean, independent verification. Read `astack`'s SKILL.md if it is installed; the stages are listed there.
+1. **Implement and verify**: settle context that changes the work, build in the repo's conventions, exercise the real journey, verify relevant measurement and clean the diff. Required checks and affected behavior decide whether the change works. Add independent review when risk, subjective quality or repository rules call for it.
 2. **Open the PR** and get it to no blockers with `ship`: CI classified and fixed, every review thread fixed or answered with a reason.
-3. **Merge gate.** All true on the latest head: proof covers every change in the diff; required checks green; the independent verdict is PASS for this head; review bots finished and each finding fixed or dismissed with a reason; no human review requesting changes; branch up to date and mergeable. `git fetch` and re-read the PR immediately before merging. Never `--admin` or any bypass.
+3. **Merge gate.** All true on the latest head: proof covers every change in the diff; required checks green; any required independent review covers this head with no unresolved defects; review bots finished and each finding fixed or dismissed with a reason; no human review requesting changes; branch up to date and mergeable. `git fetch` and re-read the PR immediately before merging. Never `--admin` or any bypass.
 4. **Merge, then read it back.** A queued merge or armed auto-merge is not a merge; stay until GitHub reports the PR merged.
 5. **Deploy and prove it.** Deploy the way the repo deploys, then `node <skill-dir>/scripts/verify-live.mjs` must find the deployed commit or the changed content at the real URL, and you exercise the changed behaviour there.
-6. **Tell the team** in the thread or channel where the work was requested: what users can now do, the word that is true (live, merged, blocked), and the PR and live links, in two or three lines. Check the thread for an earlier update about the same change first, scan the text for secrets and private data, send once, read it back and keep the permalink.
-7. **Report** in your final message: outcome, PR and merge commit, live proof, the independent verdict, decisions you made, anything not verified.
+6. **Send an authorized update** to the destination the user approved: what users can now do, the state that is true (live, merged, blocked), and the PR and live links. Check for an earlier update about the same change, scan for secrets and private data, send once, read it back and keep the permalink. If no destination is authorized, report here.
+7. **Report** in your final message: outcome, PR and merge commit, live proof, verification method and any independent verdict, decisions you made, anything not verified.
 
 ## Never stop early
 
@@ -43,7 +43,7 @@ Ending your turn while checks, reviews, a merge queue or a deploy are pending en
 
 ## Asking the user
 
-A normal message goes unseen. Use the harness's question tool, with the PR link, what blocks you, and the options with your recommendation first. Ask only when:
+Use the client's available question mechanism with the PR link, the blocker and your recommendation. Reuse existing authority. Ask only when:
 
 - you cannot prove a change;
 - the merge gate cannot pass and you cannot fix it yourself;

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Keep coupled work in one agent context and load skills as needed. Independent review now depends on risk, unresolved judgment and repository requirements.
+- Shorten skill descriptions while preserving tested routing cues. Context gathering stops when remaining unknowns cannot change the next step.
+- Reuse existing delivery authority and preserve explicit targets. Skills do not create permission to send, publish or bypass a repository gate.
+- Reject incomplete routing evals and report individual improvements and regressions, including when aggregate scores tie.
+
 ## 0.7.0
 
 Review gates and video from LangChain's open-source design agent, [Content Studio](https://github.com/langchain-ai/design-agent) (Apache-2.0), credited where they are used. Its idea is that the model makes the creative calls and code renders, measures and refuses.
