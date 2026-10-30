@@ -17,6 +17,7 @@ For a PR:
 
 - `scripts/check.ts`: metadata, manifests, the published set and skill-local links match the catalogue.
 - `tests/package.test.ts`, kept because unit-level cases are the only way to plant the failures it guards: generated metadata integrity, single-skill portability (no cross-skill or symlinked resources), and release and npm boundaries (ignored private files and `.env` never ship, no install hooks or runtime dependencies).
+- `tests/install.test.ts`, kept because it is the only guard for the installer's protection of user files: rollback after a failed install, conflict refusal without `--force`, and refusal of symlinked destinations.
 - `scripts/smoke.ts`: the consumer journey. It packs the CLI, installs the tarball offline into a temporary project, lists, installs every skill for both agents byte for byte, refuses a traversal name, runs each installed script's `--help`, and checks the routing eval cases name real skills.
 
 The routing and task evals need a model and a judge, so they are not in the gate. Run them for any change to how a skill behaves.
