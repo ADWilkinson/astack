@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.1
 
 - Keep coupled work in one agent context and load skills as needed. Independent review now depends on risk, unresolved judgment and repository requirements.
 - Shorten skill descriptions while preserving tested routing cues. Context gathering stops when remaining unknowns cannot change the next step.
