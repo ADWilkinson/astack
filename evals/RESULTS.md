@@ -59,6 +59,7 @@ Compared the old suite with the revised instructions in Claude Opus 5.5 and Code
 | --- | ---: | ---: |
 | Routing, 75 requests x 2 clients x 2 repeats | 297/300 | 300/300 |
 | Release-claim fixture, independent 10-criterion grading | 76/80 | 76/80 |
+| Checkout implementations passing four browser cases each | 4/4 | 4/4 |
 | Discovery description characters, all 11 skills | 4,727 | 2,367 |
 
 The first shortened catalogue regressed: favicon creation and writing user emails sometimes loaded nothing, while whole-task requests sometimes loaded redundant context procedures. That candidate was rejected. Restoring those cues and making the main skill's context ownership explicit produced the final routing result. No previously passing routing case regressed in the final repeats.
@@ -66,3 +67,7 @@ The first shortened catalogue regressed: favicon creation and writing user email
 The release-claim runs read the fixture files through native client tools. Both versions caught checks on an old commit, a skipped large-export test, an unresolved empty-export bug, unverified serving and missing customer-case proof. No material finding was lost. Scores retain deductions for unsupported wording or incomplete cache-bypass detail; these were not perfect answers.
 
 The description reduction measures discovery text only. It does not halve total context or establish lower billed cost. The routing cases were batched into one call per repeat; they are not 300 independent conversations. Two repeats and synthetic fixtures cannot establish a general performance improvement. Review was independent of the working runs but from the same model family.
+
+The checkout task made each native client implement tracking and submission guards in a fresh copy of the synthetic fixture, with two repeats per version. An external headless Chrome replay checked concurrent and post-success submission, confirmed success counting, declines with failure reporting, payload privacy and a throwing analytics sink at phone and desktop sizes. All eight implementations passed all four cases. The browser used a local-only PostHog stub with remote requests blocked and `navigator.webdriver=false` to select the human-tracking path. The original automated-browser probe showed deliberate bot suppression in one implementation; that result was retained separately and independently reviewed. These checks do not prove production arrival, identity merging or every funnel property.
+
+Checkout implementation timing was mixed: Claude averaged 157.3 seconds before and 235.7 after; Codex averaged 302.8 before and 267.8 after. Output-token counts and full reported usage are retained in the JSON. Different implementation/test choices and restricted-shell refusals affect these times. The sample supports retained task outcomes and smaller discovery descriptions, not a general speed or cost win.
