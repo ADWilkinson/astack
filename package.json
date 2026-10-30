@@ -7,7 +7,9 @@
   "repository": "https://github.com/ADWilkinson/astack",
   "packageManager": "bun@1.4.2",
   "scripts": {
-    "check": "bun scripts/check.ts && bun test",
+    "check": "bun scripts/check.ts && bun test tests/package.test.ts && bun scripts/smoke.ts",
+    "smoke": "bun scripts/smoke.ts",
+    "test": "bun test",
     "validate": "bun scripts/check.ts",
     "metadata": "bun scripts/metadata.ts",
     "pack": "bun scripts/pack.ts",
