@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.0
 
 Measured checks for defects a settled screenshot hides, and a harder rule for launch stills. No library was added.
 
