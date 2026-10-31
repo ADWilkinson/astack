@@ -1,6 +1,6 @@
 {
   "name": "astack-skills",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "private": false,
   "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "license": "MIT",
