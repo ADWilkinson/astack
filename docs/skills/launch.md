@@ -10,7 +10,7 @@ Product Hunt, Show HN, X or directory launches, or before telling the public abo
 
 ## It's working if
 
-page-audit.mjs shows no errors on every shared URL, the share card renders at 1200x630, every claim in the copy is sourced, and the tracker lists each destination with status.
+page-audit.mjs shows no errors on every shared URL, the share card renders at 1200x630, every claim in the copy is sourced, and the tracker lists each destination with status. If the card shows the product, that region is a real capture, and no number appears that the copy file does not contain.
 
 ## Common questions
 

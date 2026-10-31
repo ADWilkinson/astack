@@ -13,7 +13,8 @@ Run this before writing "done". Every line is either checked, not applicable (sa
 
 - [ ] Captured at 390 and 1440, light and dark, reduced motion on (`node <skill-dir>/scripts/shoot.mjs <url>`), and the screenshots were looked at.
 - [ ] No horizontal overflow, stranded single words in headings, tap targets under 44px or text under 12px that you did not choose on purpose.
-- [ ] Loading, empty, error and success states seen, not assumed.
+- [ ] Phone lines from that capture are clean or chosen on purpose: no input under 16px, no zoom lock, no ungated `:hover`, no selectable control text, tap highlight disabled. Name anything that still needs a phone in the hand.
+- [ ] Loading, empty, error and success states seen, not assumed. Where a screen waits on data, `shoot.mjs <loading> --shift <loaded>` exits 0. Exit 1 is a shift to fix. Exit 2 means the regions were not marked, which is not a pass.
 - [ ] `deslop` scan run on changed copy and UI; every medium/high hit fixed or dismissed with a reason.
 
 ## Measurement (when the change has a success action)

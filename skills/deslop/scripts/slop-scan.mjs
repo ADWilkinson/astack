@@ -65,6 +65,7 @@ const RULES = [
   ["caps-eyebrow", "ui", "info", /\buppercase\b[^"'`]*\btracking-(?:widest|\[0\.[1-9]\d*em\])|\btracking-(?:widest|\[0\.[1-9]\d*em\])[^"'`]*\buppercase\b|text-transform:\s*uppercase;\s*letter-spacing:\s*0?\.[12]\d*em/g, "Tracked-out all-caps label; the eyebrow above every heading."],
   ["generic-cta", "ui", "info", />\s*(?:Get Started|Learn More|Start (?:your )?(?:free )?trial|Join the waitlist|Explore (?:now|features))\s*</g, "Generic CTA label; name what happens next ('Create a listing', 'See rates')."],
   ["emoji-in-ui", "ui", "medium", />[^<{]*?(?:🚀|✨|🔥|💡|⚡|🎉|👋|💪|🙌|📈|🎯)[^<]*?</gu, "Emoji in interface copy; usually stands in for an icon system or a point of view."],
+  ["section-index", "ui", "info", />\s*0[1-9]\s*(?:<\/|—|–|-|\/)/g, "Numbered marker (01, 02) on content that is not a sequence. Delete it, or keep it only where order is the point."],
   // Motion and mobile details that make an interface feel slightly off.
   ["transition-all", "ui", "medium", /\btransition-all\b|transition:\s*all\b/g, "Transitions every property, including layout ones nobody meant to animate. Name them: transform, opacity."],
   ["ease-in-ui", "ui", "info", /\bease-in\b(?!-out)|(?:transition|animation)(?:-timing-function)?:[^;]*\bease-in\b(?!-out)/g, "ease-in starts slowly, exactly when the user is watching; UI enters and exits on ease-out."],
@@ -161,6 +162,9 @@ function scanFile(file, o) {
     const acid = hexes.some(([r, g, b]) => (g >= 0xd0 && r >= 0x80 && r <= 0xe0 && b <= 0x60) || (r >= 0xe0 && g <= 0x60 && b <= 0x40)) || /\b(?:text|bg|border)-lime-\d{3}\b/.test(src);
     if (cream && serif) density.push({ rule: "warm-editorial", severity: "medium", detail: `cream background with a serif display${clay ? " and a clay/terracotta accent" : ""}`, why: "Today's most common generated look; fine if the brief asked for it, slop if it arrived by default." });
     if (nearBlack && acid) density.push({ rule: "dark-acid", severity: "info", detail: "near-black background with an acid/vermilion accent", why: "A current generated-design default; check it was a choice." });
+    const opacities = [...src.matchAll(/\b(?:text|bg)-(?:black|white|neutral|zinc|gray|slate|stone)\/(?:[1-9]\d)\b/g)].map(m => m[0].replace(/.*\//, ""));
+    const distinct = [...new Set(opacities)];
+    if (distinct.length >= 4) density.push({ rule: "opacity-ramp", severity: "info", detail: `${distinct.length} opacities of one neutral (${distinct.sort().join(", ")})`, why: "A ladder of opacities standing in for a type scale. Two inks, primary and secondary, are enough unless the brand defines more." });
   }
   const boldLeads = hits.filter(h => h.rule === "bold-lead-list").length;
   if (boldLeads > DENSITY["bold-lead-list"]) density.push({ rule: "bold-lead-density", severity: "medium", detail: `${boldLeads} bold-lead bullets`, why: "Every list as '**Label:** text' reads as generated; use prose or a table where it fits." });

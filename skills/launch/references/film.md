@@ -5,7 +5,7 @@ A clip built as an HTML page on a timeline can be reviewed, diffed and re-render
 ## The order of work
 
 1. **Storyboard.** Write it in `launch/media/STORYBOARD.md`, one line per beat. Give each: its time, what is on screen, the one thing the viewer should read, and the source (a real screenshot, a real number with its query). 6 to 15 seconds is 3 to 5 beats. Cut any beat that has nothing to read.
-2. **Material.** Capture real screens with `shoot.mjs` at the size they will appear, at `--scale 2`. No mock dashboards, no invented numbers.
+2. **Material.** Capture real screens with `shoot.mjs` at the size they will appear, at `--scale 2`. Place each capture as an image. Do not rebuild the screen in HTML for the clip, and do not invent a number the capture and the brief do not contain. A frame may crop the capture; it may not replace it.
 3. **Animatic.** Build the composition with every beat in place and almost no motion. Render it, and look at a contact sheet (below) before adding motion. Most problems are layout and copy, and they are cheaper to fix here.
 4. **Motion.** Add only motion that explains: a cursor that travels to the button, a value that changes, a panel that opens. Ease out, 200 to 600ms per move, one thing moving at a time.
 5. **Render and gate.** `film.mjs` must exit 0. Then watch it once at full size and once at feed size, and score it with `web-design`'s review rubric if it is installed.

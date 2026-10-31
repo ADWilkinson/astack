@@ -15,7 +15,7 @@ Before drawing, write:
 
 - **What it must explain or make recognisable**, in one sentence. "Three inboxes merge into one sorted queue" beats "a hero image".
 - **Where it sits**: container size at 390 and 1440, background, what text is next to it.
-- **Truth constraints**: labels, numbers and UI shown must be real or clearly marked as examples. An illustrative route is not a map; a mock-up is not a screenshot of a feature that does not exist.
+- **Truth constraints**: labels, numbers and UI shown must be real or clearly marked as examples. An illustrative route is not a map. A diagram of a flow is not a picture of the product. When the graphic shows a screen that exists, that region is a capture placed as an image, and the drawing is only the frame around it.
 
 ## 2. Set a visual grammar
 
@@ -39,7 +39,7 @@ Read the relevant section of [techniques](references/techniques.md):
 - **Flat and icons**: a 24-unit grid, shared corner radius and stroke; check silhouettes at 16px.
 - **ASCII and halftone**: deterministic generation, never `Math.random()` during render.
 - **Diagrams**: real labels, arrows that start and end on edges, one direction of flow.
-- **Social cards and raster exports**: render an HTML/SVG source to PNG with a script so the raster can be rebuilt.
+- **Social cards and raster exports**: render an HTML/SVG source to PNG with a script so the raster can be rebuilt. If the card shows the product, the product is a screenshot in an `<img>`. Draw the frame in code. Do not draw the product's UI, and do not typeset a number that is not in the brief.
 
 ## 4. Inspect in place
 
@@ -73,7 +73,7 @@ Look at each capture at the smallest real size first. Check: does the focal poin
 
 - Stock icon packs standing in for a bespoke illustration.
 - Gradients, glows and fake 3D lighting to make flat art look "premium".
-- Fake dashboards, invented numbers or real-looking personal data inside illustrations.
+- Fake dashboards, invented numbers or real-looking personal data inside illustrations. A bento or device frame does not make a drawn screen true.
 - Texture or low-contrast art behind legal, pricing or operational text.
 - Prompt text delivered as if it were the asset.
 - Hand-written sine wobbles or CSS keyframe jiggles on illustrations. Motion comes from a preset or a spring with a reason.

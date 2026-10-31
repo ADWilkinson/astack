@@ -10,7 +10,7 @@ Walks real user journeys to the real outcome, keeps a findings frontier, fixes w
 
 ## It's working if
 
-Each journey ends at a checked outcome (the record, the email, the page), each finding has a repro, cause, fix and replay, and anything unreachable is named.
+Each journey ends at a checked outcome (the record, the email, the page), each finding has a repro, cause, fix and replay, and anything unreachable is named. A wait on data was compared with `shoot.mjs --shift`, and the phone lines were read.
 
 ## Common questions
 

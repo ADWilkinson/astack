@@ -7,6 +7,8 @@ description: "Walk real product journeys, fix authorized problems and replay thr
 
 Tests check what the author thought of. Dogfooding finds what a user hits. The output is fixed journeys, not a list of complaints.
 
+`<skill-dir>` below means this skill's own folder. Run its scripts from the project root so output lands in the project, not in the installed skill.
+
 ## 0. Pick the mode
 
 - **Diff-aware** (default on a branch): start from what the branch changed (`git diff origin/main...HEAD --stat`), map each change to the screens and journeys it touches, and test those first.
@@ -28,6 +30,7 @@ Use the browser session and account the user selected; never sign in as someone 
 - Real clicks and typing in a real browser, at real speed. No mocked responses, no seeding past the hard part.
 - Follow through to the outcome: the record exists, the email arrived, the export opens and contains the right rows, the public page shows the change.
 - Look at each screen. Capture the important ones at phone and desktop width with [`scripts/shoot.mjs`](scripts/shoot.mjs) when the URL is reachable without your session; use the browser tool's screenshots for signed-in states.
+- When the journey waits on data, capture the waiting page and the settled page and compare them: `node <skill-dir>/scripts/shoot.mjs <waiting> --shift <settled> --widths 390 --themes light`. Exit 1 is a finding (a marked region or the document moved). Exit 2 means the regions were not marked, so the jump was not measured. Read the phone lines on that capture too: input size, zoom lock, ungated hover, selectable controls, tap highlight. A 390px picture can look aligned and still jump, zoom and stick. The lines that need a physical phone (a hover that stays after a tap, the notch, the keyboard) stay named as unverified.
 - Keep the console and network panel open. A 500 behind a friendly toast is a finding.
 - Note friction as well as failure: a step that needs thinking, a label that misleads, a wait with no feedback.
 

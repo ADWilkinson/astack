@@ -10,7 +10,7 @@ New pages, redesigns, "this looks AI-generated", brand refreshes, janky or slugg
 
 ## It's working if
 
-The screenshots show a page you could recognise without its logo, no overflow or stranded words, real content in every state, and DESIGN.md records the decisions.
+The screenshots show a page you could recognise without its logo, no overflow or stranded words, real content in every state, and DESIGN.md records the decisions. Where the screen waits on data, the loading and loaded captures share the same boxes. The phone lines from `shoot.mjs` (input size, zoom, hover, selectable controls, tap highlight) are clean or chosen on purpose.
 
 ## Common questions
 

@@ -29,6 +29,22 @@ Template chrome that appears whatever the subject:
 
 `slop-scan.mjs` detects several of these (`warm-editorial`, `dark-acid`, `mid-dot-meta`, `arrow-suffix`, `caps-eyebrow`). The rest need eyes on the render.
 
+## Checklist
+
+Late-2026 tells, with one example each. Ayush Soni named the cluster in public ([the list](https://x.com/ayushsoni_io/status/2115322579187867898)); the examples and the repairs are this skill's. Any row can stay when the brief asks for it. `slop-scan.mjs` flags `section-index` and `opacity-ramp`. The other rows need the render.
+
+| Tell | Example | Instead |
+| --- | --- | --- |
+| pill-tag | A `New` or `AI-powered` chip sitting above the h1 | The heading. A chip only for a status the product actually has. |
+| italic-word | One word in the headline set in italic, for emphasis the sentence did not earn | Weight or size. Italic stays for a citation or real stress in prose. |
+| reflex-display | Instrument Serif, or any display serif, at tight negative tracking, because that is what pages look like now | The face named in DESIGN.md. Negative tracking only on large display, never past -0.04em. |
+| divider-rhythm | A hairline under every section | Space. A rule only where two regions would otherwise be read as one. |
+| opacity-ramp | `text-black/80`, `/60`, `/40` and `/25` used as the type hierarchy | Two inks from the palette: primary and secondary. |
+| border-on-everything | A 1px border on every section, including ones that are not objects | A border on a thing someone picks, compares or drags. Group the rest with space. |
+| diagram-novel | A diagram with a box and an arrow for every service | One relationship, or a sentence. Detail past that reads as generated. |
+| code-breadcrumb | `Home / Settings / Billing` on a marketing section, and the links go nowhere | A breadcrumb only when those links work and the page is actually nested. |
+| section-index | `01` / `02` / `03` beside items that can be reordered without changing the meaning | No numbers. Keep them when the order is the point, as in steps. |
+
 ## Composition
 
 | Pattern | Looks like | Instead |

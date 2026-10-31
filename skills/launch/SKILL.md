@@ -32,7 +32,7 @@ Fix before announcing:
 Put it in one folder (`launch/` or `docs/launch/`). Contents and formats in [kit](references/kit.md):
 
 - **Share card** rendered from HTML/SVG source with `render-gate.mjs`, committed with its source. The gate fails a card whose font fell back, whose copy drifted from `copy.md`, or whose text is cropped.
-- **Demo media**: 3 to 5 screenshots at real sizes, and a 6 to 15 second clip of the core action if motion helps. Build the clip as an HTML composition and render it with `film.mjs`, so a fix is an edit and a re-render ([film](references/film.md)). Real product, real-looking data, no fake metrics.
+- **Demo media**: 3 to 5 screenshots at real sizes, and a 6 to 15 second clip of the core action if motion helps. Build the clip as an HTML composition and render it with `film.mjs`, so a fix is an edit and a re-render ([film](references/film.md)). The product in a card, bento, device or clip is a capture from the live product or from `shoot.mjs`, placed as an image. Draw the frame. Do not draw the screen. Every number sits in that capture or in the agreed copy file. A number from a marketing note that is not in the copy file does not appear. Framing rules are in [kit](references/kit.md).
 - **Copy**: one-line description (60 characters or fewer), a short paragraph, a longer description, the X/LinkedIn post, a Show HN or community post if it fits, a changelog entry. Rules in [copy](references/copy.md).
 - **Tracker**: a CSV of where you will post or submit.
 

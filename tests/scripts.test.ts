@@ -86,6 +86,18 @@ test("slop-scan reports each match once even when JSX text and string literals o
   expect(seamless.length).toBe(1);
 });
 
+test("slop-scan flags section numbers and an opacity ladder", async () => {
+  writeFileSync(resolve(temp, "steps.tsx"), `export const S = () => <ol><li>01 — Berths</li><li>02 — Fees</li></ol>;\n`);
+  writeFileSync(resolve(temp, "ramp.tsx"), `export const R = () => <p className="text-black/80 bg-black/60 text-black/40 text-black/25">Fee</p>;\n`);
+  writeFileSync(resolve(temp, "two.tsx"), `export const T = () => <p className="text-black/80 text-black/60">Fee</p>;\n`);
+  const flagged = JSON.parse((await node([script("deslop", "slop-scan.mjs"), "steps.tsx", "ramp.tsx", "--json"])).out);
+  const rules = flagged.files.flatMap((f: any) => [...f.hits, ...f.density].map((h: any) => h.rule));
+  expect(rules).toContain("section-index");
+  expect(rules).toContain("opacity-ramp");
+  const quiet = JSON.parse((await node([script("deslop", "slop-scan.mjs"), "two.tsx", "--json"])).out);
+  expect(quiet.files ?? []).toEqual([]);
+});
+
 test("slop-scan flags motion and mobile details that feel off", async () => {
   writeFileSync(resolve(temp, "menu.css"), `.menu { transition: all 300ms ease-in; transform: scale(0); height: 100vh; }\n.calm { transition: transform 200ms ease-in-out; }\n`);
   writeFileSync(resolve(temp, "shell.html"), `<meta name="viewport" content="width=device-width, maximum-scale=1"><div class="h-screen transition-all scale-0"></div>`);
@@ -198,6 +210,61 @@ test.skipIf(!chrome)("shoot captures both themes and flags overflow, stranded wo
   expect(dead.code).toBe(1);
   // macOS reports the refused connection in the capture; Linux runners can fail earlier, on stderr.
   expect(`${dead.out}\n${dead.err}`).toMatch(/navigation failed|ERR_CONNECTION|ECONNREFUSED|Chrome exited/);
+}, 150000);
+
+test.skipIf(!chrome)("shoot fails a known layout shift and passes a matched pair", async () => {
+  const fixture = resolve(root, "evals/tasks/shift-and-still/fixture");
+  const badRun = await node([script("web-design", "shoot.mjs"), resolve(fixture, "loading.html"), "--shift", resolve(fixture, "index.html"),
+    "--widths", "390", "--themes", "light", "--out", resolve(temp, "shift-bad"), "--json"]);
+  expect(badRun.code).toBe(1);
+  const bad = parsed(badRun);
+  const capture = bad.captures[0];
+  expect(capture.inputsUnder16).toContain("length 14px");
+  expect(capture.inputsUnder16.join(" ")).not.toContain("checkbox");
+  expect(capture.zoomLocked).toBe(true);
+  expect(capture.ungatedHovers).toContain(".slip:hover");
+  expect(capture.ungatedHovers.join(" ")).not.toContain(".safe:hover");
+  expect(capture.tapHighlightDisabled).toBe(false);
+  expect(capture.selectableControls.some((t: string) => t.startsWith("Hold this berth"))).toBe(true);
+  const slip = capture.shift.shifts.find((s: any) => s.key === "#slip");
+  const confirm = capture.shift.shifts.find((s: any) => s.key === "#confirm");
+  expect(slip.dh).toBeGreaterThan(1);
+  expect(confirm.dy).toBeGreaterThan(1);
+  expect(capture.shift.scrollDelta).toBeGreaterThan(1);
+  expect(capture.shift.shared).toBeGreaterThan(0);
+
+  const fixedCss = `html { -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; font: 16px/1.4 sans-serif; }
+    #slip { height: 160px; }
+    input { font-size: 16px; }
+    button { user-select: none; }
+    button:active { opacity: .7; }
+    @media (hover: hover) and (pointer: fine) { .slip:hover { background: #eee; } }`;
+  const page = (id: string) => `<!doctype html><meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>${fixedCss}</style><section id="slip"></section>
+    <form id="confirm"><input id="length" type="text" value="11"><button id="hold">Hold</button></form>`;
+  writeFileSync(resolve(temp, "fixed-loading.html"), page("loading"));
+  writeFileSync(resolve(temp, "fixed-loaded.html"), page("loaded"));
+  const cleanRun = await node([script("web-design", "shoot.mjs"), resolve(temp, "fixed-loading.html"), "--shift", resolve(temp, "fixed-loaded.html"),
+    "--widths", "390", "--themes", "light", "--out", resolve(temp, "shift-clean"), "--json"]);
+  expect(cleanRun.code).toBe(0);
+  const clean = parsed(cleanRun);
+  const ok = clean.captures[0];
+  expect(ok.inputsUnder16).toEqual([]);
+  expect(ok.zoomLocked).toBe(false);
+  expect(ok.ungatedHoverCount).toBe(0);
+  expect(ok.tapHighlightDisabled).toBe(true);
+  expect(ok.selectableControls).toEqual([]);
+  expect(ok.shift.shifts).toEqual([]);
+  expect(ok.shift.scrollDelta).toBe(0);
+  expect(ok.shift.note).toBeUndefined();
+  // A real jump with nothing marked must not exit 0. Headless scroll height
+  // stays at the viewport when both states fit, so an unmarked pair is unchecked.
+  writeFileSync(resolve(temp, "noid-a.html"), `<!doctype html><style>body{margin:0}div{height:80px;background:#ccc}</style><div></div>`);
+  writeFileSync(resolve(temp, "noid-b.html"), `<!doctype html><style>body{margin:0}div{height:400px;background:#ccc}</style><div></div>`);
+  const unmarked = await node([script("web-design", "shoot.mjs"), resolve(temp, "noid-a.html"), "--shift", resolve(temp, "noid-b.html"),
+    "--widths", "390", "--themes", "light", "--out", resolve(temp, "shift-noid"), "--json"]);
+  expect(unmarked.code).not.toBe(0);
 }, 150000);
 
 test.skipIf(!chrome)("fi passes the bundled sticker set and names what is wrong with a broken one", async () => {
