@@ -10,7 +10,7 @@ Finds and fixes the tells of generated copy, UI and code with a scanner plus rep
 
 ## It's working if
 
-The scanner's medium and high hits are fixed or dismissed with reasons, every fact and disclosure survived, and the piece reads well start to finish.
+The scanner's medium and high hits are fixed or dismissed with reasons, every fact and disclosure survived, and the piece reads well start to finish. UI tells from the current season (pill tags, opacity ladders, section numbers, a border on every box) are gone or named in the brief.
 
 ## Common questions
 

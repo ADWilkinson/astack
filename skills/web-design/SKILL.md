@@ -46,7 +46,7 @@ When the user gives references, study them properly: [reference study](reference
 
 - Use existing tokens, primitives and components. Add a token before adding a one-off value.
 - Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout. Before calling a data-driven screen done, run it on [worst-case data](references/worst-case-data.md): the longest plausible name, an unbreakable email, a count of 1 and of 1,284, an empty list, a missing avatar.
-- Design the states with the screen: loading, empty, error, success, disabled, overflow. An empty state that looks broken is a bug.
+- Design the states with the screen: loading, empty, error, success, disabled, overflow. An empty state that looks broken is a bug. A loading state is the loaded layout with content replaced by bones of the same boxes. A shorter stack of bars is a jump. Mark the stable regions and compare the two states: [loading](references/loading.md).
 - Hide what has nothing to say. Zero rows, zero balances and empty charts become an honest empty state or disappear; no walls of zeros.
 - Headers are labels. A subtitle that re-explains the header gets deleted.
 - Mobile is its own layout: reorder by priority, use horizontal snap rails where desktop uses grids, `dvh`/`svh` not `100vh`, inputs at 16px or larger, tap targets 44px. Anything people use on a phone gets the [mobile baseline](references/mobile.md): no tap flash, hover gated to real pointers, press feedback on touch, safe areas, no zoom on focus.
@@ -59,9 +59,10 @@ Hold the line on the [craft floor](references/craft-floor.md) while building, no
 node <skill-dir>/scripts/shoot.mjs http://localhost:3000/page --full          # 390 + 1440, light + dark
 node <skill-dir>/scripts/shoot.mjs http://localhost:3000/page --widths 320,390,768,1440 --themes light
 node <skill-dir>/scripts/shoot.mjs http://localhost:3000/page --click '[aria-controls=menu]' --widths 390
+node <skill-dir>/scripts/shoot.mjs loading.html --shift loaded.html --widths 390 --themes light
 ```
 
-Open every screenshot and actually read it. Then go through, in this order:
+Open every screenshot and actually read it. Then read the lines under each capture. `shoot.mjs` reports inputs under 16px, a viewport that disables zoom, `:hover` rules outside `@media (hover: hover)`, selectable controls on a narrow viewport, and a missing tap-highlight reset. None of those show up as overflow. A `--shift` run exits 1 when a marked region or the document scroll height moved, and exits 2 when nothing was marked. Exit 2 is not a pass. Then go through, in this order:
 
 1. **First read**: squint. Is the most important thing the most prominent? Can you tell what this is and what to do in three seconds?
 2. **Broken**: overflow, clipped text, overlapping layers, stranded words, invisible focus, dark mode contrast. `shoot.mjs` flags several of these; check its output.

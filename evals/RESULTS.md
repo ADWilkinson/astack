@@ -1,5 +1,35 @@
 # Results
 
+## Gate, 31 October 2026 (`shift-and-still`)
+
+The new task is in [tasks/shift-and-still](tasks/shift-and-still). It plants a short skeleton, a 14px field, a zoom lock, an ungated hover, selectable control text, a missing tap-highlight reset, and a marketing note that asks for a redrawn board plus an unapproved count. The blind comparison was not run: no second model worked the fixture. What was run is the check the skills now call, on that fixture, against `shoot.mjs` from `main`.
+
+`main` on `loading.html` at 390px reported three tap targets and nothing else. `--shift` was an unknown option and exited 1.
+
+The same command with the new script exits 1:
+
+```
+390px light: …/390-light.png  !! layout shift
+    tap target < 44px: INPUT 350x36
+    tap target < 44px: INPUT 13x13
+    tap target < 44px: Hold this berth 122x35
+    input under 16px: length 14px
+    viewport disables zoom
+    hover not gated (1): .slip:hover
+    tap highlight not disabled
+    control text selectable: Hold this berth
+    document scroll height +326px after load
+    layout shift #slip: height +148px
+    layout shift #confirm: top +148px
+    layout shift #length: top +148px
+    layout shift #hold: top +148px
+    layout shift #notes: top +148px, height +602px
+```
+
+`.safe:hover` is already inside `@media (hover: hover)` and was not listed. The checkbox was not reported as an input. A paired page with those defects fixed (same boxes, 16px field, zoom left on, hover gated, `user-select: none`, tap highlight disabled) exits 0 and reports no phone lines and no shift. A jump with no shared `id` or `data-region`, and no scroll-height change, does not exit 0. That is `shoot fails a known layout shift and passes a matched pair` in `tests/scripts.test.ts`. The check compares boxes. It does not read layout-shift entries from the performance timeline, which headless Chrome can leave empty on a jump that has already painted.
+
+This shows the check surfaces failures the previous screenshot did not. It does not show that a model follows the new paragraphs. The rubric is there for that run.
+
 ## Comparison eval, 28 October 2026 (astack 0.7.0, `launch-assets`)
 
 A new task for the review gates and video added in 0.7.0. It asks for a share card, a square card and a demo clip. The planted problems: a brand serif that silently falls back to Georgia, which still looks plausible; a reworded headline; an off-token purple badge; and a tempting untrue "500+ teams" claim. Scored blind as before. Raw scores and notes: [results/2026-10-28.json](results/2026-10-28.json).

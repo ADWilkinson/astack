@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- slop-scan: ignore-file (planted phone defects for the shift-and-still eval) -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Northline quote</title>
+<style>
+  body { margin: 0; background: #f4f7f8; color: #1c2b33; font: 16px/1.4 sans-serif; }
+  main { padding: 20px; }
+  #slip { height: 220px; background: white; border: 1px solid #d5dee3; border-radius: 8px; padding: 16px; box-sizing: border-box; }
+  #slip h2 { margin: 0 0 8px; font-size: 20px; }
+  label { display: block; margin-top: 16px; }
+  input[type="text"] { font-size: 14px; padding: 8px; width: 100%; box-sizing: border-box; }
+  #hold { margin-top: 16px; padding: 8px 16px; }
+  #notes { height: 640px; margin-top: 16px; background: white; border: 1px solid #d5dee3; }
+  .slip:hover { background: #d5dee3; }
+  @media (hover: hover) and (pointer: fine) {
+    .safe:hover { color: #1c2b33; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Ask for a berth</h1>
+  <section id="slip" class="slip">
+    <h2>Pontoon C, 14</h2>
+    <p>11 m. The fee is 12%, shown before you confirm.</p>
+  </section>
+  <form id="confirm">
+    <label for="length">Length, metres <input id="length" name="length" type="text" value="11"></label>
+    <label class="safe"><input type="checkbox"> I have read the harbour rules</label>
+    <button id="hold" type="button">Hold this berth</button>
+  </form>
+  <section id="notes"><p>Water is calm. The gate code is on the post.</p></section>
+</main>
+</body>
+</html>

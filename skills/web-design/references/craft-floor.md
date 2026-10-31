@@ -37,7 +37,7 @@ The minimum for anything that ships. Check these while building, then once more 
 - Hover styles sit inside `@media (hover: hover) and (pointer: fine)`; touch gets `:active` instead.
 - Buttons say what happens ("Send invoice"), links say where they go. No "Click here", no bare "Submit" when there is a better verb.
 - Disabled controls explain why when it is not obvious.
-- Loading shows what is pending without implying success; skeletons match the real layout to avoid shift.
+- Loading shows what is pending without implying success. The skeleton is the loaded layout with bones in place of content, and `shoot.mjs --shift` reports any region that moves. See [loading](loading.md).
 
 ## Motion
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+Measured checks for defects a settled screenshot hides, and a harder rule for launch stills. No library was added.
+
+- `shoot.mjs` reads the rendered page and reports inputs under 16px, a viewport that disables zoom, `:hover` rules outside `@media (hover: hover)`, selectable controls on a narrow viewport, and a missing tap-highlight reset. `--shift` compares a loading page with the settled page. It exits 1 when a shared region or the document scroll height moved by more than 1px, and exits 2 when no region was marked and the scroll height did not change. It does not read the performance timeline's layout-shift entries: headless Chrome can report none for a jump that has already painted, and a score of 0 would pass that page.
+- `web-design` states how to build that loading layout, and `mobile.md` says which of those lines a desktop capture can see. `dogfood` and `astack`'s completion checks read them before calling a phone journey done.
+- `deslop` names this season's UI tells with examples (pill tags, italic headline words, dividers, opacity ladders, borders on every box, over-detailed diagrams, decorative breadcrumbs, section numbers). `slop-scan.mjs` flags `section-index` and `opacity-ramp`.
+- `launch` and `web-graphics`: a bento, device or clip may frame a real capture. It may not redraw the screen, and it may not show a number the agreed copy file does not contain.
+- New `shift-and-still` eval fixture, with the planted failures named. The blind comparison was not run. The deterministic `shoot.mjs --shift` run is recorded in `evals/RESULTS.md`.
+
 ## 0.7.1
 
 - Keep coupled work in one agent context and load skills as needed. Independent review now depends on risk, unresolved judgment and repository requirements.

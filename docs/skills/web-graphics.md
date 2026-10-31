@@ -10,7 +10,7 @@ Hero illustrations, explainer visuals, icon sets, animated onboarding and empty-
 
 ## It's working if
 
-You get editable source next to the export, the graphic was inspected at its smallest real size in both themes, and nothing in it pretends to be data the product does not have.
+You get editable source next to the export, the graphic was inspected at its smallest real size in both themes, and nothing in it pretends to be data the product does not have. A screen that exists is a capture inside the frame, not a screen redrawn to look cleaner.
 
 ## Common questions
 

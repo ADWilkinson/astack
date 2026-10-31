@@ -33,7 +33,11 @@ Work through [prose patterns](references/prose-patterns.md). The ones that matte
 
 ## 3. Fix UI
 
-Run the scan on components and check the rendered page against `web-design`'s anti-patterns if installed. The usual repairs: delete the eyebrow labels and explainer subtitles; replace gradient text with solid ink; remove glass, glows and sparkles; flatten nested cards; give CTAs real verbs; remove emoji from interface copy. Re-shoot and look after removing structure: a deleted container can take a needed grouping with it.
+Run the scan on components and check the rendered page against `web-design`'s anti-patterns if installed. The usual repairs: delete the eyebrow labels and explainer subtitles; replace gradient text with solid ink; remove glass, glows and sparkles; flatten nested cards; give CTAs real verbs; remove emoji from interface copy.
+
+This season's tells, each fine when the brief asks and slop when it shows up anyway: a pill tag above the heading (`New`), one italic word in the headline, a divider under every section, four opacities of the same neutral instead of two inks, a border on every box, a diagram that draws the whole system, a decorative `Home / Settings / Billing`, and `01` `02` `03` on items that are not a sequence. The scan flags the numbered markers (`section-index`) and the opacity ladder (`opacity-ramp`). The rest need the render. Instrument Serif with tight tracking is the current reflex display; it stays only when DESIGN.md names it.
+
+Re-shoot and look after removing structure: a deleted container can take a needed grouping with it.
 
 ## 4. Fix code
 

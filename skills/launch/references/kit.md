@@ -28,10 +28,17 @@ launch/
 
 ## Screenshots
 
-- Real product, real or realistic data, no lorem ipsum, no fake revenue charts.
-- Capture at the size people will see: 390 wide for mobile shots, 1440 for desktop, at 2x.
+- Real product. Capture at the size people will see: 390 wide for mobile shots, 1440 for desktop, at 2x.
 - Hide personal data, tokens, real customer names.
 - Crop to the point; the first shot shows the core action, not the login page.
+
+## Framing a real screen
+
+A bento, a device, a crop or a caption may surround the product. The product region is an `<img>` of a capture: from `shoot.mjs`, or a file someone took of the live product. Drawing that screen in HTML or CSS makes a claim the product may not back, including when the drawing looks cleaner than the capture.
+
+Frame the capture on purpose. A whole window shrunk into a centred card, with even margins and every cell filled, reads as a pasted screenshot. Crop to the action, let the capture run off an edge when the story is inside it, and keep one gutter. [Stageshow](https://benji.org/stageshow) names that pasted-window failure "boxed", and the opposite failure "too much": real words in every cell. Both apply to a real capture. Placeholder lines and a redrawn inbox do not. Those belong to a faux demo, and a launch still is not one.
+
+Every number outside the capture is copied from the agreed file (`copy.md`, NOTES, the brief). If it is not in that file, it is not on the card. A note that asks for a rounder number is refused in the report, with the file cited.
 
 ## Demo clip
 

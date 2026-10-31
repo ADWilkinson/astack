@@ -23,7 +23,7 @@ Plausible values only. A 5,000-character name or `aaaaaaaa…` proves nothing an
 | Collections | 0, 1, exactly a page, a page plus one, 1,000+, one item ten times taller, duplicate names | Missing empty state, a lonely single card, empty page 2, scroll and render cost, rows stretched to the tallest |
 | Time | now, 12 days ago, 3 years ago, a future date, `1970-01-01`, a late-evening time in another timezone | "0 seconds ago", relative time that never becomes a date, "-3 days ago", a zero timestamp shown as real, the wrong day. Use `Intl.RelativeTimeFormat` and `Intl.DateTimeFormat`. |
 | Media | a 404 avatar, no avatar, a 4000×200 image, a dark transparent logo in dark mode, a slow image | Broken-image icons, squashed avatars without `object-fit` and `flex-shrink: 0`, invisible logos, layout shift without `aspect-ratio` |
-| States | loading, an API error, partial optional fields, every status value at once, no permission, the current user in the list | Skeletons that do not match, raw `TypeError` text, misaligned rows, uneven badge widths, actions that should not apply to yourself |
+| States | loading, an API error, partial optional fields, every status value at once, no permission, the current user in the list | Skeletons that do not match (`shoot.mjs --shift`), raw `TypeError` text, misaligned rows, uneven badge widths, actions that should not apply to yourself |
 
 ## Failure signatures
 

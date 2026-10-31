@@ -21,7 +21,7 @@ html {
 }
 input, textarea, select { font-size: 16px; }
 button, a, [role="button"] { touch-action: manipulation; }
-button, [role="button"], .tab, .chip { user-select: none; -webkit-user-select: none; }
+button, [role="button"], .tab, .chip { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 @media (hover: hover) and (pointer: fine) {
   /* every :hover rule lives here */
 }
@@ -41,9 +41,23 @@ Set the `theme-color` values to the colour at the very top of the page (the head
 | Taps feel slow | `touch-action: manipulation` removes the double-tap wait; style `:active` (or listen to `pointerdown`) so the response lands when the finger does, not when it lifts. |
 | Pull-to-refresh or rubber-banding fights the app | `overscroll-behavior: none` on `html, body` for app-like surfaces; `overscroll-behavior: contain` on inner scrollers such as sheets and chat lists. Keep the default on documents. |
 | Content stops short of the notch, or sits under the home bar | `viewport-fit=cover` in the viewport meta, then `env(safe-area-inset-*, 0px)` padding on fixed headers, tab bars, toasts and sheets. Without the meta tag the insets are all zero. |
-| Long-press selects a button's label | `user-select: none` on controls only. Never on `body`: people copy addresses, order numbers and errors. |
+| Long-press selects a button's label, or iOS shows the copy callout | `user-select: none` and `-webkit-touch-callout: none` on controls only. Never on `body`: people copy addresses, order numbers and errors. |
 | Swiping a carousel scrolls the page too | `touch-action: pan-y` on a horizontal gesture surface; prefer native `scroll-snap-type: x mandatory` over a hand-rolled carousel. |
 | Status bar the wrong colour in one theme | One `theme-color` per colour scheme; update it from JS if the theme toggles by class. |
+
+## What shoot.mjs can see from a desktop
+
+Device emulation still has a mouse, so it will not show a stuck hover, a rubber-band, a notch or the keyboard. It can read the page and the stylesheets, and `shoot.mjs` now reports the defects that follow from that:
+
+| Line | Means |
+| --- | --- |
+| `input under 16px` | A text field, textarea or select computes below 16px, so iOS Safari will zoom on focus and stay zoomed. A smaller size is allowed only inside `@media (pointer: fine)`. |
+| `viewport disables zoom` | `user-scalable=no` or `maximum-scale=1`. Fix the input size. Leave pinch zoom on. |
+| `hover not gated` | A `:hover` rule whose media query does not contain `(hover: hover)` or `(any-hover: hover)`. Width breakpoints do not count. Tailwind v4's `hover:` variant is already gated; v3 is not unless `future.hoverOnlyWhenSupported` is set. |
+| `control text selectable` | A button or `[role=button]` on a narrow viewport computes `user-select` to something other than `none`. |
+| `tap highlight not disabled` | The page has controls and no `html` / `body` / `*` rule sets `-webkit-tap-highlight-color: transparent`. |
+
+Treat each line as a defect unless the brief asked for it. Rubber-banding, safe areas and a hover that stays stuck after a tap still need a phone. Say which fixes you verified from this report and which you did not.
 
 ## Rules
 
