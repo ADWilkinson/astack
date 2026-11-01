@@ -1,0 +1,133 @@
+{
+  "task": "spec-readiness",
+  "date": "2026-11-01",
+  "baselineRevision": "76d362d",
+  "candidate": "issue-6 working patch",
+  "method": {
+    "workers": "four fresh native contexts, two per arm, same inherited model and tools",
+    "input": "same prompt, unchanged synthetic repository and running loopback product",
+    "scope": "read-only planning decisions; no implementation or external product",
+    "scoring": "author compared individual replies against the hidden rubric; not a blind judge",
+    "modelVersion": null,
+    "elapsedMs": null,
+    "tokenUsage": null
+  },
+  "runs": [
+    {
+      "arm": "baseline",
+      "repeat": 1,
+      "A": {
+        "start": false,
+        "observed": [
+          "missing source path",
+          "undefined relay-ready",
+          "settled-fills rather than oracle",
+          "POST 405",
+          "link does not prefill",
+          "identity/shared-state contradiction"
+        ],
+        "limits": "no separate severity-tagged comprehension/readiness report or explicit complete test list"
+      },
+      "B": {
+        "start": true,
+        "newFilesAccepted": true,
+        "boundariesRetained": true
+      },
+      "C": {
+        "start": true,
+        "extraReview": false
+      },
+      "response": "spec-readiness-2026-11-01/baseline-1.md"
+    },
+    {
+      "arm": "baseline",
+      "repeat": 2,
+      "A": {
+        "start": false,
+        "observed": [
+          "missing source path",
+          "settled-fills rather than oracle",
+          "POST 405",
+          "link does not prefill",
+          "identity/shared-state contradiction"
+        ],
+        "limits": "undefined relay-ready not called out; no separate severity-tagged report or explicit complete test list"
+      },
+      "B": {
+        "start": true,
+        "newFilesAccepted": true,
+        "boundariesRetained": true
+      },
+      "C": {
+        "start": true,
+        "extraReview": false
+      },
+      "response": "spec-readiness-2026-11-01/baseline-2.md"
+    },
+    {
+      "arm": "candidate",
+      "repeat": 1,
+      "A": {
+        "start": false,
+        "verdict": "FAIL",
+        "observed": [
+          "restatement",
+          "missing source path",
+          "undefined relay-ready, major",
+          "settled-fills rather than oracle",
+          "POST 405",
+          "link does not prefill",
+          "identity/shared-state blocker",
+          "schemas, failure and partial-data decisions",
+          "required model/API/prefill/deduplication tests"
+        ]
+      },
+      "B": {
+        "start": true,
+        "verdict": "PASS",
+        "newFilesAccepted": true,
+        "boundariesRetained": true,
+        "routineChoicesBlocked": false
+      },
+      "C": {
+        "start": true,
+        "extraReview": false,
+        "thresholdExemption": true
+      },
+      "response": "spec-readiness-2026-11-01/candidate-1.md"
+    },
+    {
+      "arm": "candidate",
+      "repeat": 2,
+      "A": {
+        "start": false,
+        "verdict": "FAIL",
+        "observed": [
+          "restatement",
+          "missing source path, blocker",
+          "undefined relay-ready, major",
+          "settled-fills rather than oracle, blocker",
+          "POST 405 method-contract decision",
+          "link does not prefill",
+          "identity/shared-state blocker",
+          "schemas, failure and partial-data decisions",
+          "required model/API/prefill/deduplication tests"
+        ]
+      },
+      "B": {
+        "start": true,
+        "verdict": "PASS",
+        "newFilesAccepted": true,
+        "boundariesRetained": true,
+        "routineChoicesBlocked": false
+      },
+      "C": {
+        "start": true,
+        "extraReview": false,
+        "thresholdExemption": true
+      },
+      "response": "spec-readiness-2026-11-01/candidate-2.md"
+    }
+  ],
+  "finding": "Both arms stopped the contradictory plan and accepted the ready and tiny plans. The candidate made severity, material decisions and required proof explicit in both repeats. No task-decision regression observed; no general detection, performance or production-impact improvement established."
+}
