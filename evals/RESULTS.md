@@ -1,5 +1,11 @@
 # Results
 
+## Spec readiness, 1 November 2026
+
+[Fixture and request](tasks/spec-readiness/prompt.md), [rubric](tasks/spec-readiness/rubric.md), [individual observations](results/2026-11-01-spec-readiness.json). Four fresh native workers used the same inherited model and tools: two read the unchanged astack skill from `76d362d`, two read the candidate. Each received the same three tasks, synthetic repository and running loopback product, without the author conversation or rubric. The author compared their replies; this was not blind scoring. Model-version, timing and token counters were not retained.
+
+Both baseline readers already stopped the contradictory board plan and accepted the ready projection and tiny title correction. Both candidate readers made severity, material decisions and required tests explicit, returned FAIL/PASS for the substantial plans, and skipped the extra review for the title change. Neither treated proposed new files as missing prerequisites or introduced a human approval loop. The observed difference is report completeness; this small sample establishes no general detection gain, speedup or production outcome. No implementation was attempted in these read-only trials.
+
 ## Gate, 31 October 2026 (`shift-and-still`)
 
 The new task is in [tasks/shift-and-still](tasks/shift-and-still). It plants a short skeleton, a 14px field, a zoom lock, an ungated hover, selectable control text, a missing tap-highlight reset, and a marketing note that asks for a redrawn board plus an unapproved count. The blind comparison was not run: no second model worked the fixture. What was run is the check the skills now call, on that fixture, against `shoot.mjs` from `main`.

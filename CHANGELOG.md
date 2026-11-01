@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- `astack` gains a conditional spec-readiness check before build: a fresh reader restates the plan, verifies source and live claims, and identifies material decisions and required tests. Planning now records alternatives considered. Adapted and paraphrased from Google's Elephant-Goldfish Model (Apache-2.0); no plugin or consensus loop is added.
+
 ## 0.8.0
 
 Measured checks for defects a settled screenshot hides, and a harder rule for launch stills. No library was added.

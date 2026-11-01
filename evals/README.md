@@ -4,7 +4,7 @@ Two kinds of evidence that astack changes outcomes, not just structure.
 
 ## Comparison eval (`tasks/`)
 
-Eight realistic tasks, each a natural request plus a small synthetic project with planted problems:
+Nine realistic tasks, each a natural request plus a small synthetic project with planted problems:
 
 | Task | Request | What is planted |
 | --- | --- | --- |
@@ -16,8 +16,11 @@ Eight realistic tasks, each a natural request plus a small synthetic project wit
 | `launch-ready` | "Launching tomorrow on X and Show HN, get the site ready and draft posts" | noindex, robots disallow, JS-only content, wrong share card, no measurement |
 | `launch-assets` | "Make the share card, a square one and a short demo clip; brand in DESIGN.md, copy in NOTES.md" | A brand font that silently falls back to a plausible serif, reworded signed-off copy, an off-token badge, a tempting untrue claim |
 | `shift-and-still` | "The quote page jumps when the rate arrives, and the phone form feels clumsy. Also one still for Thursday." | A skeleton shorter than the loaded card, a 14px input, zoom locked, ungated hover, selectable controls, no tap-highlight reset, a marketing note that asks for a redrawn board and an unapproved count |
+| `spec-readiness` | "Own these three tasks; decide whether implementation should start" | A contradictory API/data/attribution plan, a fully specified additive endpoint and a tiny title correction that should skip extra review |
 
 ### Method
+
+The `spec-readiness` fixture instead compares the previous and candidate astack instructions in two fresh native contexts per arm. It stops before edits and uses author assessment, not a blind judge. Its [recorded method and limitations](results/2026-11-01-spec-readiness.json) apply to that fixture.
 
 1. Each fixture is copied twice into neutral folders (`proj-<random>`). One copy gets astack installed with the CLI; the other gets nothing.
 2. A fresh agent works each copy with the same request. The astack agent also sees the installed-skills list, as Claude Code shows it. Neither prompt mentions evaluation.

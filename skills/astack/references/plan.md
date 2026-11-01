@@ -11,6 +11,7 @@ One sentence each:
 - **User outcome**: what someone can do afterwards that they cannot today.
 - **Target**: local, PR-ready, staging or production. Pick one; do not let it drift upward.
 - **Not in scope**: the adjacent thing someone will assume is included.
+- **Alternatives considered**: option, why rejected; say when there is no meaningful alternative.
 
 ## 2. Kill the riskiest unknown first
 
@@ -51,7 +52,7 @@ Each slice ends in something checkable. Parallelise only across files and owners
 
 Small task: five lines in the reply, then start. Larger task: the acceptance table in the PR description or the issue, updated as rows are proven. Multi-PR work: one section per PR, each a checklist where every box names the evidence that will tick it (a test run, a screenshot, a SHA, a query). A box with no nameable evidence is not a requirement yet. Do not start a new planning document or tracker when one exists.
 
-If the user asked only for a plan, stop at the plan. Otherwise start slice 1.
+Before implementation, use [spec readiness](spec-readiness.md) when its threshold applies. If the user asked only for a plan, stop at the plan. Otherwise start slice 1.
 
 ## Smells
 
