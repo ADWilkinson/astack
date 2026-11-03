@@ -17,6 +17,8 @@ Tests check what the author thought of. Dogfooding finds what a user hits. The o
 
 ## 1. Pick journeys that matter
 
+When the question is whether the product lives up to its page, or before a launch, list the claims first and test those: [claims audit](references/claims-audit.md).
+
 Two to five, each written as a user with a goal and an observable end:
 
 > New seller, signed in, no listings → publishes first listing → sees it on the public page with the right price.

@@ -33,6 +33,19 @@ Post-process by hand when needed (add a `<title>`, group ids for animation, swap
 - Check every icon at 16px and 20px: silhouette must still read. Below ~24px, use a simplified variant (a head-only mascot, a filled glyph) rather than shrinking the full drawing.
 - Optical alignment: a play triangle sits visually centred only when nudged right; check at 2x.
 
+## Brand scenes drawn from numbers
+
+When a product has no photography, one drawing from its world can carry the brand: a street, a harbour, a workshop. Generate it from a small data table instead of hand-drawing paths.
+
+- Keep one function that returns the shapes, and render it everywhere: hero, closing panel, empty state and the share image. The share image renders it with fixed colours, so it needs no CSS.
+- Use the same two or three brand colours, with one small accent that means something, such as a lit window.
+- Fit the viewBox to the height it renders at. With `preserveAspectRatio="xMidYMax slice"` in a shorter box, the top is cropped, so roofs turn into flat lines. Check the silhouette at the rendered size.
+- Hide it where something covers most of it. A phone over a skyline on a narrow screen leaves slivers and a stray accent.
+- Adjacent shapes can show hairline seams when scaled. Use `shape-rendering: crispEdges` on straight walls.
+- Animate one small thing, once, and let reduced motion show the finished drawing.
+
+A cover drawing does not replace showing the product. Pair it with the real interface, labelled as an example where the data is fictional.
+
 ## ASCII art
 
 - Render in a known monospace stack and line height; ASCII breaks when the font falls back. Set `font-variant-ligatures: none`.

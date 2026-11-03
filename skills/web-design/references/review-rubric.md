@@ -8,7 +8,7 @@ It is a reading aid for judgment, not a scorecard to optimise. A piece that hits
 
 ## Three gates before any score
 
-1. **Accuracy.** Every claim, number, name and quote traces to a source: the brief, the product, a dated query. An invented feature or figure fails the piece however well it is made.
+1. **Accuracy.** Every claim, number, name and quote traces to a source: the brief, the product, a dated query. An invented feature or figure fails the piece however well it is made. Check verbs and absolutes against the code too: "writes" for a fixed template and "nothing goes out" beside an automatic receipt both fail. The `dogfood` skill has a claims audit for this.
 2. **Deterministic gates.** `render-gate.mjs` with `--design` and `--expect` for anything with brand tokens or supplied copy; `shoot.mjs` for pages; `film.mjs` for clips (in `launch`); `slop-scan.mjs` for copy (in `deslop`). Exit 1 is a finding to fix. Exit 2 means the gate did not run, which is never a pass.
 3. **The ask.** When someone asked for a specific change, check that change first. It is the bar.
 

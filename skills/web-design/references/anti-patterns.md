@@ -62,6 +62,10 @@ Late-2026 tells, with one example each. Ayush Soni named the cluster in public (
 
 | Pattern | Looks like | Instead |
 | --- | --- | --- |
+| pastel-rainbow-bento | Each card gets its own sky, mint or peach, chosen to fill a grid | Brand colours plus one or two quiet tints. A colour earns its place by meaning something |
+| status-in-brand-colour | A warning amber that looks like the brand accent, or a late badge in the accent | Move the status hue away from the accent. Reserve the accent for what it means, such as the approving tap |
+| pale-tiles-in-dark-mode | Light cards carried unchanged into dark mode, glaring or turning muddy | Give each decorative tint a dark value, and check it next to the page colour |
+| accent-on-everything | The accent on every row arrow and chip, so the one action that matters stops standing out | Neutral for navigation, accent only for the decisive action |
 | violet-gradient | Purple to indigo gradients, cyan accents on near-black | Pick colour from the product's world. One accent. |
 | gradient-text | Headline filled with a gradient (`bg-clip-text text-transparent`) | Solid ink. Emphasis through weight, size or a single coloured word only if the brand does that. |
 | glass | `backdrop-blur` panels everywhere | Solid surfaces. Blur only when content genuinely scrolls beneath. |

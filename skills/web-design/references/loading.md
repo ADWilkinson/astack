@@ -33,3 +33,20 @@ When the brand face is a webfont, give the fallback `size-adjust`, `ascent-overr
 ## Done
 
 Both states captured, no region and no document scroll moved by more than 1px at 390px, bones replaced content inside the real layout, and the fallback face cannot reflow the first paint. If you could not reach the real loading state, say so.
+
+## Check the bones can be seen
+
+A skeleton can hold the right layout and paint nothing. A bone coloured with an undefined custom property is transparent, and an undefined variable inside a gradient drops the whole gradient. Use tokens that already exist, and read a bone's computed `background-color` if the capture looks empty.
+
+To review them all at once, render each skeleton on a throwaway route, capture it at both widths and themes, and delete the route. Then confirm the streamed HTML on real pages contains them.
+
+Keep the words for assistive technology: `role="status"` and a visually hidden label on the wrapper. Fade the skeleton in after about 100ms so a quick load never flashes it. Stop the shimmer under reduced motion and leave the shapes.
+
+A new custom property in a global stylesheet may not reach a running dev server, which can keep serving its cached stylesheet. Confirm on a production build before debugging further.
+
+## Steps that share a space
+
+For tabs or steps that must not move the content below, stack every panel in one grid cell, so the box is always as tall as the tallest panel, and hide the inactive ones with `visibility: hidden`. This replaces guessing a `min-height` per breakpoint. Two traps:
+
+- Tailwind's preflight sets `[hidden]` to `display: none !important` in a layer, and a layered `!important` beats an unlayered one. Use a data attribute instead of `hidden`.
+- A blanket reduced-motion rule that shortens every transition also animates inherited `visibility` on children. Set `transition-property: none` on the panels and their children, or a test reads an empty panel.

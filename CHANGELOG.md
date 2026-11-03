@@ -1,7 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.9.0
 
+Lessons from taking a real product through a brand, scale and claims pass.
+
+- `dogfood` gains a claims audit: list what the page promises, read the verbs and absolutes against the code, then walk it as a new customer, including the state after each action, a failed read and the last screen a customer sees. New `claims-parity` eval fixture.
+- `web-design` gains workspace at scale: seed to the plan limit, urgent work never paged away, counts that equal the list, an earned "all clear", one rule across views, measured page weight, and a phone tab bar that follows the address.
+- `web-design` adds skeleton and stacked-panel traps to `loading.md`, a check that motion ends to `motion.md`, four palette failures to `anti-patterns.md`, and verbs to the accuracy gate in `review-rubric.md`.
+- `web-graphics` documents brand scenes drawn from numbers.
 - `astack` gains a conditional spec-readiness check before build: a fresh reader restates the plan, verifies source and live claims, and identifies material decisions and required tests. Planning now records alternatives considered. Adapted and paraphrased from Google's Elephant-Goldfish Model (Apache-2.0); no plugin or consensus loop is added.
 
 ## 0.8.0

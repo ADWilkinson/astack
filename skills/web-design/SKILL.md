@@ -45,7 +45,7 @@ When the user gives references, study them properly: [reference study](reference
 ## 3. Build in the product's system
 
 - Use existing tokens, primitives and components. Add a token before adding a one-off value.
-- Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout. Before calling a data-driven screen done, run it on [worst-case data](references/worst-case-data.md): the longest plausible name, an unbreakable email, a count of 1 and of 1,284, an empty list, a missing avatar.
+- Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout. Before calling a data-driven screen done, run it on [worst-case data](references/worst-case-data.md): the longest plausible name, an unbreakable email, a count of 1 and of 1,284, an empty list, a missing avatar. A workspace also runs at the plan limit, with seeded records: [workspace at scale](references/workspace-scale.md).
 - Design the states with the screen: loading, empty, error, success, disabled, overflow. An empty state that looks broken is a bug. A loading state is the loaded layout with content replaced by bones of the same boxes. A shorter stack of bars is a jump. Mark the stable regions and compare the two states: [loading](references/loading.md).
 - Hide what has nothing to say. Zero rows, zero balances and empty charts become an honest empty state or disappear; no walls of zeros.
 - Headers are labels. A subtitle that re-explains the header gets deleted.
