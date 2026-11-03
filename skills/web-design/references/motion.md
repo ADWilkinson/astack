@@ -126,6 +126,14 @@ node <skill-dir>/scripts/shoot.mjs http://localhost:3000/ --widths 390,1440     
 
 In the frames, check that colours cross cleanly rather than showing two states, the ease does not stop abruptly, the origin is right, and coordinated properties stay in step. Then in a real browser: trigger once; trigger rapidly; reverse mid-way; navigate away mid-animation; use keyboard and touch; enlarge text; switch to reduced motion. Slow it down 2–5x (DevTools Animations panel) when the feel is in doubt. Gestures need a real phone. Fix flicker, jumps, clipped frames and stranded states, then re-check that case.
 
+Reduced-motion captures show final states only, so they cannot prove motion ends. Load the page without reduced motion, wait past the longest sequence, and count what is still running:
+
+```js
+document.getAnimations().filter(a => a.playState === "running").length
+```
+
+Anything above zero that is not a deliberate indicator is a loop. On a product page, prefer one finite story over ambient movement: the thing arrives, the result appears, the next action is invited.
+
 ### 9. Report
 
 Report the contract, the tokens used, what you watched (filmstrip paths, cases exercised) and anything measured with its method. When reviewing someone's motion, give findings as one table:

@@ -4,7 +4,7 @@ Two kinds of evidence that astack changes outcomes, not just structure.
 
 ## Comparison eval (`tasks/`)
 
-Nine realistic tasks, each a natural request plus a small synthetic project with planted problems:
+Ten realistic tasks, each a natural request plus a small synthetic project with planted problems:
 
 | Task | Request | What is planted |
 | --- | --- | --- |
@@ -17,6 +17,7 @@ Nine realistic tasks, each a natural request plus a small synthetic project with
 | `launch-assets` | "Make the share card, a square one and a short demo clip; brand in DESIGN.md, copy in NOTES.md" | A brand font that silently falls back to a plausible serif, reworded signed-off copy, an off-token badge, a tempting untrue claim |
 | `shift-and-still` | "The quote page jumps when the rate arrives, and the phone form feels clumsy. Also one still for Thursday." | A skeleton shorter than the loaded card, a 14px input, zoom locked, ungated hover, selectable controls, no tap-highlight reset, a marketing note that asks for a redrawn board and an unapproved count |
 | `spec-readiness` | "Own these three tasks; decide whether implementation should start" | A contradictory API/data/attribution plan, a fully specified additive endpoint and a tiny title correction that should skip extra review |
+| `claims-parity` | "Is the product as good as the page says? Don't change anything yet." | Fixed templates sold as personal replies, an automatic send beside "nothing goes out", a capped list hiding an urgent item, a false all-clear, a tool list missing a promised capability |
 
 ### Method
 

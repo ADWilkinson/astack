@@ -107,3 +107,16 @@ The description reduction measures discovery text only. It does not halve total 
 The checkout task made each native client implement tracking and submission guards in a fresh copy of the synthetic fixture, with two repeats per version. An external headless Chrome replay checked concurrent and post-success submission, confirmed success counting, declines with failure reporting, payload privacy and a throwing analytics sink at phone and desktop sizes. All eight implementations passed all four cases. The browser used a local-only PostHog stub with remote requests blocked and `navigator.webdriver=false` to select the human-tracking path. The original automated-browser probe showed deliberate bot suppression in one implementation; that result was retained separately and independently reviewed. These checks do not prove production arrival, identity merging or every funnel property.
 
 Checkout implementation timing was mixed: Claude averaged 157.3 seconds before and 235.7 after; Codex averaged 302.8 before and 267.8 after. Output-token counts and full reported usage are retained in the JSON. Different implementation/test choices and restricted-shell refusals affect these times. The sample supports retained task outcomes and smaller discovery descriptions, not a general speed or cost win.
+
+## Claims audit, 3 November 2026
+
+One run per arm on the `claims-parity` fixture, in fresh contexts, with the previous `dogfood` skill against the candidate with `references/claims-audit.md`. Scored by the author, unblinded, so treat it as a smoke check and not a comparison.
+
+| | Previous | Candidate |
+| --- | --- | --- |
+| Planted defects found, of 6 | 6 | 6 |
+| Rubric score, of 20 | 19 | 20 |
+
+This is a tie on detection. The one point is that the candidate listed what holds as well as what does not, claim by claim. The fixture is small enough that reading the code finds everything, and neither arm ran the app, so it cannot show whether the walkthrough checks help. No regression was seen.
+
+The stronger evidence is the session the reference came from. Walking a real product as a new customer found defects its test suite and two earlier reviews had not, including an approved reply that still offered approval. That is one anecdote, and no blind comparison was run. The `dogfood` description was left unchanged to avoid routing risk, and routing evals were not rerun.
