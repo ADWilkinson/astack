@@ -4,7 +4,10 @@
   "private": false,
   "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "license": "MIT",
-  "repository": "https://github.com/ADWilkinson/astack",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADWilkinson/astack.git"
+  },
   "packageManager": "bun@1.4.2",
   "scripts": {
     "check": "bun scripts/check.ts && bun test tests/package.test.ts tests/install.test.ts && bun scripts/smoke.ts",
