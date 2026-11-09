@@ -50,9 +50,21 @@ Each slice ends in something checkable. Parallelise only across files and owners
 
 ## 5. Write it where the work lives
 
-Small task: five lines in the reply, then start. Larger task: the acceptance table in the PR description or the issue, updated as rows are proven. Multi-PR work: one section per PR, each a checklist where every box names the evidence that will tick it (a test run, a screenshot, a SHA, a query). A box with no nameable evidence is not a requirement yet. Do not start a new planning document or tracker when one exists.
+Small task: five lines in the reply, then start. Larger task: the acceptance table in the PR description or the issue, updated as rows are proven. Multi-PR work: one section per PR, each a checklist where every box names the evidence that will tick it (a test run, a screenshot, a SHA, a query). A box with no nameable evidence is not a requirement yet. Do not start a new planning document or tracker when one exists. A plan that outlives the session records the commit it was written against (`git rev-parse --short HEAD`); whoever resumes it first runs `git diff --stat <sha>..HEAD -- <paths in scope>` and re-reads any changed file before trusting the plan.
 
 Before implementation, use [spec readiness](spec-readiness.md) when its threshold applies. If the user asked only for a plan, stop at the plan. Otherwise start slice 1.
+
+## Handing a slice to another agent
+
+Most work stays in one loop. When a slice does go to a worker (parallel, isolated, or a deliberately cheaper model on a mechanical change), write it for a reader who has seen nothing of this session:
+
+- **Context inlined**: why it matters in two or three sentences, exact paths, a short excerpt of the current code with `file:line`, and one existing file to imitate. Never "as discussed".
+- **Scope**: the files it may change, and the files that look related but must not be touched, each with a reason.
+- **Steps that verify themselves**: each ends in a command and its expected result. Done criteria are commands too (`bun test x` passes, `grep -rn oldName src/` is empty, `git status` shows only in-scope files).
+- **STOP conditions** specific to the slice's risks: the code does not match the excerpt, a check fails twice after a reasonable fix, the change needs an out-of-scope file, a named assumption proves false. Stop and report beats improvising.
+- **The commit it was planned at**, so the worker can run the drift check above.
+
+Ask for a report of each step with its command result, files changed and any deviation with its reason. Then review it like a PR against that contract: re-run the done criteria yourself, compare `git diff --stat` with the scope (an out-of-scope hunk fails review), read what the new tests assert, and judge a documented deviation on its merits. An undocumented one is a failure. Send specific fixes back at most twice, then take the slice back or rewrite the contract with what was learned. Merging stays at the user's target.
 
 ## Smells
 

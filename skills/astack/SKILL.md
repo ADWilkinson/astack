@@ -25,7 +25,7 @@ Keep context, decisions and execution in the main agent. Load another skill or r
 
 For visual changes, capture 390 and 1440 with [`scripts/shoot.mjs`](scripts/shoot.mjs) and inspect the images, including the themes and states the product supports. Read [completion checks](references/completion-checks.md) when reconciling a larger change before delivery.
 
-Delegate when parallel work needs independent context, reading would crowd out the main task, or an independent verdict matters. Keep ownership separate and return evidence, limitations and affected files. A specialist name alone is no reason to start another agent.
+Delegate when parallel work needs independent context, reading would crowd out the main task, or an independent verdict matters. Keep ownership separate and return evidence, limitations and affected files. A specialist name alone is no reason to start another agent. A delegate's findings are leads, not facts: open every cited `file:line` yourself before acting on or reporting it, because workers over-report, misattribute lines and flag by-design behaviour. A slice handed to a worker gets a self-contained contract ([handing off](references/plan.md#handing-a-slice-to-another-agent)).
 
 ## What you may do without asking
 

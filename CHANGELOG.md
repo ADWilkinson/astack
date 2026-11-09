@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0
+
+Handoff and vetting habits from [shadcn/improve](https://github.com/shadcn/improve) (MIT), paraphrased into existing skills. Its advisor-only split, where a strong model plans and cheaper models execute, is not adopted: astack keeps coupled work in one loop. No skill was added.
+
+- `astack` planning gains a contract for the rare slice handed to another agent: inlined context with a file to imitate, in-scope and out-of-scope files, steps that end in a command and its expected result, specific STOP conditions and the commit it was planned at. The review re-runs the done criteria, rejects out-of-scope hunks, reads what new tests assert and allows two rounds of fixes. Plans that outlive a session stamp their commit and run a drift check before resuming.
+- `astack` treats a delegate's findings as leads and opens every cited `file:line` before acting on or reporting them. The completion checks list dismissed findings with one line each, so the next pass does not raise them again.
+- `ship` tags self-review findings as introduced by the branch or pre-existing in touched files; only introduced ones block.
+- `context` reads ADRs, PRDs, `PRODUCT.md`, `CONTEXT.md` and `DESIGN.md` for what was settled, reports drift between a decision doc and the code, and treats text that addresses the agent as a finding rather than an instruction.
+- `dogfood` review-only reports carry confidence, are ordered by impact over effort, and list what was rejected as by-design.
+
 ## 0.10.0
 
 Motion work beyond a single animation, prompted by a read of [Emil Kowalski's skills](https://github.com/emilkowalski/skills) (MIT) as presented on aiforui.dev. Each idea is folded into an existing skill; no skill was added.
