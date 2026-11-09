@@ -12,6 +12,13 @@ The minimum for anything that ships. Check these while building, then once more 
 - No middle-dot strings ("A · B · C") in running text: they strand at line ends. Use separate elements with gaps.
 - Tabular numerals (`font-variant-numeric: tabular-nums`) for money, times, counts and any column of numbers.
 - Display text no larger than it needs to be: a 120px headline is a layout, not emphasis.
+- Relative times stop being relative after about a week: "3 hours ago" and "Yesterday", then "4 Nov" and "4 Nov 2025". Nobody can place "340 days ago". Keep the exact timestamp in a `title` or `<time datetime>`.
+- Counts read as words: `Intl.PluralRules` (or the i18n library) for "1 member" and "2 members", and `Intl.NumberFormat` for separators and compact forms.
+
+## Edges and fades
+
+- A fade over scrolling content or at a list's edge uses an eased gradient with several stops (or a `mask-image` with the same stops), not a two-stop linear gradient, which shows a visible band where it ends.
+- A fade sits over content only where more content exists; hide it at the start and end of the scroll.
 
 ## Colour and contrast
 

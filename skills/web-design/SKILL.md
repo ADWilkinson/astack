@@ -42,16 +42,19 @@ Choose from the subject's world: its materials, places, artefacts and vocabulary
 
 When the user gives references, study them properly: [reference study](references/reference-study.md) pulls computed styles from the live sites so you borrow relationships (scale, rhythm, density), not surface decoration.
 
+When two directions both survive the generic test and the choice is hard to argue from a plan, prototype instead of debating: build two or three variants of just the contested piece behind a development-only switch (`?variant=b`), shoot each at the same widths and states, choose with the user or the rubric, and delete the losers before finishing. Variants differ in one decision each (layout, type pairing, density), so the comparison says something.
+
 ## 3. Build in the product's system
 
 - Use existing tokens, primitives and components. Add a token before adding a one-off value.
+- Components that are hard to get right by hand (toasts, drawers and sheets, comboboxes, date pickers, virtualised lists, drag and drop) come from the project's primitive. If it has none and a dependency is in scope, choose a maintained, accessible, headless library over hand-rolling one: check its last release, open issues, bundle size and keyboard support first, and record the choice in DESIGN.md.
 - Real content only: real names, long names, real numbers, empty data. Never lorem ipsum, never invented metrics to fill a layout. Before calling a data-driven screen done, run it on [worst-case data](references/worst-case-data.md): the longest plausible name, an unbreakable email, a count of 1 and of 1,284, an empty list, a missing avatar. A workspace also runs at the plan limit, with seeded records: [workspace at scale](references/workspace-scale.md).
 - Design the states with the screen: loading, empty, error, success, disabled, overflow. An empty state that looks broken is a bug. A loading state is the loaded layout with content replaced by bones of the same boxes. A shorter stack of bars is a jump. Mark the stable regions and compare the two states: [loading](references/loading.md).
 - Hide what has nothing to say. Zero rows, zero balances and empty charts become an honest empty state or disappear; no walls of zeros.
 - Headers are labels. A subtitle that re-explains the header gets deleted.
 - Mobile is its own layout: reorder by priority, use horizontal snap rails where desktop uses grids, `dvh`/`svh` not `100vh`, inputs at 16px or larger, tap targets 44px. Anything people use on a phone gets the [mobile baseline](references/mobile.md): no tap flash, hover gated to real pointers, press feedback on touch, safe areas, no zoom on focus.
 
-Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: decide whether it should animate at all (never for keyboard or high-frequency actions), ease-out and under 300ms for UI, press feedback and origin-aware popovers, interruptible transitions, only `transform` and `opacity`, reduced motion handled, and watched as a filmstrip. The same reference diagnoses janky animation by cause.
+Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: decide whether it should animate at all (never for keyboard or high-frequency actions), ease-out and under 300ms for UI, press feedback and origin-aware popovers, interruptible transitions, only `transform` and `opacity`, reduced motion handled, and watched as a filmstrip. The same reference names effects when the request is vague, gives several moving elements one lead, diagnoses janky animation by cause, and audits a whole app's motion into keep, fix and cut with `file:line` and a verdict.
 
 ## 4. Look at it
 

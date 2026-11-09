@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.10.0
+
+Motion work beyond a single animation, prompted by a read of [Emil Kowalski's skills](https://github.com/emilkowalski/skills) (MIT) as presented on aiforui.dev. Each idea is folded into an existing skill; no skill was added.
+
+- `web-design` motion gains a short effect vocabulary for vague requests, choreography roles for several elements moving at once (one lead, followers 30-80ms behind, named still elements, exits together and faster), and a whole-app motion audit: an inventory with `file:line`, keep, fix or cut by frequency and purpose, a default cut list, the missing motion, and self-contained change items. Motion reviews end with approve, approve with fixes, or block.
+- `web-design` prototypes two or three variants behind a development-only switch when two directions both survive the generic test, and uses a maintained headless library (or the project's primitive) for toasts, drawers, comboboxes, date pickers, virtualised lists and drag and drop instead of hand-rolling them.
+- The craft floor adds absolute dates after about a week, `Intl.PluralRules` and `Intl.NumberFormat` for counts, and eased multi-stop edge fades.
+- `catalog.json` carries a stage, the skills each one pairs with and example prompts, checked by `bun run validate`. The new skills directory at [andrewwilkinson.io/skills](https://andrewwilkinson.io/skills/) is built from it.
+- README and installation docs add the `npx skills add ADWilkinson/astack` route, which the skills CLI already resolves to all eleven skills.
+- Two routing eval cases for app-wide motion audits and choreography.
+
 ## 0.9.0
 
 Lessons from taking a real product through a brand, scale and claims pass.
