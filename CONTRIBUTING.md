@@ -37,11 +37,7 @@ gh workflow run publish.yml -R ADWilkinson/astack -f dry_run=false
 
 Verify with `npx --prefer-online astack-skills@<version>`, then attach the published archive (`npm pack astack-skills@<version>`) to the GitHub release `v<version>`. Do not publish an unchanged version.
 
-**First release under trusted publishing:** the owner creates the trusted publisher with 2FA, then the release must follow within 2 days, because npm expires a configuration that has not completed a publish by then. A 2FA-bypass token cannot do this. From the home directory, not the personal workspace, whose `.npmrc` would override the login:
-
-```bash
-U=$(mktemp); npm login --userconfig "$U" --auth-type=web && npm trust github astack-skills --userconfig "$U" --repo ADWilkinson/astack --file publish.yml --env npm-release --allow-publish --yes; rm -f "$U"
-```
+**Trusted publisher setup** (done for `astack-skills` on 9 November 2026; repeat only if it is deleted or expires): the owner adds it on npmjs.com, not with `npm trust`. A CLI web login counts as a 2FA-bypass token there, and npm refuses it with 403. Open the package's **Settings** (`https://www.npmjs.com/package/astack-skills/access`) and under **Trusted Publisher** choose **GitHub Actions** with organization `ADWilkinson`, repository `astack`, workflow `publish.yml`, environment `npm-release`, and **Allow npm publish** ticked. npm asks for the password and then the security key. A password prompt discards the form, so fill it in again straight afterwards; the second submit goes to the security key. Confirm with the dry run, which prints "npm trusts this workflow". npm expires a publisher that has not completed a publish within 2 days, so publish the next release promptly.
 
 Once that release has landed, set the package's npm **Settings → Publishing access** to "Require two-factor authentication and disallow tokens".
 

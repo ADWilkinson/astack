@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.1
+
+- First release through npm trusted publishing: `publish.yml` publishes with GitHub's OIDC identity and no npm token.
+- `CONTRIBUTING.md` replaces the `npm trust` command, which npm refuses from a CLI login, with the npmjs.com settings steps that work.
+
 ## 0.11.0
 
 Handoff and vetting habits from [shadcn/improve](https://github.com/shadcn/improve) (MIT), paraphrased into existing skills. Its advisor-only split, where a strong model plans and cheaper models execute, is not adopted: astack keeps coupled work in one loop. No skill was added.
