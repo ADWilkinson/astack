@@ -27,7 +27,7 @@ git diff origin/main...HEAD --stat
 git diff origin/main...HEAD
 ```
 
-Read every hunk as a reviewer: edge cases (empty, error, retry, permissions), changed defaults, migrations, leftover debug code, secrets. Run `deslop`'s scan on changed files if installed. Fix before anyone else has to point it out.
+Read every hunk as a reviewer: edge cases (empty, error, retry, permissions), changed defaults, migrations, leftover debug code, secrets. Tag each finding **introduced** (this branch caused it) or **pre-existing** (already there in a touched file). Introduced findings block; pre-existing ones are listed separately for the owner, not silently fixed into the diff or blamed on it. Run `deslop`'s scan on changed files if installed. Fix before anyone else has to point it out.
 
 ## 3. Get the PR to green
 

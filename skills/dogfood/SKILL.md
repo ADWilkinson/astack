@@ -52,7 +52,7 @@ New findings join the frontier only if they affect these journeys or the fix's b
 
 For each finding: reproduce it, find the cause in code, and where the repo has a test setup, write a test that fails on the current code first. Then make the smallest coherent fix, watch the test pass, and commit that fix on its own (one finding, one commit) so it can be reviewed and reverted alone. Replay the original journey and its neighbours. A fix that changes shared code re-opens every journey that uses it.
 
-Review-only request? Stop at reproducible findings with causes and suggested fixes; do not edit.
+Review-only request? Stop at reproducible findings with causes and suggested fixes; do not edit. Give each a confidence (HIGH: reproduced; MED: strong signal, not reproduced; LOW: smell to investigate) and order by impact over effort, discounted by confidence. List what you checked and rejected as by-design, with one line each.
 
 ## 5. Verify where users are
 
