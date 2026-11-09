@@ -283,5 +283,17 @@
   "expect": [
    "web-design"
   ]
+ },
+ {
+  "q": "audit every animation in the app, tell me which ones to cut and which are missing",
+  "expect": [
+   "web-design"
+  ]
+ },
+ {
+  "q": "when the dialog opens the backdrop, the panel and its list all animate at different speeds and it feels messy",
+  "expect": [
+   "web-design"
+  ]
  }
 ]

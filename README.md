@@ -30,6 +30,15 @@ codex plugin marketplace add ADWilkinson/astack
 codex plugin add astack@adwilkinson
 ```
 
+With the [skills](https://skills.sh) CLI, which also covers Cursor, Gemini CLI and other agents:
+
+```sh
+npx skills@latest add ADWilkinson/astack
+npx skills@latest add ADWilkinson/astack --skill web-design
+```
+
+Browse every skill, with example prompts and what it pairs with, at [andrewwilkinson.io/skills](https://andrewwilkinson.io/skills/).
+
 Or do what I do and paste this repo's link to your agent with "install this". It reads the same instructions you just did.
 
 ## Get started

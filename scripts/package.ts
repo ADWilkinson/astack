@@ -2,7 +2,7 @@ import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from "
 import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 export type Finding = { file: string; message: string };
-export type Entry = { name: string; title: string; summary: string; example: string };
+export type Entry = { name: string; title: string; summary: string; example: string; stage?: string; pairs?: string[]; prompts?: string[] };
 
 export const packageEntries = [
   "README.md", "LICENSE",
@@ -81,6 +81,15 @@ export function validatePackage(root: string): Finding[] {
     if (!entry.title || !entry.example || typeof entry.summary !== "string" ||
         entry.summary.length < 25 || entry.summary.length > 64)
       fail(catalogPath, `Incomplete picker information for ${entry.name}`);
+    // The skills directory page (andrewwilkinson.io/skills/) groups and cross-links skills from these fields.
+    const stages = Array.isArray(catalog.stages) ? catalog.stages.map((stage: { id?: unknown }) => stage?.id) : [];
+    if (!stages.includes(entry.stage)) fail(catalogPath, `Unknown stage for ${entry.name}`);
+    if (!Array.isArray(entry.pairs) || !entry.pairs.length ||
+        entry.pairs.some(pair => pair === entry.name || !names.includes(pair)))
+      fail(catalogPath, `Pairs for ${entry.name} must name other catalogue skills`);
+    if (!Array.isArray(entry.prompts) || entry.prompts.length < 2 ||
+        entry.prompts.some(prompt => typeof prompt !== "string" || prompt.length < 12 || prompt.length > 100))
+      fail(catalogPath, `Example prompts for ${entry.name} must be 2 or more short strings`);
     const dir = resolve(skillRoot, entry.name);
     const path = resolve(dir, "SKILL.md");
     if (!existsSync(path)) { fail(path, "Missing skill entrypoint"); continue; }

@@ -28,6 +28,17 @@ codex plugin add astack@adwilkinson
 
 Claude Code prefixes plugin skills, so `ship` becomes `/astack:ship`. Pick one route per client, npm or plugin, so skills aren't discovered twice. Start a new session after installing.
 
+## skills CLI
+
+The [skills](https://skills.sh) CLI reads this repository's `skills/` folder and installs into Claude Code, Codex, Cursor, Gemini CLI and the other agents it supports:
+
+```sh
+npx skills@latest add ADWilkinson/astack
+npx skills@latest add ADWilkinson/astack --skill ship --skill deslop
+```
+
+It installs from GitHub `main`, not the npm release, so use one route per client.
+
 ## Copying by hand
 
 Copy any folder from `skills/` into your client's skills directory. Keep each folder whole: its `references/` and `scripts/` travel with it.

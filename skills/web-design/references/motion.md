@@ -27,6 +27,21 @@ For each animated thing, one line per field:
 - **Interruption**: what happens on a second click mid-animation: reverse, retarget or finish.
 - **Reduced motion**: what shows instead (see [reduced motion](#reduced-motion-wiring)).
 
+When the request is vague ("make it feel smoother", "something like Linear's"), name the effect before building it, and confirm the name when the choice changes the work:
+
+| Name | What moves | Reach for it when |
+| --- | --- | --- |
+| Fade | Opacity only | State appears or leaves in place; the reduced-motion fallback for most others |
+| Scale-in | `scale(0.95)` and opacity to rest, from the trigger | Popovers, menus, tooltips |
+| Slide | Translate along one axis, by the element's own size | Sheets, drawers, toasts, pages in a stack |
+| Crossfade | Two states overlap while one fades out | Swapping an icon, label or image in the same slot |
+| Morph (shared element) | One element changes size and position into its next state | A card opening into a detail view, a tab pill moving |
+| Reveal | `clip-path` or mask uncovers content in place | Headlines, comparison sliders, hold-to-confirm fills |
+| Stagger | The same entrance offset per item | A list or grid arriving once |
+| Spring | Physics with velocity, can overshoot | Gestures, drag release, anything interrupted often |
+| Scrub | Progress tied to scroll or a pointer | Explainers and scroll-linked stories |
+| Follow-through | Parts settle slightly after the lead stops | Playful brands only, small amplitude |
+
 ### 3. Pick the ease and the duration
 
 Ease by what is happening:
@@ -88,7 +103,24 @@ Match the motion to the component's character: a dashboard is crisp and fast; a 
 - Ambient loops pause offscreen (`IntersectionObserver`) and when the tab is hidden (`visibilitychange`). At most one ambient effect per screen.
 - Never delay the actual action (navigation, submit) until an animation finishes.
 
-### 6. Gestures
+### 6. Choreograph several elements
+
+When more than one thing moves for the same change (a dialog and its backdrop, a card expanding while its list dims, a step advancing), give each element one role before writing timings:
+
+- **Lead**: the element the change is about. Exactly one. It starts first and carries the signature ease.
+- **Follow**: elements that move because the lead did (contents inside a sheet, siblings making room). They start 30–80ms after the lead, travel less, and finish no later than it does.
+- **Parallel**: elements that change for the same reason at the same time (backdrop and dialog). Same start, same duration, same ease family.
+- **Still**: everything else. Name it. Most of the screen should not move, and an element that moves for no reason reads as a bug.
+
+Then hold the sequence together:
+
+- The whole sequence for an ordinary UI change ends within about 400ms; followers do not extend it.
+- Exits run together and faster than the entrance, in reverse role order or all at once. Nobody waits for a staggered exit.
+- Spatial sense stays consistent: things that came from the trigger return to it, a sheet that rose from the bottom leaves downwards.
+- Input is accepted from the first frame. If the lead is interrupted, followers retarget with it rather than finishing their own timelines.
+- Write the roles into the motion contract, one line per element, so a reviewer can check the filmstrip against it.
+
+### 7. Gestures
 
 - Dismiss on velocity as well as distance: `Math.abs(distance) / elapsedMs > 0.11` is a flick, and a flick is enough.
 - Past a boundary, apply damping (the further the drag, the less it moves) instead of a hard stop.
@@ -96,7 +128,7 @@ Match the motion to the component's character: a dashboard is crisp and fast; a 
 - Declare which axes the gesture owns with `touch-action` (`pan-y` on a horizontal carousel, `none` only on a surface that handles every direction).
 - Decorative pointer-following goes through a spring (Motion's `useSpring`, or `{ type: "spring", duration: 0.5, bounce: 0.2 }`), never raw pointer coordinates. Functional readouts follow the pointer directly.
 
-### 7. Keep every frame on time
+### 8. Keep every frame on time
 
 The budget is 16.7ms a frame at 60Hz and 8ms at 120Hz, which most phones now are. Design against the smaller number and a mid-range phone, not the laptop.
 
@@ -114,7 +146,7 @@ The budget is 16.7ms a frame at 60Hz and 8ms at 120Hz, which most phones now are
 
 Name the cause before changing code, and say which findings came from reading code and which from a recording. A performance trace in the browser beats rewriting by feel; report frame rates only when measured, with the device.
 
-### 8. Watch it play
+### 9. Watch it play
 
 Stills cannot prove motion. Capture a filmstrip and look at the frames:
 
@@ -134,14 +166,28 @@ document.getAnimations().filter(a => a.playState === "running").length
 
 Anything above zero that is not a deliberate indicator is a loop. On a product page, prefer one finite story over ambient movement: the thing arrives, the result appears, the next action is invited.
 
-### 9. Report
+### 10. Audit a whole app's motion
 
-Report the contract, the tokens used, what you watched (filmstrip paths, cases exercised) and anything measured with its method. When reviewing someone's motion, give findings as one table:
+For "audit the animations", "it feels busy" or "where should this move", work from an inventory, not a page you happened to open:
 
-| Before | After | Why |
-| --- | --- | --- |
-| `transition: all 300ms` | `transition: transform 200ms var(--ease-out)` | Name the properties; 300ms is slow for UI |
-| Popover `transform-origin: center` | `transform-origin: var(--transform-origin)` | It should grow from its trigger |
+1. **Inventory.** Search the source for every moving thing: `transition`, `animation`, `@keyframes`, `@starting-style`, `animate(`, `requestAnimationFrame`, `motion.`/`<motion`, `useSpring`, `AnimatePresence`, Tailwind `transition-*`, `animate-*` and `duration-*`, and scroll or intersection observers that add classes. One row per animated element with its `file:line`.
+2. **Classify each row** by the frequency table in section 1 and by purpose. The row is **keep**, **fix** (right to move, wrong ease, duration, origin, properties or interruption) or **cut**.
+3. **Cut by default**, unless the brief or DESIGN.md asks for them: motion on keyboard-driven actions, fade-up on every section, a delay before every tooltip after the first, page-load stagger on screens people open many times a day, hover zoom on cards, ambient loops that explain nothing, and spinners on actions that finish under about 300ms.
+4. **Find the missing ones.** List the few places where motion would explain something and does not: an item that appears with no hint where it came from, a removal that leaves the user unsure it happened, a press with no feedback, a sheet that teleports. Each needs a purpose from section 1.
+5. **Write each change as a self-contained item**: `file:line`, the current behaviour, the target (ease token, duration, properties, origin, role), the reason, and how to check it (filmstrip command or the rapid-trigger case). Another agent or person should be able to carry out any one item without reading the rest.
+
+Apply the cuts and fixes that are clearly defects; list the additions for a decision unless the request was to add them.
+
+### 11. Report
+
+Report the contract, the tokens used, what you watched (filmstrip paths, cases exercised) and anything measured with its method. When reviewing someone's motion, give findings as one table, each with its `file:line`:
+
+| Where | Before | After | Why |
+| --- | --- | --- | --- |
+| `card.tsx:14` | `transition: all 300ms` | `transition: transform 200ms var(--ease-out)` | Name the properties; 300ms is slow for UI |
+| `popover.tsx:31` | `transform-origin: center` | `transform-origin: var(--transform-origin)` | It should grow from its trigger |
+
+End a review with a verdict: **approve** (nothing blocks), **approve with fixes** (only polish rows) or **block** (any row breaks a rule under Refuse, gets stuck when interrupted, ignores reduced motion or drops frames on the target device). A review that lists problems and then waves the change through is not a review.
 
 For an exported video, deliver the file and check duration, dimensions, crop and audio sync; a browser preview is not an export.
 

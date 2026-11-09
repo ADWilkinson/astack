@@ -4,67 +4,204 @@
       "name": "astack",
       "title": "astack",
       "summary": "Own a product task up to a proven, review-ready PR",
-      "example": "astack this: add annual pricing with tests, mobile checks and tracking."
+      "example": "astack this: add annual pricing with tests, mobile checks and tracking.",
+      "stage": "own",
+      "pairs": [
+        "context",
+        "dogfood",
+        "ship"
+      ],
+      "prompts": [
+        "astack this: add annual pricing to the billing page, phones matter most",
+        "Own the onboarding fix end to end and open a PR I can merge",
+        "Take this issue from the thread to a reviewed PR with tests and tracking"
+      ]
     },
     {
       "name": "oneshot",
       "title": "oneshot",
       "summary": "Idea to merged, deployed, verified live and announced",
-      "example": "oneshot this: add annual pricing and take it all the way to production."
+      "example": "oneshot this: add annual pricing and take it all the way to production.",
+      "stage": "own",
+      "pairs": [
+        "astack",
+        "ship",
+        "launch"
+      ],
+      "prompts": [
+        "oneshot this: add annual pricing and get it live",
+        "oneshot the empty-state fix and tell me when production serves it",
+        "oneshot this while I'm out: merge, deploy and post the update"
+      ]
     },
     {
       "name": "context",
       "title": "Context",
       "summary": "Gather and reconcile what changes the task",
-      "example": "Read the Slack thread, the issue and the analytics before we touch checkout."
+      "example": "Read the Slack thread, the issue and the analytics before we touch checkout.",
+      "stage": "before",
+      "pairs": [
+        "astack",
+        "dogfood"
+      ],
+      "prompts": [
+        "Read the Slack thread and the issue before we touch checkout",
+        "Pick up this branch: what was decided and what is still open?",
+        "What changed since the last PR on this ticket?"
+      ]
     },
     {
       "name": "web-design",
       "title": "Web design",
       "summary": "Design UI and motion that look like this product, not AI",
-      "example": "This page looks AI-generated. Give it a real direction and check mobile and dark."
+      "example": "This page looks AI-generated. Give it a real direction and check mobile and dark.",
+      "stage": "build",
+      "pairs": [
+        "deslop",
+        "web-graphics",
+        "dogfood"
+      ],
+      "prompts": [
+        "This page looks AI-generated. Give it a real direction",
+        "Audit every animation in the app and cut the ones that slow people down",
+        "The drawer stutters on my phone, find out why"
+      ]
     },
     {
       "name": "web-graphics",
       "title": "Web graphics",
       "summary": "Build bespoke isometric, flat and ASCII graphics",
-      "example": "Make an isometric hero showing three inboxes merging into one queue."
+      "example": "Make an isometric hero showing three inboxes merging into one queue.",
+      "stage": "build",
+      "pairs": [
+        "web-design",
+        "launch"
+      ],
+      "prompts": [
+        "Make an isometric hero showing three inboxes merging into one queue",
+        "Animated sticker icons for the onboarding steps, in our brand blue",
+        "A share card and favicon set drawn in code"
+      ]
     },
     {
       "name": "deslop",
       "title": "Deslop",
       "summary": "Strip AI tells from copy, UI and code",
-      "example": "Deslop the landing page copy and components, keep the facts and voice."
+      "example": "Deslop the landing page copy and components, keep the facts and voice.",
+      "stage": "build",
+      "pairs": [
+        "web-design",
+        "launch"
+      ],
+      "prompts": [
+        "This sounds like AI. Fix it and keep the facts",
+        "Learn my voice from these posts, then rewrite the launch email",
+        "Strip the generated tells from the landing page components"
+      ]
     },
     {
       "name": "instrument",
       "title": "Instrument",
       "summary": "Track the outcome and prove the event arrives",
-      "example": "Track first listing published and give me a funnel I can trust."
+      "example": "Track first listing published and give me a funnel I can trust.",
+      "stage": "build",
+      "pairs": [
+        "dogfood",
+        "launch"
+      ],
+      "prompts": [
+        "Track first listing published and give me a funnel I can trust",
+        "Signups on the dashboard dropped on Tuesday, check the tracking",
+        "Prove the purchase event fires once, on real success"
+      ]
     },
     {
       "name": "discoverability",
       "title": "Discoverability",
       "summary": "Fix why search and AI answers miss the product",
-      "example": "Audit why ChatGPT and Google don't surface us for 'best invoicing app for freelancers'."
+      "example": "Audit why ChatGPT and Google don't surface us for 'best invoicing app for freelancers'.",
+      "stage": "prove",
+      "pairs": [
+        "launch",
+        "deslop"
+      ],
+      "prompts": [
+        "Why doesn't ChatGPT mention us for invoicing apps?",
+        "Our pricing page dropped out of Google, find out why",
+        "Check what crawlers and link previews actually see"
+      ]
     },
     {
       "name": "dogfood",
       "title": "Dogfood",
       "summary": "Use the product for real, fix what breaks",
-      "example": "Dogfood onboarding on my signed-in account on mobile and fix what you hit."
+      "example": "Dogfood onboarding on my signed-in account on mobile and fix what you hit.",
+      "stage": "prove",
+      "pairs": [
+        "web-design",
+        "instrument",
+        "ship"
+      ],
+      "prompts": [
+        "Use onboarding like a customer on my phone and fix what breaks",
+        "Walk checkout signed in before launch",
+        "Does the page promise anything the product does not do?"
+      ]
     },
     {
       "name": "ship",
       "title": "Ship",
       "summary": "Get to green, merge, deploy and prove it is live",
-      "example": "Ship this: clear the review threads and CI, deploy, verify production."
+      "example": "Ship this: clear the review threads and CI, deploy, verify production.",
+      "stage": "deliver",
+      "pairs": [
+        "dogfood",
+        "launch"
+      ],
+      "prompts": [
+        "Ship it: clear CI and the review threads, deploy, verify production",
+        "Babysit this PR until it merges",
+        "They said it shipped. Is production actually serving it?"
+      ]
     },
     {
       "name": "launch",
       "title": "Launch",
       "summary": "Ready the page, kit, posts and tracker for launch",
-      "example": "Prepare the launch: share card, page audit, posts, directories and tracking."
+      "example": "Prepare the launch: share card, page audit, posts, directories and tracking.",
+      "stage": "deliver",
+      "pairs": [
+        "web-graphics",
+        "deslop",
+        "discoverability"
+      ],
+      "prompts": [
+        "We launch tomorrow: share card, page check, posts and a tracker",
+        "Write the Show HN post and the X thread from what actually shipped",
+        "Which directories should we list on, and how will we read the results?"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "own",
+      "title": "Own it end to end"
+    },
+    {
+      "id": "before",
+      "title": "Before you build"
+    },
+    {
+      "id": "build",
+      "title": "Build"
+    },
+    {
+      "id": "prove",
+      "title": "Prove it works"
+    },
+    {
+      "id": "deliver",
+      "title": "Deliver"
     }
   ]
 }
