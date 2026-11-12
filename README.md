@@ -16,7 +16,7 @@ I got tired of typing the same follow-ups, so I wrote them down once and gave th
 npx astack-skills@latest install --agent all
 ```
 
-That puts the skills in your project for Claude Code and Codex. `--scope global` installs them everywhere, and `--skill ship,deslop` picks a few. Folders you've edited are left alone; `--force` replaces them.
+That puts the skills in your project for Claude Code and Codex. `--scope global` installs them for every project, in your home directory, and `--skill ship,deslop` picks a few. An unchanged folder is skipped. If a selected folder differs, nothing is written until you pass `--force`, which replaces that folder.
 
 As a plugin:
 

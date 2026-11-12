@@ -6,11 +6,11 @@
 npx astack-skills@latest install --agent all              # this project
 npx astack-skills@latest install --agent all --scope global
 npx astack-skills@latest install --agent claude --skill ship,deslop
-npx astack-skills@latest install --agent all --dry-run    # show what would change
+npx astack-skills@latest install --agent all --dry-run    # print the plan without writing
 npx astack-skills@latest list
 ```
 
-Project installs go to `.claude/skills/` (Claude Code) and `.agents/skills/` (Codex). `--scope global` uses the same folders in your home directory. A folder you've edited is left alone unless you pass `--force`; symlinked destinations are always refused. The installer has no network calls, background processes, telemetry or install hooks, and running it with no arguments only prints help.
+Project installs go to `.claude/skills/` (Claude Code) and `.agents/skills/` (Codex). `--scope global` uses the same folders in your home directory. An unchanged skill is skipped. If a selected folder differs, the command stops and writes nothing, including `--dry-run`, until you pass `--force` to replace that folder. Symlinked destinations are always refused. The installer has no network calls, background processes, telemetry or install hooks, and running it with no arguments only prints help. `list` prints the catalogue and accepts only `--json`. `--version` prints the package version.
 
 To update, run the same command again with `@latest`. To remove, delete the skill folders it copied.
 

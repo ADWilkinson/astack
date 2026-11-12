@@ -295,6 +295,97 @@ test("malformed package metadata fails before any installation side effects", ()
     expect(readdirSync(f.home)).toEqual([]);
   }
 });
+test("a regular file blocking the destination is preserved", () => {
+  const f = fixture();
+  writeFileSync(resolve(f.project, ".claude"), "not a directory\n");
+  const blocked = runCLI(["install", "--agent", "claude", "--skill", "ship", "--force"], f.runtime);
+  expect(blocked.code).toBe(1);
+  expect(blocked.stderr).toContain("not a directory");
+  expect(readFileSync(resolve(f.project, ".claude"), "utf8")).toBe("not a directory\n");
+  const target = resolve(f.project, ".agents/skills/ship");
+  mkdirSync(resolve(f.project, ".agents/skills"), { recursive: true });
+  writeFileSync(target, "user file\n");
+  const file = runCLI(["install", "--agent", "codex", "--skill", "ship", "--force"], f.runtime);
+  expect(file.code).toBe(1);
+  expect(readFileSync(target, "utf8")).toBe("user file\n");
+  expect(existsSync(resolve(f.project, ".agents/skills/astack"))).toBe(false);
+});
+test("a symlinked package skill tree is refused before any copy", () => {
+  const f = fixture();
+  const outside = resolve(f.root, "outside-skills");
+  mkdirSync(resolve(outside, "ship"), { recursive: true });
+  writeFileSync(resolve(outside, "ship/SKILL.md"), "pwn\n");
+  rmSync(resolve(f.pkg, "skills"), { recursive: true });
+  symlinkSync(outside, resolve(f.pkg, "skills"));
+  const result = runCLI(["install", "--agent", "all", "--force"], f.runtime);
+  expect(result.code).toBe(1);
+  expect(result.stderr).toContain("escapes its installation");
+  expect(readdirSync(f.project)).toEqual([]);
+  expect(readdirSync(f.home)).toEqual([]);
+  expect(readFileSync(resolve(outside, "ship/SKILL.md"), "utf8")).toBe("pwn\n");
+});
+test("a symlinked skill directory is refused before any copy", () => {
+  const f = fixture();
+  const outside = resolve(f.root, "outside-ship");
+  mkdirSync(outside);
+  writeFileSync(resolve(outside, "SKILL.md"), "pwn\n");
+  rmSync(resolve(f.pkg, "skills/ship"), { recursive: true });
+  symlinkSync(outside, resolve(f.pkg, "skills/ship"));
+  const result = runCLI(["install", "--agent", "claude", "--skill", "ship"], f.runtime);
+  expect(result.code).toBe(1);
+  expect(result.stderr).toContain("escapes its installation");
+  expect(readdirSync(f.project)).toEqual([]);
+  expect(readFileSync(resolve(outside, "SKILL.md"), "utf8")).toBe("pwn\n");
+});
+test("a symlinked skills directory is not a writable destination", () => {
+  const f = fixture();
+  const outside = resolve(f.root, "outside-dest");
+  mkdirSync(outside);
+  mkdirSync(resolve(f.project, ".claude"));
+  symlinkSync(outside, resolve(f.project, ".claude/skills"));
+  const result = runCLI(["install", "--agent", "claude", "--force"], f.runtime);
+  expect(result.code).toBe(1);
+  expect(result.stderr).toContain("Refusing symlinked destination");
+  expect(readdirSync(outside)).toEqual([]);
+});
+test("dry-run stops on a differing folder and previews a replacement only with --force", () => {
+  const f = fixture();
+  const target = resolve(f.project, ".claude/skills/ship");
+  mkdirSync(target, { recursive: true });
+  writeFileSync(resolve(target, "SKILL.md"), "edited\n");
+  const blocked = runCLI(["install", "--agent", "claude", "--dry-run", "--json"], f.runtime);
+  expect(blocked.code).toBe(1);
+  expect(blocked.stderr).toContain("Nothing changed");
+  expect(existsSync(resolve(f.project, ".claude/skills/astack"))).toBe(false);
+  const preview = runCLI(["install", "--agent", "claude", "--dry-run", "--force", "--json"], f.runtime);
+  expect(preview.code).toBe(0);
+  const actions = JSON.parse(preview.stdout).actions;
+  expect(actions.find((item: { skill: string }) => item.skill === "ship").action).toBe("replace");
+  expect(actions.find((item: { skill: string }) => item.skill === "astack").action).toBe("install");
+  expect(readFileSync(resolve(target, "SKILL.md"), "utf8")).toBe("edited\n");
+  expect(existsSync(resolve(f.project, ".claude/skills/astack"))).toBe(false);
+});
+test("list and version stay read-only", () => {
+  const f = fixture();
+  expect(runCLI(["list", "--skill", "ship"], f.runtime).code).toBe(2);
+  expect(runCLI(["list", "--scope", "global"], f.runtime).stderr).toContain("accepts only --json");
+  expect(runCLI(["--version"], f.runtime)).toEqual({ code: 0, stdout: "0.2.0\n", stderr: "" });
+  expect(runCLI(["install", "--agent", "claude", "--skill", "ship,"], f.runtime).code).toBe(2);
+  expect(runCLI(["explode"], f.runtime).code).toBe(2);
+  expect(readdirSync(f.project)).toEqual([]);
+  expect(readdirSync(f.home)).toEqual([]);
+});
+test("a script that lost its executable bit is a conflict, not a skip", () => {
+  const f = fixture();
+  const args = ["install", "--agent", "claude", "--skill", "ship", "--json"];
+  expect(runCLI(args, f.runtime).code).toBe(0);
+  const script = resolve(f.project, ".claude/skills/ship/scripts/example.sh");
+  chmodSync(script, 0o644);
+  const again = runCLI(args, f.runtime);
+  expect(again.code).toBe(1);
+  expect(again.stderr).toContain("Existing skill differs");
+  expect(statSync(script).mode & 0o777).toBe(0o644);
+});
 test("repeated and equals-style selectors are normalized", () => {
   const result = parseArguments(["install", "--agent=claude", "--agent", "all", "--skill=ship", "--skill", "ship,astack"]);
   expect(result.agents).toEqual(["claude", "codex"]);
