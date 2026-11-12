@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "bun:test";
-import { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { inside, markdownLinks, packageEntries, validatePackage } from "../scripts/package";
@@ -89,6 +89,11 @@ test("metadata regeneration preserves invocation policy and dependencies", () =>
   expect(metadata.dependencies.tools[0].value).toBe("docs-tool");
   expect(metadata.interface.brand_color).toBe("#112233");
   expect(metadata.interface.display_name).toBe("astack");
+  const generated = readFileSync(path, "utf8");
+  expect(generated).not.toMatch(/[ \t]$/m);
+  const again = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(again.exitCode).toBe(0);
+  expect(readFileSync(path, "utf8")).toBe(generated);
 });
 test("metadata generation rejects path traversal before any write", () => {
   const root = fixture();
@@ -107,6 +112,109 @@ test("metadata generation rejects a symlinked output directory", () => {
   const result = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
   expect(result.exitCode).not.toBe(0);
   expect(existsSync(resolve(root, "docs/openai.yaml"))).toBe(false);
+});
+test("frontmatter must be a closed block at the start of the skill", () => {
+  const root = fixture();
+  const path = resolve(root, "skills/astack/SKILL.md");
+  const original = readFileSync(path, "utf8");
+  const cases: [string, string][] = [
+    ["\n" + original, "Missing YAML frontmatter"],
+    [original.replace("name: astack", "name: ship"), "Frontmatter name differs from directory"],
+    [original.replace(/^description:.*$/m, `description: ${JSON.stringify("x".repeat(1025))}`), "Invalid skill description"],
+    [original.replace(/^description:.*$/m, 'description: "   "'), "Invalid skill description"],
+    ["---\nname: [astack\ndescription: still a skill\n---\n", "Invalid YAML"],
+  ];
+  for (const [text, message] of cases) {
+    writeFileSync(path, text);
+    expect(validatePackage(root).some(finding => finding.file.endsWith("skills/astack/SKILL.md") && finding.message.includes(message))).toBe(true);
+  }
+});
+test("oneshot must keep both invocation locks", () => {
+  const root = fixture();
+  const skill = resolve(root, "skills/oneshot/SKILL.md");
+  const yaml = resolve(root, "skills/oneshot/agents/openai.yaml");
+  const skillText = readFileSync(skill, "utf8");
+  const yamlText = readFileSync(yaml, "utf8");
+  writeFileSync(skill, skillText.replace("disable-model-invocation: true\n", ""));
+  expect(validatePackage(root).some(finding => finding.message === "oneshot must set disable-model-invocation: true")).toBe(true);
+  writeFileSync(skill, skillText);
+  writeFileSync(yaml, yamlText.replace("allow_implicit_invocation: false", "allow_implicit_invocation: true"));
+  expect(validatePackage(root).some(finding => finding.message === "oneshot must set allow_implicit_invocation: false")).toBe(true);
+  writeFileSync(yaml, yamlText.replace(/policy:\n  allow_implicit_invocation: false\n/, ""));
+  expect(validatePackage(root).some(finding => finding.message === "oneshot must set allow_implicit_invocation: false")).toBe(true);
+});
+test("metadata generation refuses a symlinked shared script before writing through it", () => {
+  const root = fixture();
+  const dest = resolve(root, "skills/ship/scripts/pr-state.mjs");
+  const outside = resolve(root, "outside-pr-state.mjs");
+  const picker = resolve(root, "skills/astack/agents/openai.yaml");
+  writeFileSync(picker, readFileSync(picker, "utf8").replace("display_name: astack", "display_name: Wrong"));
+  rmSync(dest);
+  writeFileSync(outside, "ORIGINAL-OUTSIDE\n");
+  symlinkSync(outside, dest);
+  const result = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(result.exitCode).not.toBe(0);
+  expect(readFileSync(outside, "utf8")).toBe("ORIGINAL-OUTSIDE\n");
+  expect(readFileSync(picker, "utf8")).toContain("display_name: Wrong");
+});
+test("metadata generation refuses a hard-linked shared script or picker file", () => {
+  const root = fixture();
+  const dest = resolve(root, "skills/ship/scripts/pr-state.mjs");
+  const outside = resolve(root, "outside-pr-state.mjs");
+  rmSync(dest);
+  writeFileSync(outside, "ORIGINAL-OUTSIDE\n");
+  linkSync(outside, dest);
+  const linked = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(linked.exitCode).not.toBe(0);
+  expect(readFileSync(outside, "utf8")).toBe("ORIGINAL-OUTSIDE\n");
+  rmSync(dest);
+  writeFileSync(dest, readFileSync(resolve(root, "shared/scripts/pr-state.mjs")));
+
+  const picker = resolve(root, "skills/astack/agents/openai.yaml");
+  const pickerOutside = resolve(root, "outside.yaml");
+  const body = 'interface:\n  display_name: Wrong\n  short_description: "placeholder description for the picker"\n';
+  rmSync(picker);
+  writeFileSync(pickerOutside, body);
+  linkSync(pickerOutside, picker);
+  const pickerResult = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(pickerResult.exitCode).not.toBe(0);
+  expect(readFileSync(pickerOutside, "utf8")).toBe(body);
+});
+test("metadata generation does not copy a symlinked shared source into a skill", () => {
+  const root = fixture();
+  const canonical = resolve(root, "shared/scripts/page-audit.mjs");
+  const external = resolve(root, "external-page-audit.mjs");
+  const copy = resolve(root, "skills/discoverability/scripts/page-audit.mjs");
+  const before = readFileSync(copy);
+  writeFileSync(external, "SMUGGLED\n");
+  rmSync(canonical);
+  symlinkSync(external, canonical);
+  const result = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(result.exitCode).not.toBe(0);
+  expect(result.stderr.toString()).toContain("regular independent file");
+  expect(readFileSync(copy)).toEqual(before);
+  expect(readFileSync(external, "utf8")).toBe("SMUGGLED\n");
+});
+test("a symlinked shared source fails validation even when its bytes match", () => {
+  const root = fixture();
+  const canonical = resolve(root, "shared/scripts/page-audit.mjs");
+  const external = resolve(root, "external-page-audit.mjs");
+  writeFileSync(external, readFileSync(canonical));
+  rmSync(canonical);
+  symlinkSync(external, canonical);
+  expect(validatePackage(root).some(finding => finding.message.includes("regular independent file"))).toBe(true);
+});
+test("metadata generation rejects a shared path that escapes before reading it", () => {
+  const root = fixture();
+  const picker = resolve(root, "skills/astack/agents/openai.yaml");
+  const before = readFileSync(picker, "utf8");
+  changeJson(root, "shared/manifest.json", data => { data.files["../catalog.json"] = ["ship"]; });
+  const result = Bun.spawnSync([process.execPath, resolve(root, "scripts/metadata.ts")], { cwd: root });
+  expect(result.exitCode).not.toBe(0);
+  expect(result.stderr.toString()).toContain("escapes the package");
+  expect(result.stderr.toString()).not.toContain("ENOENT");
+  expect(readFileSync(picker, "utf8")).toBe(before);
+  expect(existsSync(resolve(root, "skills/catalog.json"))).toBe(false);
 });
 test("metadata generation rejects a dangling symlink before it creates an outside file", () => {
   const root = fixture();

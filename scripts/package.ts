@@ -16,6 +16,12 @@ export function inside(parent: string, child: string): boolean {
   return rel === "" || (!isAbsolute(rel) && rel !== ".." && !rel.startsWith(`..${sep}`));
 }
 
+// A second directory entry for the same inode would let a later write land outside the package.
+export function independentFile(path: string): boolean {
+  const info = lstatSync(path, { throwIfNoEntry: false });
+  return !!info && info.isFile() && !info.isSymbolicLink() && info.nlink === 1;
+}
+
 export function readJson<T = any>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8"));
 }
@@ -102,15 +108,20 @@ export function validatePackage(root: string): Finding[] {
         if (metadata?.name !== entry.name) fail(path, "Frontmatter name differs from directory");
         if (typeof metadata?.description !== "string" || !metadata.description.trim() ||
             metadata.description.length > 1024) fail(path, "Invalid skill description");
+        if (entry.name === "oneshot" && metadata?.["disable-model-invocation"] !== true)
+          fail(path, "oneshot must set disable-model-invocation: true");
       } catch (error) { fail(path, `Invalid YAML: ${String(error)}`); }
     }
     if (text.split(/\r?\n/).length > 500) fail(path, "Disclose conditional detail outside the entrypoint");
     if (/\b(?:REPLACE_ME|INSERT_HERE|your-skill-name)\b/.test(text)) fail(path, "Unfinished scaffold");
     const uiPath = resolve(dir, "agents/openai.yaml");
-    try {
+    if (!independentFile(uiPath)) fail(uiPath, "Picker metadata must be a regular independent file");
+    else try {
       const ui = Bun.YAML.parse(readFileSync(uiPath, "utf8")) as any;
       if (ui?.interface?.display_name !== entry.title || ui?.interface?.short_description !== entry.summary)
         fail(uiPath, "Picker metadata differs from catalogue; run bun run metadata");
+      if (entry.name === "oneshot" && ui?.policy?.allow_implicit_invocation !== false)
+        fail(uiPath, "oneshot must set allow_implicit_invocation: false");
     } catch (error) { fail(uiPath, `Invalid or missing picker metadata: ${String(error)}`); }
 
     for (const file of filesUnder(dir)) {
@@ -134,16 +145,29 @@ export function validatePackage(root: string): Finding[] {
   }
 
   const sharedPath = resolve(root, "shared/manifest.json");
+  const sharedRoot = resolve(root, "shared");
   const shared = json(sharedPath);
   for (const [file, targets] of Object.entries<string[]>(shared?.files ?? {})) {
-    const canonical = resolve(root, "shared", file);
-    if (!inside(resolve(root, "shared"), canonical) || !existsSync(canonical)) { fail(sharedPath, `Missing shared source: ${file}`); continue; }
+    if (isAbsolute(file) || file.split(/[\\/]/).includes("..") || !inside(sharedRoot, resolve(sharedRoot, file))) {
+      fail(sharedPath, `Shared file escapes the package: ${file}`); continue;
+    }
+    const canonical = resolve(sharedRoot, file);
+    if (!lstatSync(canonical, { throwIfNoEntry: false })) { fail(sharedPath, `Missing shared source: ${file}`); continue; }
+    if (!independentFile(canonical) || !inside(realpathSync(sharedRoot), realpathSync(canonical))) {
+      fail(sharedPath, `Shared source must be a regular independent file: ${file}`); continue;
+    }
+    if (!Array.isArray(targets)) { fail(sharedPath, `Shared file targets must be a list: ${file}`); continue; }
     const expected = readFileSync(canonical);
     for (const skill of targets) {
-      if (!names.includes(skill)) { fail(sharedPath, `Shared file targets unknown skill: ${skill}`); continue; }
+      if (typeof skill !== "string" || !names.includes(skill)) { fail(sharedPath, `Shared file targets unknown skill: ${skill}`); continue; }
       const copy = resolve(skillRoot, skill, file);
-      if (!inside(resolve(skillRoot, skill), copy) || !existsSync(copy) || !readFileSync(copy).equals(expected))
-        fail(copy, `Out of sync with shared/${file}; run bun run metadata`);
+      const skillDir = resolve(skillRoot, skill);
+      if (!inside(skillDir, copy)) { fail(sharedPath, `Shared file escapes its skill: ${file}`); continue; }
+      if (!lstatSync(copy, { throwIfNoEntry: false })) { fail(copy, `Out of sync with shared/${file}; run bun run metadata`); continue; }
+      if (!independentFile(copy) || !inside(realpathSync(skillDir), realpathSync(copy))) {
+        fail(copy, `Shared copy must be a regular independent file: ${file}`); continue;
+      }
+      if (!readFileSync(copy).equals(expected)) fail(copy, `Out of sync with shared/${file}; run bun run metadata`);
     }
   }
 
