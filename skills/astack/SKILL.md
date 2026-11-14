@@ -16,7 +16,7 @@ Keep context, decisions and execution in the main agent. Load another skill or r
 1. **Context**: outcome, decisions already made, starting state, the one unknown that could change the approach. (`context`)
 2. **Plan**: every requirement has a change, a proof and a target. Measurement and delivery are in it. ([planning](references/plan.md); small fixes need three lines)
    Before build, run [spec readiness](references/spec-readiness.md) when the plan meets its size or boundary threshold.
-3. **Build**: in the repo's conventions, slice by slice, each slice checked. (`web-design`, including its motion reference, and `web-graphics` for UI)
+3. **Build**: in the repo's conventions, slice by slice, each slice checked. (`web-design`, including its motion reference, and `web-graphics` for UI) For HTML, CSS and browser JavaScript, consult [pinned web platform guidance](references/modern-web.md) before choosing the implementation; use its scoped legacy scan during frontend code review.
 4. **Use it**: the real journey, in a browser or runtime, to the real outcome; fix and replay. (`dogfood`)
 5. **Measure**: the success action fires once, on real success, and arrives. (`instrument`, when there is a success action)
 6. **Clean**: `deslop` scan on changed copy, UI and code; every medium or high hit fixed or dismissed with a reason.

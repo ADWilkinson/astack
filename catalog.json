@@ -68,6 +68,27 @@
       ]
     },
     {
+      "name": "modern-web-guidance",
+      "title": "Modern Web Guidance",
+      "summary": "Choose browser features and verify legacy-pattern leads",
+      "example": "Build a confirmation dialog with current browser guidance and review the affected code.",
+      "stage": "build",
+      "pairs": [
+        "web-design",
+        "dogfood"
+      ],
+      "prompts": [
+        "Build a responsive table with current web platform guidance",
+        "Review the changed frontend for legacy browser patterns"
+      ],
+      "upstream": {
+        "repository": "https://github.com/GoogleChrome/modern-web-guidance",
+        "revision": "4dd968349e54ca45a05dd5c818fb035c9054b022",
+        "version": "1.0.0",
+        "license": "Apache-2.0"
+      }
+    },
+    {
       "name": "web-graphics",
       "title": "Web graphics",
       "summary": "Build bespoke isometric, flat and ASCII graphics",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0
+
+- Add Modern Web Guidance for browser implementation and scoped web code reviews, pinned to upstream 1.0.0 (Apache-2.0). The adapter disables telemetry and exposes search, retrieval and local scans; installation runs no upstream code.
+- Wire the procedure into astack, web-design, dogfood and ship with standalone resources. Preserve project browser policies, maintained components and product behavior.
+- Add a confirmation-flow example, routing cases and a consumer contract for package pinning, telemetry, local scan boundaries and refused mutation commands.
+
 ## 0.11.1
 
 - First release through npm trusted publishing: `publish.yml` publishes with GitHub's OIDC identity and no npm token.

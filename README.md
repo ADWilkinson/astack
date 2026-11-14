@@ -67,6 +67,7 @@ Both keep one working context and load other skills only when their procedure he
 | [oneshot](skills/oneshot/SKILL.md) | "oneshot this" | The same, all the way: merged, deployed, verified live and announced. You call it by name. |
 | [context](skills/context/SKILL.md) | "read the thread first" | Pulls the Slack thread, issue, PRs, git history and analytics that actually change the task into a short brief. |
 | [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, stress-tests it with worst-case data, and checks it on a phone in light and dark. |
+| [modern-web-guidance](skills/modern-web-guidance/SKILL.md) | "use current web guidance" | Searches pinned browser guides before frontend work and checks scoped legacy-pattern findings during review, with telemetry disabled. |
 | [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, animated sticker icons, flat illustrations, ASCII art, icons and share cards, built in code. |
 | [deslop](skills/deslop/SKILL.md) | "this sounds like AI" | Finds the tells in copy, UI and code, fixes them, and can learn your voice from your own writing. |
 | [instrument](skills/instrument/SKILL.md) | "can we measure this" | Tracking that fires once, on real success, and a query you can actually trust. |
@@ -79,13 +80,14 @@ Each one has a short guide in [docs/skills](docs/skills/).
 
 ## The tools
 
-Most skill packs tell the model to be thorough. These come with small scripts so it can actually check. Node 22, nothing else to install, and every skill carries its own copy.
+Most skill packs tell the model to be thorough. These come with small scripts so it can actually check. The scripts use Node 22, and every skill carries its own copy. The Modern Web Guidance adapter also needs npm; its first use downloads the pinned upstream tool with telemetry disabled. Installing astack does not run it.
 
 - `shoot.mjs` screenshots a page on a phone and on desktop, light and dark, and flags stranded words, tiny tap targets, anything spilling sideways, inputs that will zoom the page, hover that is not gated to a real pointer, and (with `--shift`) a loading state whose boxes do not match the loaded page.
 - `pr-state.mjs` reads every check on the current commit and every unresolved review thread. `--watch` sits in the background and pings you when something changes.
 - `verify-live.mjs` confirms the URL is serving the commit you shipped, not a cached copy of the last one.
 - `slop-scan.mjs` finds the usual suspects, from "seamless" to gradient headlines to emoji bullets, and explains why each one reads as generated. <!-- slop-scan: ignore-line -->
 - `page-audit.mjs` shows what crawlers and link previews see, like a forgotten noindex or a broken share card.
+- `modern-web.mjs` searches browser guides and scans affected local frontend paths for legacy-pattern candidates. It pins the upstream version, disables telemetry and refuses installation, mutation commands and scans outside the checkout. Findings still need source and browser-policy checks.
 - `iso.mjs` turns a small scene description into clean isometric SVG with the geometry right, because nobody should hand-roll isometric maths.
 - `render-gate.mjs` renders a card, slide or page at each size and fails it when the brand font quietly fell back, the copy drifted from what was asked, text got clipped, or a colour isn't one of your tokens.
 - `film.mjs` turns an HTML page with CSS animations into an MP4, frame by frame, so a demo clip is code you can fix and re-render. It refuses films that open on black, never move, or come out different each take.

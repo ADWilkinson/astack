@@ -1,0 +1,8 @@
+[
+  {"q":"Build a confirmation dialog for deleting a saved draft using current browser guidance","expect":["modern-web-guidance"],"also_ok":["web-design","astack"]},
+  {"q":"Choose native CSS for a responsive table and check browser compatibility","expect":["modern-web-guidance"],"also_ok":["web-design"]},
+  {"q":"Review the changed frontend code for legacy browser patterns; do not edit it","expect":["modern-web-guidance"],"also_ok":["dogfood","ship"]},
+  {"q":"Fix a SQL query in the billing API without changing browser code","expect":[]},
+  {"q":"Replace a word in a plain-text README; leave the code alone","expect":[]},
+  {"q":"Update the Docker image tag for the backend worker","expect":[]}
+]

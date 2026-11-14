@@ -36,6 +36,8 @@ Use the browser session and account the user selected; never sign in as someone 
 - Keep the console and network panel open. A 500 behind a friendly toast is a finding.
 - Note friction as well as failure: a step that needs thinking, a label that misleads, a wait with no feedback.
 
+For a review of changed frontend code, use [the web platform procedure](references/modern-web.md) on the affected local paths. Verify scan candidates against their source and browser policy; the scan supplements the exercised journeys. Backend-only work skips it.
+
 ## 3. Keep a frontier
 
 Track it in a short file or in the reply, using [the journey loop](references/journey-loop.md) format:
