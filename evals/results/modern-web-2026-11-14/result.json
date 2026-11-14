@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-14",
+  "method": "One fresh native worker per arm, same synthetic confirmation-flow plan request and normal read-only tools; author assessment, no blind judge. Baseline previous astack instructions; candidate new skill and runner. No product implementation.",
+  "model": "unknown exact native model identity; inherited admitted executor, no account/model launch or override",
+  "routing": {
+    "cases": "../../routing/cases-modern-web.json",
+    "baseline": {
+      "correct": 5,
+      "total": 6,
+      "newGuidanceSelected": 0,
+      "webRequests": 3
+    },
+    "candidate": {
+      "correct": 6,
+      "total": 6,
+      "newGuidanceSelected": 3,
+      "webRequests": 3
+    },
+    "improvedCase": 3,
+    "regressedCases": [],
+    "nonWebRequests": "SQL, literal README wording and backend Docker tag all selected no skill in both arms"
+  },
+  "planAssessment": {
+    "both": [
+      "preserved maintained dialog primitive",
+      "preserved Safari17.4 support and compatibility fallbacks",
+      "required explicit confirmation before delete",
+      "planned keyboard,focus,cancellation,error,viewport and duplicate-request checks",
+      "reported actual product/browser state unverified"
+    ],
+    "candidateObserved": [
+      "read supplied skill and portable runner",
+      "executed pinned capability search and retrieved dialog/accessibility guides",
+      "read large guide output in full",
+      "included scoped local scan and candidate verification in review plan"
+    ],
+    "baselineObserved": [
+      "read previous web-design skill",
+      "consulted primary WAI/MDN documentation",
+      "did not select a dedicated frontend source-review workflow"
+    ],
+    "qualityConclusion": "Both plans were sound. This sample shows guidance selection, retrieval and a scoped-review step, not better shipped UI, faster work or causal quality improvement."
+  },
+  "actualToolChecks": {
+    "package": "modern-web-guidance@1.0.0",
+    "search": "confirmation modal dialog -> matching dialog/accessibility IDs",
+    "retrieve": "dialog/accessibility output read; only planned product checks",
+    "syntheticScan": {
+      "findings": 0,
+      "activeRules": 35,
+      "activeGuides": 33,
+      "interpretation": "Subset coverage, not correctness or accessibility proof"
+    },
+    "consumerContract": "four permitted read commands, exact npm pin, telemetry/logging overrides, exit propagation, mutation refusal, target path escape and descendant symlink rejection"
+  },
+  "independentReview": {
+    "initialFindings": [
+      "Git-enumerated source symlink could read outside requested tree",
+      "inherited ENABLE_FILE_LOGGING=true could write tool output outside checkout"
+    ],
+    "resolution": "Both reproduced with neutral fixtures, fixed, regression-covered and independently replayed. Nested external-file link now exits2; inherited logging yields no log. No other important introduced defect found."
+  },
+  "limitations": [
+    "One plan per arm; no model variance or client-family comparison",
+    "Exact native model identity/token counters unavailable",
+    "Routing fixtures1\u20136 contained expectation metadata; workers were instructed to use only q/descriptions, so this is not blind routing evidence",
+    "No real product or maintained-library source was provided",
+    "No actual Safari17.4, browser journey, deletion, account, authenticated session or production scan",
+    "Candidate planning used initial adapter source; subsequent fixes changed runner boundaries, not skill instructions; consumer checks and independent replay cover final runner",
+    "No full historical task-execution suite was rerun; unchanged scenarios retain their dated evidence"
+  ],
+  "existingRouting": {
+    "initial": {
+      "direct": "36/50",
+      "hard": "19/27",
+      "observation": "Broad new description over-selected trivial style and framework tasks; some unrelated supporting skills were also preloaded."
+    },
+    "final": {
+      "direct": "50/50",
+      "hard": "27/27",
+      "new": "6/6",
+      "observation": "Fresh q-only context used a narrower capability/compatibility/review description and an explicit smallest-entrypoint selection instruction."
+    },
+    "changes": "Narrowed the new description and skipped token/style tweaks and mechanical framework refactors. Existing case expectations and other skill descriptions stayed unchanged.",
+    "limits": "The final selection instruction also changed; do not attribute every routing difference to the description. No historical task execution result was relabelled."
+  }
+}

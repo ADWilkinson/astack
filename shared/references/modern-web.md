@@ -1,6 +1,6 @@
 # Web platform implementation and review
 
-Before HTML, CSS or browser JavaScript work, consult the pinned Modern Web Guidance corpus for the affected capability. Skip backend, infrastructure and copy-only work. Read the project's existing components and browser policy first.
+Before choosing or changing an HTML, CSS or browser JavaScript capability, consult the pinned Modern Web Guidance corpus. Skip backend, infrastructure, copy-only edits, token/style tweaks and mechanical framework refactors. Read the project's existing components and browser policy first.
 
 ```sh
 node <skill-dir>/scripts/modern-web.mjs search "confirmation modal dialog"

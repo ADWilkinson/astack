@@ -1,0 +1,46 @@
+[
+  {
+    "name": "astack",
+    "description": "Own context, planning, implementation, real use, measurement and checks through a review-ready PR. Use for \\\"astack this\\\", \\\"own this\\\" or a product task to finish end to end. Load further procedures only as needed. Honor an explicit delivery target."
+  },
+  {
+    "name": "context",
+    "description": "Reconcile prior decisions and current evidence into a brief that changes the next step. Use when picking up a ticket, thread or unfinished branch whose scope depends on history outside the prompt."
+  },
+  {
+    "name": "web-design",
+    "description": "Design product-specific web UI, responsive layouts and motion; keep the direction in DESIGN.md. Use for new pages, redesigns, generic-looking UI, janky animation, awkward phone behavior or layouts stressed by long or empty data."
+  },
+  {
+    "name": "modern-web-guidance",
+    "description": "Consult pinned web platform guides before HTML, CSS or browser JavaScript work; check compatibility and review scoped legacy patterns. Use for frontend implementation and web code reviews, not backend, infrastructure or copy-only edits."
+  },
+  {
+    "name": "web-graphics",
+    "description": "Build editable web illustrations, isometric scenes, animated stickers or Lottie-style icons, ASCII/halftone art, diagrams, mascots and social cards. Use for hero graphics, favicons, app icon sets, moving empty-state art or sticker exports."
+  },
+  {
+    "name": "deslop",
+    "description": "Write or revise public copy, UI and code without generated tells, preserving facts and voice. Use for \\\"deslop\\\", \\\"sounds like AI\\\", tightening prose, user emails, removing generic UI or learning a voice from real writing."
+  },
+  {
+    "name": "instrument",
+    "description": "Add or diagnose product analytics and prove events arrive once on real success with safe properties. Use for tracking, conversion funnels, PostHog/GA events or dashboard numbers that look wrong or change suddenly."
+  },
+  {
+    "name": "discoverability",
+    "description": "Diagnose and fix why Google, Bing or AI answers miss or misdescribe a product. Use for SEO/GEO/AEO, ranking or indexing problems, canonical/robots/sitemap checks and search-focused content."
+  },
+  {
+    "name": "dogfood",
+    "description": "Walk real product journeys, fix authorized problems and replay through the outcome. Use for end-to-end QA, signed-in mobile checks, pre-launch testing and repeated trials of AI features. Review-only requests produce findings."
+  },
+  {
+    "name": "ship",
+    "description": "Deliver an existing change to its agreed PR, merge, staging or production target. Use for failing CI, review comments, conflicts, babysitting a PR, deployment verification or checking someone else's \\\"it shipped\\\" claim."
+  },
+  {
+    "name": "launch",
+    "description": "Prepare a product launch, share cards, OG images, demo clips, announcement copy, changelog or community listings, with a distribution tracker and measurement. Use for launch kits, X/Show HN posts and directory submissions."
+  }
+]

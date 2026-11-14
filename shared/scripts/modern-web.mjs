@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
-import { realpathSync } from 'node:fs';
+import { lstatSync, readdirSync, realpathSync } from 'node:fs';
 import { isAbsolute, relative, resolve, sep } from 'node:path';
 
 const usage = `Usage: node modern-web.mjs <command>
@@ -19,6 +19,17 @@ function invalid(message) {
   console.error(message);
   console.error(usage);
   process.exit(2);
+}
+
+function checkScanTree(path) {
+  const info = lstatSync(path);
+  // Git can enumerate tracked symlinks that the upstream filesystem walk skips.
+  if (info.isSymbolicLink()) invalid('The scan tree contains a symlink. Choose a local source path without links.');
+  if (!info.isDirectory()) return;
+  for (const entry of readdirSync(path)) {
+    if (entry === '.git' || entry === 'node_modules') continue;
+    checkScanTree(resolve(path, entry));
+  }
 }
 
 const [command, ...args] = process.argv.slice(2);
@@ -44,13 +55,18 @@ if (command === 'search') {
   }
   const path = relative(root, target);
   if (isAbsolute(path) || path === '..' || path.startsWith(`..${sep}`)) invalid('The scan path must stay inside the current checkout.');
+  try {
+    checkScanTree(target);
+  } catch {
+    invalid('The scan tree could not be checked. Choose a readable local source path.');
+  }
   args[0] = target;
 } else invalid('Supported commands: search, retrieve, list, legacy-scan.');
 
 const result = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
   '--yes', '--ignore-scripts', '--package=modern-web-guidance@1.0.0', '--',
   'modern-web-guidance', command, ...args,
-], { stdio: 'inherit', env: { ...process.env, DISABLE_TELEMETRY: '1' }, shell: false });
+], { stdio: 'inherit', env: { ...process.env, DISABLE_TELEMETRY: '1', ENABLE_FILE_LOGGING: 'false' }, shell: false });
 if (result.error) {
   console.error('Could not run pinned Modern Web Guidance through npm. Check local Node/npm availability.');
   process.exit(1);

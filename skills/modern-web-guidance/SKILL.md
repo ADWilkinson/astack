@@ -1,6 +1,6 @@
 ---
 name: modern-web-guidance
-description: "Consult pinned web platform guides before HTML, CSS or browser JavaScript work; check compatibility and review scoped legacy patterns. Use for frontend implementation and web code reviews, not backend, infrastructure or copy-only edits."
+description: "Consult pinned web guides for an explicit browser-capability or compatibility decision, modern web guidance, or a legacy-platform source review. Visual design belongs to web-design, which includes this procedure. Skip copy, token/style tweaks, framework-only refactors, backend and infrastructure."
 ---
 
 # Modern Web Guidance
@@ -11,7 +11,7 @@ Use Google's guides to choose a browser feature and its fallback before writing 
 
 ## Build
 
-1. Read the affected component and the project's browser support policy. Find the user-visible capability: a confirmation dialog, responsive table, focus restoration or interruptible transition. Backend, infrastructure and copy-only changes skip this procedure.
+1. Read the affected component and the project's browser support policy. Find the user-visible capability: a confirmation dialog, responsive table, focus restoration or interruptible transition. Backend, infrastructure, copy-only edits, token/style tweaks and mechanical framework refactors skip this procedure.
 2. Search before choosing the implementation. Use one generic capability per query; leave product names, paths, private data and framework names out:
 
    ```sh

@@ -14,17 +14,18 @@ try {
   const shim = join(bin, 'npx');
   writeFileSync(shim, `#!/usr/bin/env node
 import {writeFileSync} from 'node:fs';
-writeFileSync(process.env.ASTACK_CONTRACT_CAPTURE,JSON.stringify({args:process.argv.slice(2),telemetry:process.env.DISABLE_TELEMETRY}));
+writeFileSync(process.env.ASTACK_CONTRACT_CAPTURE,JSON.stringify({args:process.argv.slice(2),telemetry:process.env.DISABLE_TELEMETRY,fileLogging:process.env.ENABLE_FILE_LOGGING}));
 process.exit(Number(process.env.ASTACK_CONTRACT_EXIT ?? 0));
 `);
   chmodSync(shim, 0o755);
-  const env = { ...process.env, PATH: `${bin}:${process.env.PATH}`, ASTACK_CONTRACT_CAPTURE: capture, DISABLE_TELEMETRY: '0' };
+  const env = { ...process.env, PATH: `${bin}:${process.env.PATH}`, ASTACK_CONTRACT_CAPTURE: capture, DISABLE_TELEMETRY: '0', ENABLE_FILE_LOGGING: 'true' };
   const run = (args, extra = {}) => spawnSync(process.execPath, [runner, ...args], { cwd: project, env: { ...env, ...extra }, encoding: 'utf8' });
   assert.equal(run(['--help']).status, 0);
   for (const args of [['search', 'confirmation modal dialog'], ['retrieve', 'dialog,accessibility'], ['list'], ['legacy-scan', 'src', '--json']]) {
     assert.equal(run(args).status, 0);
     const actual = JSON.parse(readFileSync(capture, 'utf8'));
     assert.equal(actual.telemetry, '1');
+    assert.equal(actual.fileLogging, 'false');
     assert.deepEqual(actual.args.slice(0, 6), ['--yes', '--ignore-scripts', '--package=modern-web-guidance@1.0.0', '--', 'modern-web-guidance', args[0]]);
     if (args[0] === 'legacy-scan') assert.equal(actual.args[6], resolve(project, 'src'));
     else assert.deepEqual(actual.args.slice(6), args.slice(1));
@@ -35,7 +36,10 @@ process.exit(Number(process.env.ASTACK_CONTRACT_EXIT ?? 0));
   }
   symlinkSync(bin, join(project, 'outside'));
   assert.equal(run(['legacy-scan', 'outside', '--json']).status, 2);
-  console.log('Modern Web Guidance consumer contract: four read commands, pinned package, telemetry override, exit propagation and rejected mutation/path escapes pass.');
+  writeFileSync(join(scratch, 'outside.css'), 'div { transition: height 1s; }');
+  symlinkSync(join(scratch, 'outside.css'), join(project, 'src', 'linked.css'));
+  assert.equal(run(['legacy-scan', 'src', '--json']).status, 2);
+  console.log('Modern Web Guidance consumer contract: four read commands, pinned package, telemetry/logging overrides, exit propagation and rejected mutation/path/symlink escapes pass.');
 } finally {
   rmSync(scratch, { recursive: true, force: true });
 }
