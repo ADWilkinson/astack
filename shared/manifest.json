@@ -27,6 +27,19 @@
       "web-design",
       "web-graphics",
       "launch"
+    ],
+    "scripts/modern-web.mjs": [
+      "modern-web-guidance",
+      "astack",
+      "web-design",
+      "dogfood",
+      "ship"
+    ],
+    "references/modern-web.md": [
+      "astack",
+      "web-design",
+      "dogfood",
+      "ship"
     ]
   }
 }

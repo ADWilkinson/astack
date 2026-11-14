@@ -1,13 +1,13 @@
 {
   "name": "astack-skills",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "private": false,
   "description": "Skills for Claude Code and Codex that take product work from the thread to a proven, live release.",
   "license": "MIT",
   "repository": "https://github.com/ADWilkinson/astack",
   "packageManager": "bun@1.4.2",
   "scripts": {
-    "check": "bun scripts/check.ts && bun test tests/package.test.ts tests/install.test.ts && bun scripts/smoke.ts",
+    "check": "bun scripts/check.ts && bun test tests/package.test.ts tests/install.test.ts && bun scripts/smoke.ts && node evals/tasks/modern-web/runner-contract.mjs",
     "smoke": "bun scripts/smoke.ts",
     "test": "bun test",
     "validate": "bun scripts/check.ts",

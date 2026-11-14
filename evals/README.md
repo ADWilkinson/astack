@@ -51,6 +51,8 @@ Run the same requests with the old and candidate skills, using at least two fres
 
 For comparisons, report which tasks changed outcome, tool/skill choices, elapsed time and token usage when available. Separate cached from uncached input, and avoid claiming a latency or cost improvement from a small sample. A missing trace or incomplete run is an error, not a passing result. See [the execution policy](../docs/single-loop.md).
 
+The scoped [Modern Web Guidance plan and runner case](tasks/modern-web/request.md) checks a pinned source consultation, browser-policy preservation and local scan boundaries. Its [results](results/modern-web-2026-11-14/result.json) are author-assessed plans and consumer contracts, not a shipped-product comparison.
+
 ## Results
 
 See [RESULTS.md](RESULTS.md).

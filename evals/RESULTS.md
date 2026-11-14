@@ -1,5 +1,14 @@
 # Results
 
+## Modern Web Guidance, 14 November 2026
+
+One fresh native worker per arm planned the same synthetic confirmation flow using previous or candidate skill instructions. Routing improved from 5/6 to 6/6 on the new cases: the candidate selected the guidance for a frontend code review, while both excluded the three non-web requests. Both plans preserved the maintained primitive and Safari 17.4 support; no product-quality or speed improvement was measured. The candidate executed pinned search/retrieve and planned a scoped source review.
+
+A wider routing check initially over-selected the new skill for trivial styles and framework refactors (36/50 direct and 19/27 near-misses, including unrelated extra helper selections). After narrowing its description, a fresh q-only pass selected the smallest entrypoint set and passed all 50 direct, 27 near-miss and six new cases. The selection instruction also became more explicit, so this does not isolate the effect of the description. Initial outputs are retained.
+
+The consumer contract exercises the runner’s command, package, telemetry, logging and path boundaries. Independent review reproduced a nested-symlink escape and inherited file logging; both were fixed and replayed successfully. A real synthetic scan returned zero candidates, which does not prove accessibility or correctness. [Method, observations and limits](results/modern-web-2026-11-14/result.json); [baseline plan](results/modern-web-2026-11-14/baseline-plan.md); [candidate plan](results/modern-web-2026-11-14/candidate-plan.md).
+
+
 ## Spec readiness, 1 November 2026
 
 [Fixture and request](tasks/spec-readiness/prompt.md), [rubric](tasks/spec-readiness/rubric.md), [individual observations](results/2026-11-01-spec-readiness.json). Four fresh native workers used the same inherited model and tools: two read the unchanged astack skill from `76d362d`, two read the candidate. Each received the same three tasks, synthetic repository and running loopback product, without the author conversation or rubric. The author compared their replies; this was not blind scoring. Model-version, timing and token counters were not retained.

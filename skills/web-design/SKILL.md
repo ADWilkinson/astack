@@ -15,6 +15,8 @@ Look for `DESIGN.md` (also `docs/DESIGN.md`, `BRAND.md`). If it exists, read it 
 
 Update DESIGN.md when a session makes a durable decision (a new token, a rejected direction and why). This is how the next session avoids regressing to defaults.
 
+Before choosing HTML, CSS or browser JavaScript patterns, use [the web platform procedure](references/modern-web.md). It searches pinned guidance and checks browser compatibility while preserving the project’s components and design. During web code review, use its scoped legacy scan and verify each candidate.
+
 ## 2. Decide the direction
 
 **Name the mode first.** It sets how much boldness the surface earns:
