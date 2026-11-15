@@ -41,4 +41,4 @@ Verify with `npx --prefer-online astack-skills@<version>`, then attach the publi
 
 Once that release has landed, set the package's npm **Settings → Publishing access** to "Require two-factor authentication and disallow tokens".
 
-If Actions is unavailable, stage from a clean dappnode clone with `npx -y npm@11.21.1 stage publish --access public`; it goes live only when the owner approves it with 2FA on npmjs.com. npm removes direct publishing by 2FA-bypass tokens around January 2027.
+If Actions is unavailable, stage from a clean, trusted local clone with `npx -y npm@11.21.1 stage publish --access public`; it goes live only when the owner approves it with 2FA on npmjs.com. npm removes direct publishing by 2FA-bypass tokens around January 2027.
