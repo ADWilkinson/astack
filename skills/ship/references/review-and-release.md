@@ -28,7 +28,7 @@ Before pushing, grep your diff for these: `git diff origin/main...HEAD | grep -n
 2. Read the first real error in the log, not the last line. `gh run view <run-id> --log-failed | head -200`.
 3. Classify: product bug, wrong test expectation, environment (missing secret, service down, runner disk), or flake.
 4. Reproduce locally with the same command CI runs (read the workflow file).
-5. Fix the cause. For a flake, find the race or the external dependency; a rerun is a stopgap you name as such.
+5. Fix the cause. For a flake, find the race or the external dependency; a rerun is a stopgap you name as such. Do not skip it, sleep past it or wrap it in a retry. If the cause cannot be found, the owner deletes the test with the reason recorded, as its own change.
 6. When unrelated jobs fail together (timeouts across the board), suspect the runner or a shared service before your code.
 
 External status checks (Vercel, Netlify, third-party reviewers) have no Actions run id; open their details URL.

@@ -13,7 +13,7 @@ Generated UI fails in predictable ways: the same fonts, the same violet gradient
 
 Look for `DESIGN.md` (also `docs/DESIGN.md`, `BRAND.md`). If it exists, read it before touching UI; its tokens and rules win over your taste. If it does not exist and the work is more than a small fix, create one from [the template](references/design-md-template.md) by reading the code: real tokens from the CSS/Tailwind config, real fonts, real components. Mark anything you inferred as inferred.
 
-Update DESIGN.md when a session makes a durable decision (a new token, a rejected direction and why). This is how the next session avoids regressing to defaults.
+Update DESIGN.md when a session makes a durable decision (a new token, a rejected direction and why). This is how the next session avoids regressing to defaults. When the user corrects the same thing twice, or asks you to remember design feedback, turn the corrections into rules with [keeping the user's taste](references/taste.md): the user's words, a confirmed reason, and a check where code can enforce it.
 
 Before choosing HTML, CSS or browser JavaScript patterns, use [the web platform procedure](references/modern-web.md). It searches pinned guidance and checks browser compatibility while preserving the project’s components and design. During web code review, use its scoped legacy scan and verify each candidate.
 
@@ -56,7 +56,7 @@ When two directions both survive the generic test and the choice is hard to argu
 - Headers are labels. A subtitle that re-explains the header gets deleted.
 - Mobile is its own layout: reorder by priority, use horizontal snap rails where desktop uses grids, `dvh`/`svh` not `100vh`, inputs at 16px or larger, tap targets 44px. Anything people use on a phone gets the [mobile baseline](references/mobile.md): no tap flash, hover gated to real pointers, press feedback on touch, safe areas, no zoom on focus.
 
-Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: decide whether it should animate at all (never for keyboard or high-frequency actions), ease-out and under 300ms for UI, press feedback and origin-aware popovers, interruptible transitions, only `transform` and `opacity`, reduced motion handled, and watched as a filmstrip. The same reference names effects when the request is vague, gives several moving elements one lead, diagnoses janky animation by cause, and audits a whole app's motion into keep, fix and cut with `file:line` and a verdict.
+Hold the line on the [craft floor](references/craft-floor.md) while building, not as a final pass. For any animation or transition, read [motion](references/motion.md) first: decide whether it should animate at all (never for keyboard or high-frequency actions), ease-out and under 300ms for UI, press feedback and origin-aware popovers, interruptible transitions, only `transform` and `opacity`, reduced motion handled, and watched as a filmstrip. The same reference names effects when the request is vague, gives several moving elements one lead, splits a drag or swipe into tracking and release, diagnoses janky animation by cause, and audits a whole app's motion into keep, fix and cut with `file:line` and a verdict.
 
 ## 4. Look at it
 

@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { chmodSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const runner = fileURLToPath(new URL('../../../skills/modern-web-guidance/scripts/modern-web.mjs', import.meta.url));
-const scratch = mkdtempSync(join(tmpdir(), 'astack-web-contract-'));
+// macOS tmpdir is a symlink; the runner reports real paths.
+const scratch = realpathSync(mkdtempSync(join(tmpdir(), 'astack-web-contract-')));
 try {
   const project = join(scratch, 'project'), bin = join(scratch, 'bin'), capture = join(scratch, 'capture.json');
   mkdirSync(project); mkdirSync(bin); mkdirSync(join(project, 'src'));

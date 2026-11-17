@@ -1,6 +1,6 @@
 ---
 name: web-graphics
-description: "Build editable web illustrations, isometric scenes, animated stickers or Lottie-style icons, ASCII/halftone art, diagrams, mascots and social cards. Use for hero graphics, favicons, app icon sets, moving empty-state art or sticker exports."
+description: "Build editable web illustrations, isometric scenes, animated stickers or Lottie-style icons, ASCII/halftone art, diagrams, mascots, social cards and designed PDF documents. Use for hero graphics, favicons, app icon sets, moving empty-state art, sticker exports or a report, proposal or invoice PDF that should not look default."
 ---
 
 # Web graphics
@@ -39,6 +39,7 @@ Read the relevant section of [techniques](references/techniques.md):
 - **Flat and icons**: a 24-unit grid, shared corner radius and stroke; check silhouettes at 16px.
 - **ASCII and halftone**: deterministic generation, never `Math.random()` during render.
 - **Diagrams**: real labels, arrows that start and end on edges, one direction of flow.
+- **Designed PDFs** (reports, proposals, invoices, one-pagers, certificates): follow [documents](references/documents.md). One HTML element per sheet, printed and gated with [`scripts/pdf.mjs`](scripts/pdf.mjs), which fails content that runs off or is cut inside a sheet, a page count that differs from the source, and text too small for paper. Then read every page image.
 - **Social cards and raster exports**: render an HTML/SVG source to PNG with a script so the raster can be rebuilt. If the card shows the product, the product is a screenshot in an `<img>`. Draw the frame in code. Do not draw the product's UI, and do not typeset a number that is not in the brief.
 
 ## 4. Inspect in place

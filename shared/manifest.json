@@ -40,6 +40,11 @@
       "web-design",
       "dogfood",
       "ship"
+    ],
+    "references/verification.md": [
+      "astack",
+      "ship",
+      "dogfood"
     ]
   }
 }

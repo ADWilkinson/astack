@@ -37,7 +37,7 @@ When the request is vague ("make it feel smoother", "something like Linear's"), 
 | Crossfade | Two states overlap while one fades out | Swapping an icon, label or image in the same slot |
 | Morph (shared element) | One element changes size and position into its next state | A card opening into a detail view, a tab pill moving |
 | Reveal | `clip-path` or mask uncovers content in place | Headlines, comparison sliders, hold-to-confirm fills |
-| Stagger | The same entrance offset per item | A list or grid arriving once |
+| Stagger | One entrance, offset a little more for each item | A list or grid arriving once |
 | Spring | Physics with velocity, can overshoot | Gestures, drag release, anything interrupted often |
 | Scrub | Progress tied to scroll or a pointer | Explainers and scroll-linked stories |
 | Follow-through | Parts settle slightly after the lead stops | Playful brands only, small amplitude |
@@ -52,7 +52,7 @@ Ease by what is happening:
 - Constant motion (progress, marquee): **linear**.
 - Anything else: ease-out.
 
-Never `ease-in` on UI. It spends its first frames barely moving, which is exactly when the user is watching; an ease-in dropdown at 200ms feels slower than an ease-out one at 200ms. The built-in CSS curves are weak. Use the project's tokens, or start from these and write them into DESIGN.md:
+Never `ease-in` on UI. It spends its first frames barely moving, which is exactly when the user is watching; an ease-in dropdown at 200ms feels slower than an ease-out one at 200ms. The built-in CSS curves are weak. Use the project's tokens when it has them: every curve, duration and spring comes from the codebase first and this table second, never from a value that only looks familiar. Without tokens, start from these and write them into DESIGN.md:
 
 ```css
 --ease-out: cubic-bezier(0.23, 1, 0.32, 1);      /* enter, exit, press */
@@ -68,7 +68,7 @@ Never `ease-in` on UI. It spends its first frames barely moving, which is exactl
 | Modals, drawers, sheets | 200–500ms (larger travel takes longer) |
 | Illustration and explainer beats | 400–700ms per beat |
 
-UI motion stays under 300ms unless it travels far. Exits run faster than enters. Speed reads as performance: a 180ms select feels more responsive than a 400ms one, and a quick spinner makes the same wait feel shorter. One signature ease per product; bounce and overshoot only where the brand is playful on purpose, or for drag-to-dismiss.
+UI motion stays under 300ms. The named exceptions are modals, drawers and sheets (up to 500ms, because they travel far), toasts, which keep their library's own timing, a hold-to-confirm fill, and illustration or explainer beats. Exits run faster than enters, by a little: 250ms in, 200ms out. Speed reads as performance: a 180ms select feels more responsive than a 400ms one, and a quick spinner makes the same wait feel shorter. One signature ease per product; bounce and overshoot only where the brand is playful on purpose, or for drag-to-dismiss.
 
 Match the motion to the component's character: a dashboard is crisp and fast; a toast library can be a touch slower and softer if everything around it agrees.
 
@@ -80,7 +80,7 @@ Match the motion to the component's character: a dashboard is crisp and fast; a 
 - **Tooltips**: delay the first one; once one is open, neighbours open instantly with no animation.
 - **Percent translates**: `translateY(100%)` moves an element by its own height, which is how sheets and toasts hide without knowing their size.
 - **Asymmetric timing**: slow where the user is deciding (hold-to-confirm fills over 1–2s linear), fast where the system answers (release snaps back in 200ms ease-out).
-- **Stagger**: 30–80ms between items, for entrances only, and never blocking input.
+- **Stagger**: 30–80ms between items, for entrances only, and never blocking input. Vary the gaps slightly within that range (40ms, then 60ms) instead of one fixed step, and give a container one entrance, not one per child.
 - **Crossfades that show two states**: add `filter: blur(2px)` for the duration of the swap so the eye reads one transformation. Keep blur small; it is expensive.
 - **Hover**: gate hover motion behind `@media (hover: hover) and (pointer: fine)`, or touch screens keep it stuck after a tap.
 
@@ -114,7 +114,7 @@ When more than one thing moves for the same change (a dialog and its backdrop, a
 
 Then hold the sequence together:
 
-- The whole sequence for an ordinary UI change ends within about 400ms; followers do not extend it.
+- The whole sequence for an ordinary UI change ends within about 400ms, or the sheet's own duration when the lead is a sheet; followers do not extend it.
 - Exits run together and faster than the entrance, in reverse role order or all at once. Nobody waits for a staggered exit.
 - Spatial sense stays consistent: things that came from the trigger return to it, a sheet that rose from the bottom leaves downwards.
 - Input is accepted from the first frame. If the lead is interrupted, followers retarget with it rather than finishing their own timelines.
@@ -122,11 +122,32 @@ Then hold the sequence together:
 
 ### 7. Gestures
 
-- Dismiss on velocity as well as distance: `Math.abs(distance) / elapsedMs > 0.11` is a flick, and a flick is enough.
+A gesture has two phases, and mixing them is the usual reason one feels wrong. While the pointer is down, the element tracks it one to one. When it lifts, physics finishes the move.
+
+**Build it or use one.** A sheet or drawer done properly needs momentum, a backdrop tied to drag progress, dismissal by velocity, focus trapping and Escape. Use the project's primitive or a maintained library before writing that by hand.
+
+**Track (pointer down)**
+
+- Position maps directly to the pointer: no easing, no duration, no spring. A spring here makes the element trail the finger.
+- Write `transform` on the dragged element, or drive a motion value. No React state per move event, and no CSS variable on a parent to move children, which recalculates every descendant.
 - Past a boundary, apply damping (the further the drag, the less it moves) instead of a hard stop.
 - Capture the pointer once a drag starts (`setPointerCapture`), and ignore extra touch points until it ends.
 - Declare which axes the gesture owns with `touch-action` (`pan-y` on a horizontal carousel, `none` only on a surface that handles every direction).
+
+**Release (pointer up)**
+
+- Finish with a spring seeded with the release velocity, or a CSS transition where the component is CSS-only. Never a keyframe: keyframes restart from zero and cannot be caught mid-flight.
+- Dismiss on distance or velocity. Past roughly half the travel dismisses, and so does a flick: `Math.abs(distance) / elapsedMs > 0.11`. A distance-only threshold ignores flicks.
+- Bounce belongs to a release, because the drag applied force. The same element closed by a button gets none.
+- A gesture that misses the threshold returns quickly.
+
+**Hold it together**
+
+- The user can catch a closing sheet and drag it back. Anything a gesture can touch stays interruptible.
+- Derive linked values (backdrop opacity, the page scaling behind) from drag progress, one source of truth. Two separate animations drift apart the moment the user reverses.
+- Under reduced motion, tracking stays (the user is producing the motion). Fling momentum, bounce and decoration go.
 - Decorative pointer-following goes through a spring (Motion's `useSpring`, or `{ type: "spring", duration: 0.5, bounce: 0.2 }`), never raw pointer coordinates. Functional readouts follow the pointer directly.
+- Check on a phone by LAN address. A trackpad is not a finger, and a 60Hz monitor hides what a 120Hz phone shows.
 
 ### 8. Keep every frame on time
 
@@ -135,13 +156,14 @@ The budget is 16.7ms a frame at 60Hz and 8ms at 120Hz, which most phones now are
 | Symptom | Cause and fix |
 | --- | --- |
 | Stutters | Animating `width`, `height`, `top`, `left`, `margin` or `padding`. Use `transform` (`scale`, `translate`) and `opacity`. |
-| Choppy shadow | `box-shadow` repaints every frame. Animate a `filter: drop-shadow()` or the opacity of a pseudo-element that holds the shadow. |
+| Choppy shadow | `box-shadow` repaints every frame. Animate the opacity of a pseudo-element that holds the shadow, or a `filter: drop-shadow()` where measured: Chrome composites `filter`, other engines may repaint. |
 | Unexpected things animate | `transition: all`. List the exact properties. |
-| Janks only during navigation or loading | JS-driven animation on a busy main thread. Move it to CSS or WAAPI (`element.animate`), which can run off the main thread. |
+| Janks only during navigation or loading | JS-driven animation on a busy main thread. Move it to CSS or WAAPI (`element.animate`); on `transform` and `opacity` those run on the compositor. Only those two properties are safe to assume composited everywhere. |
 | Motion's `x`/`y`/`scale` drop frames under load | Shorthands run through CSS variables on the main thread. Animate a `transform` string instead. |
 | Hand-rolled animation drops frames in React | `setState` per frame. Write to `ref.current.style` or a motion value. |
 | Drag slows as the list grows | A CSS variable on the parent drives children's transforms, so every descendant recalculates. Set `transform` on the element directly. |
 | Blur transition lags, worst in Safari | Keep animated blur at 2–5px, never above 20px. |
+| Faded-out element still takes clicks | `opacity: 0` alone leaves it interactive. Delay `visibility` by the fade in the same transition (`transition: opacity 200ms, visibility 0s 200ms`), or set `inert` from state. |
 | Element shifts by a pixel at start or end | Only now add `will-change: transform`, on that element alone. |
 
 Name the cause before changing code, and say which findings came from reading code and which from a recording. A performance trace in the browser beats rewriting by feel; report frame rates only when measured, with the device.
@@ -243,7 +265,7 @@ That blanket rule is the floor for CSS. Components that keep a fade opt back in 
 
 ### Scroll-linked vs scroll-triggered
 
-Scroll-linked (progress maps to scroll position) must behave when scrolling backwards and when the page restores mid-way. Scroll-triggered entrances run once and must leave the content visible if JS fails or the observer never fires: default CSS shows the final state; the animation is an enhancement. `clip-path: inset(0 0 100% 0)` to `inset(0)` is a cheap, compositor-friendly reveal.
+Scroll-linked (progress maps to scroll position) must behave when scrolling backwards and when the page restores mid-way. Scroll-triggered entrances run once and must leave the content visible if JS fails or the observer never fires: default CSS shows the final state; the animation is an enhancement. `clip-path: inset(0 0 100% 0)` to `inset(0)` is a cheap reveal; measure it on the target browsers, since only `transform` and `opacity` are composited everywhere.
 
 ### Verification matrix
 

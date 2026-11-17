@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.13.0
+
+Verification, faster checks, gestures, launch films and designed PDFs. Each idea is folded into an existing skill; no skill was added.
+
+- `ship`, `astack` and `dogfood` gain a verification reference, paraphrased from Anthropic's account of [how the Claude Code team verifies work](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification). Verification means running the change. Choose the test that can fail: end to end first, property tests for rules that must always hold, differential tests for rewrites. Review rules are read from the base branch, a checklist is keyed to what the diff touches, a failing check goes to a person after three rounds, a flaky test is fixed, or deleted by its owner as a separate change, and never skipped, slept past or wrapped in a retry, the method of verification is recorded (including "not verified"), and a miss becomes a rule only when it recurred and a diff could have shown it.
+- `ship` gains fast CI: measure the pipeline from real runs, then run jobs side by side, test only what the diff can reach on PRs with the full suite on the default branch, fill shards by recorded time, cache what is deterministic and cancel superseded runs. It is a separate change that weakens no check: PRs run what the diff can reach and the default branch runs everything. Prompted by Pontus Abrahamsson's [two-minute frontend pipeline](https://x.com/pontusab/status/2121982070193058191).
+- `web-design` motion takes the corrections and the gesture model from the November update to [Emil Kowalski's skills](https://github.com/emilkowalski/skills) (MIT). A gesture tracks the pointer one to one while it is down and hands to a spring seeded with the release velocity when it lifts; linked values derive from drag progress; an element leaves on the axis it entered. Tokens come from the codebase before the table, the 300ms cap names its exceptions, stagger gaps vary, only `transform` and `opacity` are assumed composited, and a faded-out element stops taking clicks.
+- `web-design` gains keeping the user's taste: a session's design corrections become rules in DESIGN.md with the user's words, a confirmed reason and a check where code can enforce one. Nothing is written without approval.
+- `launch` film gains a beat budget with the real product visible within 3 seconds, hold and camera timings, one composition per aspect ratio and four readings (layout, readability, pacing, brand and truth) before a film goes out. Projects already on Remotion build there under the same rules. Prompted by Shadcn Labs' [snapcn](https://snapcn.dev/) (MIT).
+- `web-graphics` builds designed PDF documents. A document is HTML with one element per sheet. The new `pdf.mjs` prints it with Chrome, writes an image per page and exits 1 on content that runs off or is cut inside a sheet, a page count that differs from the source, text that renders under 7pt, or a font or file that failed to load. The reference covers type in points, measure, tables and paper. Prompted by Shadcn Labs' [pdfcn](https://www.pdfcn.dev/); no library was added.
+- Ten routing cases for the new entry points, including three that should load nothing.
+
 ## 0.12.0
 
 - Add Modern Web Guidance for browser implementation and scoped web code reviews, pinned to upstream 1.0.0 (Apache-2.0). The adapter disables telemetry and exposes search, retrieval and local scans; installation runs no upstream code.

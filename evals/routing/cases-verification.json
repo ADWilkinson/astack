@@ -1,0 +1,12 @@
+[
+  {"q": "Make a two-page proposal PDF for the Hartley account from proposal.md; it should look designed, not like a Word export", "expect": ["web-graphics"], "also_ok": ["web-design"]},
+  {"q": "Our invoice PDF looks like a default export, redesign it and keep the totals right", "expect": ["web-graphics"], "also_ok": ["web-design"]},
+  {"q": "Make a 20 second launch video for the new comparison page, plus a vertical cut for stories", "expect": ["launch"], "also_ok": ["web-graphics"]},
+  {"q": "CI takes 14 minutes on every PR and it is slowing every review loop down, get it under 3", "expect": ["ship"]},
+  {"q": "We rewrote the pricing engine in Rust. How do we prove it behaves the same as the old one before we switch?", "expect": ["ship"], "also_ok": ["dogfood", "astack"]},
+  {"q": "The bottom sheet lags behind my finger and I can't catch it while it's closing", "expect": ["web-design"]},
+  {"q": "You keep making cards with borders and I keep asking for shadows. Remember my design feedback from this session", "expect": ["web-design"]},
+  {"q": "Convert report.docx to PDF", "expect": []},
+  {"q": "Add a unit test for the slugify helper", "expect": []},
+  {"q": "Bump the Node version in the CI workflow to 22", "expect": []}
+]
