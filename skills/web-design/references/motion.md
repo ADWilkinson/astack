@@ -37,7 +37,7 @@ When the request is vague ("make it feel smoother", "something like Linear's"), 
 | Crossfade | Two states overlap while one fades out | Swapping an icon, label or image in the same slot |
 | Morph (shared element) | One element changes size and position into its next state | A card opening into a detail view, a tab pill moving |
 | Reveal | `clip-path` or mask uncovers content in place | Headlines, comparison sliders, hold-to-confirm fills |
-| Stagger | The same entrance offset per item | A list or grid arriving once |
+| Stagger | One entrance, offset a little more for each item | A list or grid arriving once |
 | Spring | Physics with velocity, can overshoot | Gestures, drag release, anything interrupted often |
 | Scrub | Progress tied to scroll or a pointer | Explainers and scroll-linked stories |
 | Follow-through | Parts settle slightly after the lead stops | Playful brands only, small amplitude |
@@ -68,7 +68,7 @@ Never `ease-in` on UI. It spends its first frames barely moving, which is exactl
 | Modals, drawers, sheets | 200–500ms (larger travel takes longer) |
 | Illustration and explainer beats | 400–700ms per beat |
 
-UI motion stays under 300ms. The named exceptions are modals, drawers and sheets (up to 500ms, because they travel far) and toasts, which keep their library's own timing. Exits run faster than enters, by a little: 250ms in, 200ms out. Speed reads as performance: a 180ms select feels more responsive than a 400ms one, and a quick spinner makes the same wait feel shorter. One signature ease per product; bounce and overshoot only where the brand is playful on purpose, or for drag-to-dismiss.
+UI motion stays under 300ms. The named exceptions are modals, drawers and sheets (up to 500ms, because they travel far), toasts, which keep their library's own timing, a hold-to-confirm fill, and illustration or explainer beats. Exits run faster than enters, by a little: 250ms in, 200ms out. Speed reads as performance: a 180ms select feels more responsive than a 400ms one, and a quick spinner makes the same wait feel shorter. One signature ease per product; bounce and overshoot only where the brand is playful on purpose, or for drag-to-dismiss.
 
 Match the motion to the component's character: a dashboard is crisp and fast; a toast library can be a touch slower and softer if everything around it agrees.
 
@@ -80,7 +80,7 @@ Match the motion to the component's character: a dashboard is crisp and fast; a 
 - **Tooltips**: delay the first one; once one is open, neighbours open instantly with no animation.
 - **Percent translates**: `translateY(100%)` moves an element by its own height, which is how sheets and toasts hide without knowing their size.
 - **Asymmetric timing**: slow where the user is deciding (hold-to-confirm fills over 1–2s linear), fast where the system answers (release snaps back in 200ms ease-out).
-- **Stagger**: 30–80ms between items, for entrances only, and never blocking input. Vary the gaps slightly (90ms, then 120ms) instead of one fixed step, and give a container one entrance, not one per child.
+- **Stagger**: 30–80ms between items, for entrances only, and never blocking input. Vary the gaps slightly within that range (40ms, then 60ms) instead of one fixed step, and give a container one entrance, not one per child.
 - **Crossfades that show two states**: add `filter: blur(2px)` for the duration of the swap so the eye reads one transformation. Keep blur small; it is expensive.
 - **Hover**: gate hover motion behind `@media (hover: hover) and (pointer: fine)`, or touch screens keep it stuck after a tap.
 
@@ -114,7 +114,7 @@ When more than one thing moves for the same change (a dialog and its backdrop, a
 
 Then hold the sequence together:
 
-- The whole sequence for an ordinary UI change ends within about 400ms; followers do not extend it.
+- The whole sequence for an ordinary UI change ends within about 400ms, or the sheet's own duration when the lead is a sheet; followers do not extend it.
 - Exits run together and faster than the entrance, in reverse role order or all at once. Nobody waits for a staggered exit.
 - Spatial sense stays consistent: things that came from the trigger return to it, a sheet that rose from the bottom leaves downwards.
 - Input is accepted from the first frame. If the lead is interrupted, followers retarget with it rather than finishing their own timelines.
@@ -145,8 +145,6 @@ A gesture has two phases, and mixing them is the usual reason one feels wrong. W
 
 - The user can catch a closing sheet and drag it back. Anything a gesture can touch stays interruptible.
 - Derive linked values (backdrop opacity, the page scaling behind) from drag progress, one source of truth. Two separate animations drift apart the moment the user reverses.
-- An element leaves along the axis it entered on: a toast that rose from the bottom dismisses downwards.
-- Hold-to-confirm fills linearly, because it shows time passing, and snaps back fast on an early release.
 - Under reduced motion, tracking stays (the user is producing the motion). Fling momentum, bounce and decoration go.
 - Decorative pointer-following goes through a spring (Motion's `useSpring`, or `{ type: "spring", duration: 0.5, bounce: 0.2 }`), never raw pointer coordinates. Functional readouts follow the pointer directly.
 - Check on a phone by LAN address. A trackpad is not a finger, and a 60Hz monitor hides what a 120Hz phone shows.
@@ -165,7 +163,7 @@ The budget is 16.7ms a frame at 60Hz and 8ms at 120Hz, which most phones now are
 | Hand-rolled animation drops frames in React | `setState` per frame. Write to `ref.current.style` or a motion value. |
 | Drag slows as the list grows | A CSS variable on the parent drives children's transforms, so every descendant recalculates. Set `transform` on the element directly. |
 | Blur transition lags, worst in Safari | Keep animated blur at 2–5px, never above 20px. |
-| Faded-out element still takes clicks | `opacity: 0` alone leaves it interactive. Set `visibility: hidden` (or `inert`) once the exit ends. |
+| Faded-out element still takes clicks | `opacity: 0` alone leaves it interactive. Delay `visibility` by the fade in the same transition (`transition: opacity 200ms, visibility 0s 200ms`), or set `inert` from state. |
 | Element shifts by a pixel at start or end | Only now add `will-change: transform`, on that element alone. |
 
 Name the cause before changing code, and say which findings came from reading code and which from a recording. A performance trace in the browser beats rewriting by feel; report frame rates only when measured, with the device.
@@ -267,7 +265,7 @@ That blanket rule is the floor for CSS. Components that keep a fade opt back in 
 
 ### Scroll-linked vs scroll-triggered
 
-Scroll-linked (progress maps to scroll position) must behave when scrolling backwards and when the page restores mid-way. Scroll-triggered entrances run once and must leave the content visible if JS fails or the observer never fires: default CSS shows the final state; the animation is an enhancement. `clip-path: inset(0 0 100% 0)` to `inset(0)` is a cheap, compositor-friendly reveal.
+Scroll-linked (progress maps to scroll position) must behave when scrolling backwards and when the page restores mid-way. Scroll-triggered entrances run once and must leave the content visible if JS fails or the observer never fires: default CSS shows the final state; the animation is an enhancement. `clip-path: inset(0 0 100% 0)` to `inset(0)` is a cheap reveal; measure it on the target browsers, since only `transform` and `opacity` are composited everywhere.
 
 ### Verification matrix
 

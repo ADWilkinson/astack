@@ -28,22 +28,22 @@ Properties worth writing:
 
 Generated inputs come from a different bias than the author's examples, which is the point. For a differential test, feed both systems random or sampled real inputs, normalise differences that do not matter (whitespace, key order), and keep a short list of approved intentional changes. Every other difference is a finding.
 
-A flaky test teaches reruns in place of fixes, and a slow suite gets skipped. Fix both before adding more tests. For a flake, find the race or the outside dependency. Do not skip it, sleep past it or wrap it in a retry. If the cause cannot be found, delete the test and record why, so that nobody trusts a check that is not there.
+A flaky test teaches reruns in place of fixes, and a slow suite gets skipped. Fix both before adding more tests. For a flake, find the race or the outside dependency. Do not skip it, sleep past it or wrap it in a retry. If the cause cannot be found, the owner deletes the test as its own change with the reason recorded, so that nobody trusts a check that is not there. A rerun is a stopgap, named as one.
 
 ## Order and limits
 
 1. Cheap checks first, before a PR exists: types, lint, build, the tests the diff can reach.
 2. Then run the change.
 3. Then review, on the current commit. A review of an earlier commit covers nothing that came after it.
-4. Fix and repeat. After three rounds on the same failing check, stop and hand it to a person with what was tried and the evidence. A fourth identical attempt is not diagnosis.
+4. Fix and repeat. A round is one diagnosis, one fix and one rerun. After three rounds on the same failing check, stop and hand it to a person with what was tried and the evidence. A fourth identical attempt is not diagnosis.
 
-Tune one reviewer over several rounds before adding more reviewers. Give later rounds what earlier rounds found and what was dismissed.
+When a reviewer misses things, sharpen its rules file before adding a second reviewer. A later round gets the earlier findings and what was dismissed, so it does not start again. It still does not get the author's conclusions.
 
 ## Keep the check out of the change's reach
 
 - A change does not grade itself. Read review rules, gate configuration and checklists from the base branch, not from the branch under review.
 - A PR that edits a check and relies on the edit has two changes in it. The check change needs its own approval from the owner.
-- The owner of an area writes its checks. A check that escalates to a person says why.
+- A check that escalates to a person says why, in terms the owner of that area would use.
 
 ## A checklist the diff selects
 
@@ -57,7 +57,7 @@ Keep reliability items where the reviewer reads them (`REVIEW.md` or the repo's 
 
 ## Say how it was verified
 
-Record the method with the work: in the commit trailer, the PR body or the report. "Not verified" is a valid entry and a useful one, because unverified commits can then be found. Where a repo gates commits on verification, bring the gate in through observe mode first. Log what it would have blocked, remove the false positives, then enforce.
+Record the method with the work: a commit trailer such as `Verified-by: ran the checkout journey on the preview`, the PR body or the report. "Not verified" is a valid entry and a useful one, because unverified commits can then be found. Where a repo gates commits on verification, bring the gate in through observe mode first. Log what it would have blocked, remove the false positives, then enforce.
 
 ## Turn a miss into a rule
 
@@ -66,5 +66,5 @@ When a bug got past the checks, ask whether a reviewer reading the diff could ha
 - A candidate rule must have recurred (two or more PRs, review comments or reverts) and be detectable from a diff.
 - Try to disprove it before adding it: find the cases where it would flag correct code.
 - Prefer a check to a sentence. A hook, lint rule or test runs every time, and a line in a long file gets skipped.
-- Grade the checks on what mattered: bugs that reached users, reverts, and a matched set of changes that stayed clean, so a stricter reviewer does not win by flagging everything.
-- Prune on a schedule. Rules, checklist items and tests that no longer catch anything cost attention on every run.
+- Grade the checks on what mattered: bugs that reached users and reverts, set against changes of similar size that stayed clean, so a stricter reviewer does not win by flagging everything.
+- When adding a rule, look for one to remove. Rules, checklist items and tests that have caught nothing since they were added cost attention on every run.

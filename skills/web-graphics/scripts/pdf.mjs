@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Print an HTML document to PDF and check every page before anyone opens it:
-// content that spills off a page, a page count that differs from the pages
-// authored, text too small to read on paper, fonts that fell back.
+// content that runs off or is cut inside a sheet, a page count that differs
+// from the sheets authored, text too small to read on paper, fonts and files
+// that failed to load.
 // Dependency-free: drives a local Chrome/Chromium over the DevTools Protocol.
 // Requires Node 22+ (global WebSocket).
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -29,10 +30,12 @@ Options:
   --json            Print a JSON report
 
 Checks:
-  overflow  content taller or wider than its sheet, which print would cut or
-            push onto an unplanned page
+  overflow  an element or line of text that runs past its sheet, which print
+            would cut or push onto an unplanned page. Mark a deliberate
+            full-bleed element with data-bleed.
+  clip      text cut off by a box inside the sheet that hides its overflow
   count     the PDF has a different number of pages than the document authored
-  type      text under --min-pt points
+  type      text that renders under --min-pt points, after any scaling
   fonts     a webfont that failed to load
   page      console errors, uncaught exceptions, failed requests
 
@@ -63,7 +66,8 @@ function parse(argv) {
   if (!(o.minPt > 0) || !(o.scale > 0) || !(o.wait >= 0)) throw new Unchecked("--min-pt, --scale and --wait take positive numbers");
   const local = !/^https?:\/\//.test(o.target);
   if (local && !existsSync(o.target)) throw new Unchecked(`file not found: ${o.target}`);
-  const stem = basename(local ? o.target : new URL(o.target).pathname || "document", extname(o.target)) || "document";
+  const path = local ? o.target : new URL(o.target).pathname;
+  const stem = basename(path, extname(path)) || "document";
   if (!o.out) o.out = local ? join(dirname(resolve(o.target)), `${stem}.pdf`) : `${stem}.pdf`;
   if (!o.pages) o.pages = join(dirname(resolve(o.out)), "pages");
   o.stem = stem;
@@ -163,25 +167,51 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // Runs in the page under print media: measures each sheet without changing layout.
 const INSPECT = (selector, minPx) => `(() => {
-  const sheets = [...document.querySelectorAll(${JSON.stringify(selector)})];
+  let sheets;
+  try { sheets = [...document.querySelectorAll(${JSON.stringify(selector)})]; }
+  catch { return { error: "selector" }; }
   const label = el => el.tagName.toLowerCase() + (el.id ? "#" + el.id : "") +
     (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\\s+/).slice(0, 2).join(".") : "");
+  const shown = s => s.display !== "none" && s.visibility !== "hidden" && Number(s.opacity) > 0;
+  const past = (r, box) => r.width > 0 && r.height > 0 && (r.bottom > box.bottom + 1 || r.right > box.right + 1 || r.top < box.top - 1 || r.left < box.left - 1);
+  // How much larger or smaller the element paints than its CSS size says.
+  const scaleOf = el => {
+    if (el instanceof SVGGraphicsElement && el.getScreenCTM) { const m = el.getScreenCTM(); return m ? Math.hypot(m.a, m.b) : 1; }
+    const r = el.getBoundingClientRect();
+    return el.offsetWidth > 0 && r.width > 0 ? r.width / el.offsetWidth : 1;
+  };
   const out = sheets.map((sheet, i) => {
     const box = sheet.getBoundingClientRect();
-    const spill = [], small = [];
+    const spill = [], clip = [], small = [], flagged = new Set();
     for (const el of sheet.querySelectorAll("*")) {
       const s = getComputedStyle(el);
-      if (s.display === "none" || s.visibility === "hidden") continue;
+      if (!shown(s) || el.closest("[data-bleed]")) continue;
+      // Boxes: an image, table or block that leaves the sheet. Report the outermost only.
+      if (past(el.getBoundingClientRect(), box) && ![...flagged].some(f => f.contains(el))) {
+        flagged.add(el);
+        const r = el.getBoundingClientRect();
+        spill.push(label(el) + " (" + Math.round(r.width) + "x" + Math.round(r.height) + "px)");
+        continue;
+      }
       const own = [...el.childNodes].filter(c => c.nodeType === 3 && c.textContent.trim());
       if (!own.length) continue;
       const words = own.map(c => c.textContent).join(" ").trim().replace(/\\s+/g, " ").slice(0, 40);
       const range = document.createRange(); range.selectNodeContents(el);
-      for (const r of range.getClientRects()) if (r.width > 0 && (r.bottom > box.bottom + 1 || r.right > box.right + 1 || r.top < box.top - 1 || r.left < box.left - 1)) {
-        spill.push(label(el) + ' "' + words + '"'); break; }
-      if (parseFloat(s.fontSize) < ${minPx} - 0.01) small.push(label(el) + ' "' + words + '" ' + (parseFloat(s.fontSize) * 0.75).toFixed(1) + "pt");
+      const rects = [...range.getClientRects()];
+      if (![...flagged].some(f => f.contains(el)) && rects.some(r => past(r, box))) spill.push(label(el) + ' "' + words + '"');
+      // Text cut by a box between it and the sheet that hides its overflow.
+      for (let up = el instanceof SVGElement ? null : el; up && up !== sheet; up = up.parentElement) {
+        const us = getComputedStyle(up);
+        if (us.overflowX === "visible" && us.overflowY === "visible") continue;
+        const ub = up.getBoundingClientRect();
+        if (rects.some(r => past(r, ub)) || up.scrollHeight > up.clientHeight + 1 || up.scrollWidth > up.clientWidth + 1) {
+          clip.push(label(el) + ' "' + words + '" is cut by ' + label(up)); break; }
+      }
+      const size = parseFloat(s.fontSize) * scaleOf(el);
+      if (size < ${minPx} - 0.05) small.push(label(el) + ' "' + words + '" renders at ' + (size * 0.75).toFixed(1) + "pt");
     }
     return { index: i + 1, x: box.left + scrollX, y: box.top + scrollY, width: box.width, height: box.height,
-      spill: [...new Set(spill)].slice(0, 6), small: [...new Set(small)].slice(0, 6) };
+      spill: [...new Set(spill)].slice(0, 6), clip: [...new Set(clip)].slice(0, 6), small: [...new Set(small)].slice(0, 6) };
   });
   const faces = document.fonts ? [...document.fonts].filter(f => f.status === "error").map(f => f.family.replace(/^["']|["']$/g, "")) : [];
   return { sheets: out, faces: [...new Set(faces)] };
@@ -190,12 +220,15 @@ const INSPECT = (selector, minPx) => `(() => {
 async function run(browser, o) {
   const cdp = await connect(browser.port);
   const issues = { console: [], requests: [], load: null };
+  const urls = new Map(), favicon = u => /\/favicon\.ico(\?|$)/.test(u ?? "");
   cdp.on(m => {
+    if (m.method === "Network.requestWillBeSent") urls.set(m.params.requestId, m.params.request.url);
     if (m.method === "Runtime.exceptionThrown") issues.console.push(m.params.exceptionDetails?.exception?.description?.split("\n")[0] ?? "exception");
     if (m.method === "Runtime.consoleAPICalled" && m.params.type === "error")
       issues.console.push(m.params.args.map(a => a.value ?? a.description ?? "").join(" ").slice(0, 200));
-    if (m.method === "Network.loadingFailed" && !m.params.canceled) issues.requests.push(`${m.params.errorText}`);
-    if (m.method === "Network.responseReceived" && m.params.response.status >= 400) {
+    if (m.method === "Network.loadingFailed" && !m.params.canceled && !favicon(urls.get(m.params.requestId)))
+      issues.requests.push(`${m.params.errorText} ${urls.get(m.params.requestId) ?? ""}`.trim());
+    if (m.method === "Network.responseReceived" && m.params.response.status >= 400 && !favicon(m.params.response.url)) {
       issues.requests.push(`${m.params.response.status} ${m.params.response.url}`);
       if (m.params.type === "Document" && !issues.load) issues.load = `page returned HTTP ${m.params.response.status}`;
     }
@@ -215,8 +248,21 @@ async function run(browser, o) {
     await cdp.send("Runtime.evaluate", { expression: "document.fonts ? document.fonts.ready.then(() => true) : true", awaitPromise: true });
     await sleep(o.wait);
 
-    const page = (await cdp.send("Runtime.evaluate", { expression: INSPECT(o.page, o.minPt / 0.75), returnByValue: true })).result.value;
+    const inspect = async () => (await cdp.send("Runtime.evaluate", { expression: INSPECT(o.page, o.minPt / 0.75), returnByValue: true })).result.value;
+    let page = await inspect();
+    if (!page || page.error) throw new Unchecked(`--page is not a valid selector: ${o.page}`);
     if (!page.sheets.length) throw new Unchecked(`no element matches ${o.page}; mark each sheet or pass --page`);
+    // Print lays the document out at the sheet's width, so measure it there:
+    // a width media query must not show the gate a layout print never uses.
+    const width = Math.ceil(page.sheets[0].width);
+    if (width > 0 && width !== 1200) {
+      await cdp.send("Emulation.setDeviceMetricsOverride", { width, height: 1600, deviceScaleFactor: o.scale, mobile: false });
+      await sleep(100);
+      page = await inspect();
+    }
+    mkdirSync(o.pages, { recursive: true });
+    // Images from an earlier, longer run would be read as pages of this one.
+    for (const f of readdirSync(o.pages)) if (f.startsWith(`${o.stem}-`) && /-\d+\.png$/.test(f)) rmSync(join(o.pages, f), { force: true });
 
     const findings = [], add = (check, message) => findings.push({ check, message });
     const files = [];
@@ -227,7 +273,8 @@ async function run(browser, o) {
       writeFileSync(file, Buffer.from(shot.data, "base64"));
       files.push(file);
       for (const w of s.spill) add("overflow", `page ${s.index}: ${w} runs off the sheet`);
-      for (const w of s.small) add("type", `page ${s.index}: ${w} is under ${o.minPt}pt`);
+      for (const w of s.clip) add("clip", `page ${s.index}: ${w}`);
+      for (const w of s.small) add("type", `page ${s.index}: ${w}, under ${o.minPt}pt`);
     }
     const pdf = await cdp.send("Page.printToPDF", { printBackground: true, preferCSSPageSize: true });
     const bytes = Buffer.from(pdf.data, "base64");
@@ -247,9 +294,10 @@ async function main() {
   let o;
   try { o = parse(process.argv.slice(2)); }
   catch (e) { process.stderr.write(`pdf: ${e.message}\n`); process.exit(2); }
-  mkdirSync(o.pages, { recursive: true });
   mkdirSync(dirname(resolve(o.out)), { recursive: true });
   const browser = await launch();
+  // An interrupted run must not leave Chrome or its temp profile behind.
+  for (const sig of ["SIGINT", "SIGTERM"]) process.once(sig, () => { browser.close().finally(() => process.exit(2)); });
   let r;
   try { r = await run(browser, o); }
   finally { await browser.close(); }

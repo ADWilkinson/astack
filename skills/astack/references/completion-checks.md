@@ -39,5 +39,5 @@ Run this before writing "done". Every line is either checked, not applicable (sa
 
 - [ ] Leads with the outcome at the agreed target.
 - [ ] Every claim has a link or names how it was observed.
-- [ ] Anything unverified is said plainly with the exact next step. No "should work". The method of verification is named: ran it, deterministic checks, independent review or not verified.
+- [ ] Anything unverified is said plainly with the exact next step. No "should work". The method of verification is named: ran it, deterministic checks, an independent reviewer, self-assessment or not verified.
 - [ ] Findings you considered and dismissed (review comments, audit hits, by-design behaviour) are listed in the PR or plan with one line each, so the next pass does not raise them again.

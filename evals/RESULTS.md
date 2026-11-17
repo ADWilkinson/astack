@@ -8,7 +8,7 @@ The first run, with only the `web-graphics` description changed, passed 8 of the
 
 All three runs passed the 50 direct cases and the six Modern Web cases. On the 27 near-misses they passed 25, 25 and 23. Every miss loaded nothing where `context`, `web-design` or `launch` was expected, on descriptions this release did not change. The selection prompt used here tells the agent to load nothing for work it can do directly, which is stricter than the recorded October prompt, and no baseline was run with this prompt. Read the near-miss numbers as a property of the prompt, not as a regression measured against 0.12.0.
 
-`pdf.mjs` was run on three synthetic fixtures: a two-sheet A4 document (exit 0, two pages), the same document with a 320mm block and a 6px line (exit 1: overflow, type and count findings) and a missing file (exit 2). No blind comparison was run for the new references; they change what an agent is told, and whether outcomes improve is not measured here.
+`pdf.mjs` was run on 18 synthetic fixtures. An independent reviewer found false passes in the first version (a block or image past the sheet, text cut inside a nested box, scaled SVG text, a width media query that only applies at print width) and a false failure on Chrome's favicon request; each was fixed and replayed. Seven sound documents (A4, A3 landscape, US Letter, one sheet, trailing script) exit 0, ten planted defects exit 1 with the defect named, and a document with no sheets exits 2. No blind comparison was run for the new references; they change what an agent is told, and whether outcomes improve is not measured here.
 
 ## Modern Web Guidance, 14 November 2026
 

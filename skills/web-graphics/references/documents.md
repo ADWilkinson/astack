@@ -22,7 +22,7 @@ If the project already renders PDFs (a React PDF renderer, a template service), 
   .page { width: 210mm; height: 297mm; box-sizing: border-box; padding: 20mm 18mm 18mm;
           position: relative; overflow: hidden; break-after: page }
   .page:last-child { break-after: auto }
-  .folio { position: absolute; left: 18mm; right: 18mm; bottom: 10mm;
+  .folio { position: absolute; left: 18mm; right: 18mm; bottom: 12mm;
            display: flex; justify-content: space-between; font-size: 8pt }
 </style>
 <section class="page">…</section>
@@ -30,8 +30,8 @@ If the project already renders PDFs (a React PDF renderer, a template service), 
 ```
 
 - One `.page` per sheet, sized to the paper: A4 is 210 by 297mm, US Letter 8.5 by 11in. Set the size the reader prints on.
-- Margins live in the sheet's padding, so a full-bleed band or image can reach the edge. Keep text at least 12mm from the edge; office printers cannot print closer.
-- You place the content on each sheet. Long tables are split by you into sheets with the header row repeated, not left to flow. A flowing document may use `break-inside: avoid` on rows, cards and figures and `break-after: avoid` on headings instead, and then the count check does not apply: say so.
+- Margins live in the sheet's padding, so a full-bleed band or image can reach the edge. Keep text at least 12mm from the edge as a safety margin: printers leave 4 to 6mm unprinted and the trim varies. A deliberate full-bleed element carries `data-bleed`, so the gate does not report it.
+- You place the content on each sheet. Long tables are split by you into sheets with the header row repeated, not left to flow. A long flowing document (a contract, a manual) is outside this contract and this gate: print it with the project's renderer, use `break-inside: avoid` on rows and figures and `break-after: avoid` on headings, and say the pages were checked by eye.
 - Running header, footer and page number are elements on each sheet (`.folio`), written in the source. Chrome's own header and footer stay off.
 - Fonts load from files in the project with `@font-face`. A remote font that fails prints as the fallback.
 
@@ -44,7 +44,7 @@ If the project already renders PDFs (a React PDF renderer, a template service), 
 | Grid | 4pt spacing steps, a 12-column or margin-plus-main grid, and the same left edge on every page. Section, paragraph and component gaps come from three values, not ten. |
 | Tables | Numbers right-aligned in tabular figures, text left-aligned, rules between rows only (or none, with spacing), the header quieter than the data, totals set apart by a rule and weight. No full grid, no zebra by default. |
 | Pages | A cover or a strong first page, an opening that states the conclusion, then sections that each start at the same place on the sheet. One accent colour, used for the same meaning each time. |
-| Colour | Dark text on a light sheet. Large solid dark areas cost toner and band on office printers; keep them for a cover. Set `print-color-adjust: exact` where a background carries meaning. |
+| Colour | Dark text on a light sheet. Large solid dark areas cost toner and band on office printers; keep them for a cover. `pdf.mjs` prints backgrounds; a reader printing from a browser needs `print-color-adjust: exact` where a background carries meaning. |
 | Images | Raster at 2x its printed size or more (150 to 300 pixels an inch); charts and logos as SVG. A product screen is a capture placed as an image, never a redrawn one. |
 | Truth | Every number, name and date comes from the data or the brief. An invoice total equals the sum of its lines; check it in code, not by eye. |
 
@@ -54,7 +54,7 @@ If the project already renders PDFs (a React PDF renderer, a template service), 
 node <skill-dir>/scripts/pdf.mjs docs/report/report.html --out docs/report/report.pdf
 ```
 
-It writes the PDF and one PNG per sheet, and exits 1 when content runs off a sheet, when the PDF has a different number of pages than the source has sheets (a sheet spilled or is the wrong size), when text is under `--min-pt`, or when a font or request failed. Exit 2 means it could not check, which is not a pass.
+It writes the PDF and one PNG per sheet, measured at the sheet's own width. It exits 1 when an element or a line runs off a sheet, when text is cut by a box that hides its overflow, when the PDF has a different number of pages than the source has sheets (a sheet spilled or is the wrong size), when text renders under `--min-pt` after any scaling, or when a font or file failed to load. Exit 2 means it could not check, which is not a pass.
 
 Then read every page image:
 

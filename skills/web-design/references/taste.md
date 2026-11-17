@@ -2,7 +2,7 @@
 
 Every correction a user makes is a preference the agent did not have. If it is not written down, the next session repeats the mistake and the user corrects it again. This procedure turns a session's corrections into rules where the next agent reads them. Adapted from the `learn-taste` skill in [Emil Kowalski's skills](https://github.com/emilkowalski/skills) (MIT), paraphrased.
 
-Use it when the user asks to remember design feedback, at the end of a session with several visual corrections, or when the same correction arrives twice.
+Use it when the user asks to remember design feedback, or when the same correction arrives twice. It covers the user's preferences, which need their approval before they become rules. Your own durable decisions (a new token, a rejected direction) still go into DESIGN.md as the skill describes, without this procedure.
 
 ## Rules
 
@@ -17,13 +17,13 @@ Use it when the user asks to remember design feedback, at the end of a session w
 1. **Collect.** Read the session from the first turn. Explicit corrections are the minority. Also look for a silent edit (the user changed `400` to `200` in a file you wrote), a repeated nudge ("smaller", "still too big", "ok": record where it landed), a revert or a rejected variant, and a confirmed choice a fresh agent would not repeat. Keep the user's words or the diff. Skip bugs, content for one screen and misunderstandings of the task.
 2. **Filter.** Would a fresh agent building a different component here make the same mistake? If not, skip it. If an existing rule already says it, the rule failed: rewrite it stricter (a number, a token, "never") instead of adding a second. If an existing rule contradicts it, show both and let the user choose.
 3. **Generalise to the class, not the instance or the universe.** "The pricing card gets a shadow" protects one card. "Never use borders" breaks inputs and tables. "Raised surfaces (cards, popovers, menus) use `shadow-raised`, never a solid border" is the rule. Then test it: reading only the rule and its reason, would an agent with no other context produce what the user wanted?
-4. **Place it.** `DESIGN.md` at the repo root, under the matching section (surfaces, colour, type, spacing, motion, interaction, copy). If neither AGENTS.md nor CLAUDE.md points to DESIGN.md, propose the one line that does; a file no agent loads changes nothing.
+4. **Place it.** The project's `DESIGN.md`, wherever it keeps it, under the section the rule belongs to (Layout, Components or Copy in [the template](design-md-template.md); add a Surfaces, Type or Motion heading when none fits), with a dated line in its decisions log. If neither AGENTS.md nor CLAUDE.md points to DESIGN.md, propose the one line that does; a file no agent loads changes nothing.
 5. **Report and wait.** Show the rules with the user's words beside each, the questions (each inferred reason, each unclear level), the conflicts, the check candidates and what was skipped. Write only what is approved, then show the diff. A new check that flags existing code is reported with its count; fixing those is a separate decision.
 
 ## Entry format
 
 ```md
-## Surfaces
+## Components
 
 - **Raised surfaces (cards, popovers, menus) use `shadow-raised`, never a solid border.**
   Why: a solid border makes a raised surface look flat and heavy; a semi-transparent shadow adapts to both themes.

@@ -4,10 +4,10 @@ A clip built as an HTML page on a timeline can be reviewed, diffed and re-render
 
 ## The order of work
 
-1. **Storyboard.** Write it in `launch/media/STORYBOARD.md`, one line per beat. Give each: its time, what is on screen, the one thing the viewer should read, and the source (a real screenshot, a real number with its query). 6 to 15 seconds is 3 to 5 beats. Cut any beat that has nothing to read. Budget the seconds before building ([beat budget](#beat-budget)): the product is on screen within 3 seconds.
+1. **Storyboard.** Write it in `launch/media/STORYBOARD.md`, one line per beat. Give each: its time, what is on screen, the one thing the viewer should read, and the source (a real screenshot, a real number with its query). 6 to 15 seconds is 3 to 5 beats. Cut any beat that has nothing to read. Budget the seconds before building ([beat budget](#beat-budget)): the real product is visible within 3 seconds.
 2. **Material.** Capture real screens with `shoot.mjs` at the size they will appear, at `--scale 2`. Place each capture as an image. Do not rebuild the screen in HTML for the clip, and do not invent a number the capture and the brief do not contain. A frame may crop the capture; it may not replace it.
 3. **Animatic.** Build the composition with every beat in place and almost no motion. Render it, and look at a contact sheet (below) before adding motion. Most problems are layout and copy, and they are cheaper to fix here.
-4. **Motion.** Add only motion that explains: a cursor that travels to the button, a value that changes, a panel that opens. Ease out, 200 to 600ms per move, one thing moving at a time.
+4. **Motion.** Add only motion that explains: a cursor that travels to the button, a value that changes, a panel that opens. Ease out, 200 to 600ms per move, one thing moving at a time within a beat.
 5. **Render and gate.** `film.mjs` must exit 0. Then watch it once at full size and once at feed size, read it [as four critics](#read-it-as-four-critics), and score it with `web-design`'s review rubric if it is installed.
 6. **One composition per aspect ratio.** 16:9 for a post or a page, 9:16 for stories and shorts, 1:1 or 4:5 for a feed. Each is its own layout at its own size, recomposed like a share card. A cropped or letterboxed 16:9 is not a vertical film.
 
@@ -30,12 +30,13 @@ A minimal composition:
   body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #F6F8FA; color: #0E1726; font: 600 72px/1.1 Brand, sans-serif }
   .beat { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0 }
   .b1 { animation: leave 2.8s both }
-  .b2 { animation: show 3s 2.8s both }
-  .b3 { animation: show 2.2s 5.8s both }
+  .b2 { animation: show 3.2s 2.6s both }
+  .b3 { animation: arrive 2.4s 5.6s both }
   .shot { width: 1400px; border-radius: 16px; box-shadow: 0 24px 60px rgb(14 23 38 / .18) }
-  .b2 .shot { animation: rise .5s 2.8s cubic-bezier(.2, .8, .2, 1) both }
-  @keyframes leave { 0%, 92% { opacity: 1 } 100% { opacity: 0 } }
-  @keyframes show { 0%, 100% { opacity: 0 } 6%, 94% { opacity: 1 } }
+  .b2 .shot { animation: rise .5s 2.6s cubic-bezier(.2, .8, .2, 1) both }
+  @keyframes leave { 0%, 88% { opacity: 1 } 100% { opacity: 0 } }
+  @keyframes show { 0%, 100% { opacity: 0 } 10%, 90% { opacity: 1 } }
+  @keyframes arrive { 0% { opacity: 0; transform: translateY(24px) } 15%, 100% { opacity: 1; transform: none } }
   @keyframes rise { from { transform: translateY(40px) } }
 </style>
 <div class="beat b1">Sell USDC for cash</div>
@@ -48,7 +49,7 @@ A minimal composition:
 node <skill-dir>/scripts/film.mjs launch/media/demo.html --size 1920x1080 --out launch/media/demo.mp4 --poster launch/media/demo-poster.png --poster-at 3
 ```
 
-The first beat is fully visible at 0s and only fades on its way out, so the film opens on words. `film.mjs` fails a film that opens on a flat or black frame.
+The first beat is fully visible at 0s and only fades on its way out, so the film opens on words. Each beat starts 200ms before the one before it has gone, so no frame between beats is empty, and the last beat holds to the end. `film.mjs` fails a film that opens on a flat or black frame.
 
 ## Beat budget
 
@@ -56,9 +57,9 @@ A launch film of about 20 seconds, as a starting shape. Shorten every part for a
 
 | Beat | Time | On screen |
 | --- | --- | --- |
-| Hook | 0 to 3s | The problem or the result in words, readable in the first frame |
+| Hook | 0 to 3s | The problem or the result in words, readable in the first frame, set over or beside a crop of the real screen |
 | Name | 3 to 6s | The product's name and what it does, in under eight words |
-| Product | 6 to 14s | The real screen doing the one thing, cursor and all |
+| Product | 6 to 14s | The screen at full size doing the one thing, cursor and all |
 | Proof | 14 to 17s | One real number or outcome, with its source in the storyboard |
 | Close | 17 to 20s | One headline, one address or action. Nothing else |
 
@@ -67,8 +68,8 @@ Motion that explains, with timings at 30 frames a second:
 - Words hold for 1 to 1.5 seconds after they finish arriving. If you cannot read a line aloud in its hold, cut words, not time.
 - Disclose in steps: text types on, a number counts up to its real value, cards fill in order. Things arrive in the order the viewer should read them.
 - The cursor is an actor. It travels to the control and presses before the change happens. A screen that changes with no cause reads as a slideshow.
-- Camera moves (a push into a region of the capture, a pan between two) take 250 to 450ms and settle in 300 to 500ms, with a strong ease-out so the frame is readable as soon as it lands. One move per beat.
-- Out and in go together. The outgoing beat leaves as the next arrives, 3 to 6 frames apart. No fade to an empty frame between beats.
+- Camera moves (a push into a region of the capture, a pan between two) take 300 to 600ms in total, with a strong ease-out so the frame is readable as soon as it lands. One camera move per beat.
+- Out and in go together. The change of beat is the one place two things move at once: the outgoing beat leaves as the next arrives, 3 to 6 frames apart. No fade to an empty frame between beats.
 - Stagger a group by 100 to 200ms in total, not per item.
 - Sentence case, no added letter-spacing, no glow, mesh gradient or blur behind text.
 
@@ -88,7 +89,7 @@ After the gate passes, read the contact sheet and the film four times, once for 
 
 1. **Layout**: does each beat have one focal point, a consistent margin and nothing cropped at this aspect ratio?
 2. **Readability**: is every line legible at feed size, on screen long enough, and high enough in contrast with the sound off?
-3. **Pacing**: does the product appear within 3 seconds, does any beat drag or cut early, does anything move without a reason?
+3. **Pacing**: is the real product visible within 3 seconds, does any beat drag or cut early, does anything move without a reason?
 4. **Brand and truth**: the product's faces and colours, real captures, and no label, feature or number that the storyboard cannot source.
 
 ## Changelog clip from a pull request

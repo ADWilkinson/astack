@@ -67,7 +67,7 @@ node <skill-dir>/scripts/pr-state.mjs --watch          # run as a background tas
 
 It prints one line per change (a check finishing, a new review comment, the head or base moving, with files both sides touched) and exits 0 when the PR is ready on two consecutive reads or merged, 2 when something needs your action, 3 on timeout. Only one watcher can hold a PR at a time. Act on the exit, then watch again. Do not post "still waiting" comments.
 
-Never game a gate: no skipping, deleting or loosening tests, no raising timeouts or thresholds, no `--no-verify`, no disabling a check to get green. See [review and release](references/review-and-release.md) for the full list and for CI diagnosis. When the wait for checks is what slows every loop, [fast CI](references/ci-speed.md) measures the pipeline and shortens it as a separate change that checks no less.
+Never game a gate: no skipping, deleting or loosening tests, no raising timeouts or thresholds, no `--no-verify`, no disabling a check to get green. See [review and release](references/review-and-release.md) for the full list and for CI diagnosis. When the wait for checks is what slows every loop, [fast CI](references/ci-speed.md) measures the pipeline and shortens it as a separate change. No check is weakened: PRs run the tests the diff can reach and the default branch still runs them all.
 
 ## 4. Choose verification for the risk
 
