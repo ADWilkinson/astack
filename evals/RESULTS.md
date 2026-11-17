@@ -1,5 +1,15 @@
 # Results
 
+## Verification, CI, films and documents routing, 17 November 2026
+
+Ten new cases in [`routing/cases-verification.json`](routing/cases-verification.json) cover the 0.13.0 entry points: a designed PDF, a launch film, slow CI, proving a rewrite, a laggy gesture, remembered design feedback, and three requests that should load nothing. A fresh agent saw only skill names and descriptions and chose skills for all 93 cases across the four sets. Runs are in [`results/routing-2026-11-17`](results/routing-2026-11-17).
+
+The first run, with only the `web-graphics` description changed, passed 8 of the 10 new cases. It loaded nothing for "CI takes 14 minutes" and "prove the rewrite behaves the same". `ship`'s description then gained "slow CI" and "proving a rewrite or migration behaves the same". Two further fresh runs passed 9 and 10 of 10. The miss in run A loaded nothing for "remember my design feedback"; `web-design`'s description was left as it is.
+
+All three runs passed the 50 direct cases and the six Modern Web cases. On the 27 near-misses they passed 25, 25 and 23. Every miss loaded nothing where `context`, `web-design` or `launch` was expected, on descriptions this release did not change. The selection prompt used here tells the agent to load nothing for work it can do directly, which is stricter than the recorded October prompt, and no baseline was run with this prompt. Read the near-miss numbers as a property of the prompt, not as a regression measured against 0.12.0.
+
+`pdf.mjs` was run on three synthetic fixtures: a two-sheet A4 document (exit 0, two pages), the same document with a 320mm block and a 6px line (exit 1: overflow, type and count findings) and a missing file (exit 2). No blind comparison was run for the new references; they change what an agent is told, and whether outcomes improve is not measured here.
+
 ## Modern Web Guidance, 14 November 2026
 
 One fresh native worker per arm planned the same synthetic confirmation flow using previous or candidate skill instructions. Routing improved from 5/6 to 6/6 on the new cases: the candidate selected the guidance for a frontend code review, while both excluded the three non-web requests. Both plans preserved the maintained primitive and Safari 17.4 support; no product-quality or speed improvement was measured. The candidate executed pinned search/retrieve and planned a scoped source review.

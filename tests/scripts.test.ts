@@ -179,7 +179,7 @@ test("verify-live finds a revision in headers, checks content and fails on a wro
 
 test("every script prints help and exits cleanly", async () => {
   for (const [skill, name] of [["ship", "pr-state.mjs"], ["ship", "verify-live.mjs"], ["ship", "shoot.mjs"], ["deslop", "slop-scan.mjs"],
-    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"], ["web-graphics", "fi.mjs"], ["launch", "render-gate.mjs"], ["launch", "film.mjs"]]) {
+    ["discoverability", "page-audit.mjs"], ["web-graphics", "iso.mjs"], ["web-graphics", "fi.mjs"], ["web-graphics", "pdf.mjs"], ["launch", "render-gate.mjs"], ["launch", "film.mjs"]]) {
     const r = await node([script(skill, name), "--help"]);
     expect(r.code).toBe(0);
     expect(r.out).toContain("Usage");

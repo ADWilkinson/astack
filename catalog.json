@@ -91,7 +91,7 @@
     {
       "name": "web-graphics",
       "title": "Web graphics",
-      "summary": "Build bespoke isometric, flat and ASCII graphics",
+      "summary": "Build bespoke graphics and designed PDFs in code",
       "example": "Make an isometric hero showing three inboxes merging into one queue.",
       "stage": "build",
       "pairs": [
@@ -101,7 +101,7 @@
       "prompts": [
         "Make an isometric hero showing three inboxes merging into one queue",
         "Animated sticker icons for the onboarding steps, in our brand blue",
-        "A share card and favicon set drawn in code"
+        "A two-page proposal PDF that does not look like a default export"
       ]
     },
     {

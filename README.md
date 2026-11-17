@@ -68,7 +68,7 @@ Both keep one working context and load other skills only when their procedure he
 | [context](skills/context/SKILL.md) | "read the thread first" | Pulls the Slack thread, issue, PRs, git history and analytics that actually change the task into a short brief. |
 | [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, stress-tests it with worst-case data, and checks it on a phone in light and dark. |
 | [modern-web-guidance](skills/modern-web-guidance/SKILL.md) | "use current web guidance" | Searches pinned browser guides before frontend work and checks scoped legacy-pattern findings during review, with telemetry disabled. |
-| [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, animated sticker icons, flat illustrations, ASCII art, icons and share cards, built in code. |
+| [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, animated sticker icons, flat illustrations, ASCII art, icons, share cards and designed PDF documents, built in code. |
 | [deslop](skills/deslop/SKILL.md) | "this sounds like AI" | Finds the tells in copy, UI and code, fixes them, and can learn your voice from your own writing. |
 | [instrument](skills/instrument/SKILL.md) | "can we measure this" | Tracking that fires once, on real success, and a query you can actually trust. |
 | [discoverability](skills/discoverability/SKILL.md) | "why doesn't ChatGPT mention us" | Checks what Google and AI crawlers really see, fixes it, measures before and after. |

@@ -20,7 +20,7 @@ Keep context, decisions and execution in the main agent. Load another skill or r
 4. **Use it**: the real journey, in a browser or runtime, to the real outcome; fix and replay. (`dogfood`)
 5. **Measure**: the success action fires once, on real success, and arrives. (`instrument`, when there is a success action)
 6. **Clean**: `deslop` scan on changed copy, UI and code; every medium or high hit fixed or dismissed with a reason.
-7. **Verify**: run the repo's required checks and exercise the affected behavior. Use an independent reviewer when subjective quality, security, money, migrations or unresolved uncertainty warrants a separate perspective. Give it acceptance criteria and source evidence, not your conclusions. For visual work, inspect renders against the product's design and the user's references.
+7. **Verify**: run the repo's required checks and exercise the affected behavior. [Verification](references/verification.md) chooses the test that can fail and keeps checks out of the change's reach. Use an independent reviewer when subjective quality, security, money, migrations or unresolved uncertainty warrants a separate perspective. Give it acceptance criteria and source evidence, not your conclusions. For visual work, inspect renders against the product's design and the user's references.
 8. **PR ready**: `node <skill-dir>/scripts/pr-state.mjs` reports no blockers on the current head; the PR body says what changed, how it was proven, and what was not verified. (`ship`)
 
 For visual changes, capture 390 and 1440 with [`scripts/shoot.mjs`](scripts/shoot.mjs) and inspect the images, including the themes and states the product supports. Read [completion checks](references/completion-checks.md) when reconciling a larger change before delivery.

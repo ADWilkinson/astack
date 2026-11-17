@@ -1,6 +1,6 @@
 ---
 name: ship
-description: "Deliver an existing change to its agreed PR, merge, staging or production target. Use for failing CI, review comments, conflicts, babysitting a PR, deployment verification or checking someone else's \"it shipped\" claim."
+description: "Deliver an existing change to its agreed PR, merge, staging or production target. Use for failing or slow CI, review comments, conflicts, babysitting a PR, proving a rewrite or migration behaves the same, deployment verification or checking someone else's \"it shipped\" claim."
 ---
 
 # Ship
@@ -67,13 +67,13 @@ node <skill-dir>/scripts/pr-state.mjs --watch          # run as a background tas
 
 It prints one line per change (a check finishing, a new review comment, the head or base moving, with files both sides touched) and exits 0 when the PR is ready on two consecutive reads or merged, 2 when something needs your action, 3 on timeout. Only one watcher can hold a PR at a time. Act on the exit, then watch again. Do not post "still waiting" comments.
 
-Never game a gate: no skipping, deleting or loosening tests, no raising timeouts or thresholds, no `--no-verify`, no disabling a check to get green. See [review and release](references/review-and-release.md) for the full list and for CI diagnosis.
+Never game a gate: no skipping, deleting or loosening tests, no raising timeouts or thresholds, no `--no-verify`, no disabling a check to get green. See [review and release](references/review-and-release.md) for the full list and for CI diagnosis. When the wait for checks is what slows every loop, [fast CI](references/ci-speed.md) measures the pipeline and shortens it as a separate change that checks no less.
 
 ## 4. Choose verification for the risk
 
-Run required checks and exercise the affected behavior. A routine change with decisive deterministic evidence needs no extra model loop. Use a fresh reviewer for subjective quality, security, money, migrations or uncertainty that the checks do not settle; preserve any repository requirement for review. Give it the PR, acceptance criteria and how to run the app, without your conclusions. It should return **PASS**, **PASS with notes** or **FAIL**, with source evidence and any limits.
+Run required checks and exercise the affected behavior: verification means running the change, and tests come second. [Verification](references/verification.md) picks the test that can fail (end to end first, property tests for rules that must always hold, differential tests for rewrites), reads review rules from the base branch, and runs the checklist items the diff triggers. After three rounds on the same failing check, stop and hand it to a person with the evidence. A routine change with decisive deterministic evidence needs no extra model loop. Use a fresh reviewer for subjective quality, security, money, migrations or uncertainty that the checks do not settle; preserve any repository requirement for review. Give it the PR, acceptance criteria and how to run the app, without your conclusions. It should return **PASS**, **PASS with notes** or **FAIL**, with source evidence and any limits.
 
-A verdict covers the head it examined. After a later push, refresh checks and review for the affected paths. Report whether verification used deterministic checks, an independent reviewer or self-assessment; never label the author's check independent.
+A verdict covers the head it examined. After a later push, refresh checks and review for the affected paths. Report whether verification used deterministic checks, an independent reviewer or self-assessment; never label the author's check independent. "Not verified" is a valid entry: write it in the PR body where the next reader finds it.
 
 ## 5. Check the experience
 

@@ -53,6 +53,7 @@ Copy any folder from `skills/` into your client's skills directory. Keep each fo
 | `slop-scan.mjs`, `iso.mjs` | Node 22+ |
 | `render-gate.mjs` | Node 22+ and a local Chrome or Chromium |
 | `film.mjs` | Node 22+, a local Chrome or Chromium, and `ffmpeg` |
+| `pdf.mjs` | Node 22+ and a local Chrome or Chromium |
 | `modern-web.mjs` | Node 22+ and npm; the first use downloads the pinned `modern-web-guidance` package with telemetry disabled |
 
 Each prints usage with `--help`. Run them from your project root, for example `node .claude/skills/ship/scripts/pr-state.mjs`.
