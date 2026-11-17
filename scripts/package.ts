@@ -96,6 +96,11 @@ export function validatePackage(root: string): Finding[] {
     if (!Array.isArray(entry.prompts) || entry.prompts.length < 2 ||
         entry.prompts.some(prompt => typeof prompt !== "string" || prompt.length < 12 || prompt.length > 100))
       fail(catalogPath, `Example prompts for ${entry.name} must be 2 or more short strings`);
+    // The directory page also reads these three sections from each skill's doc page.
+    const docPath = resolve(root, "docs", "skills", `${entry.name}.md`);
+    const doc = existsSync(docPath) ? readFileSync(docPath, "utf8") : "";
+    for (const heading of ["What it does", "When to reach for it", "It's working if"])
+      if (!new RegExp(`^## ${heading}\\r?\\n+\\S`, "m").test(doc)) fail(docPath, `Missing or empty "${heading}" section`);
     const dir = resolve(skillRoot, entry.name);
     const path = resolve(dir, "SKILL.md");
     if (!existsSync(path)) { fail(path, "Missing skill entrypoint"); continue; }
