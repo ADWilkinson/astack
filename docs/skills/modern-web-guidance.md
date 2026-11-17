@@ -8,10 +8,7 @@ Searches Google's browser guidance before an HTML, CSS or browser JavaScript pat
 
 A browser-capability or compatibility decision (a dialog, a responsive table, a popover), or a review of changed frontend code for legacy patterns. Backend, infrastructure and copy-only edits skip it.
 
-```text
-Build a confirmation dialog for deleting a saved draft using current browser guidance.
-Review the changed frontend for legacy browser patterns; do not edit it.
-```
+Typical requests: "Build a confirmation dialog for deleting a saved draft using current browser guidance" and "Review the changed frontend for legacy browser patterns; do not edit it".
 
 ## It's working if
 
