@@ -66,15 +66,15 @@ Both keep one working context and load other skills only when their procedure he
 | [astack](skills/astack/SKILL.md) | "astack this" | Takes a task from idea to a proven, review-ready PR, with a done-check at every stage. |
 | [oneshot](skills/oneshot/SKILL.md) | "oneshot this" | The same, all the way: merged, deployed, verified live and announced. You call it by name. |
 | [context](skills/context/SKILL.md) | "read the thread first" | Pulls the Slack thread, issue, PRs, git history and analytics that actually change the task into a short brief. |
-| [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, stress-tests it with worst-case data, and checks it on a phone in light and dark. |
+| [web-design](skills/web-design/SKILL.md) | "this looks AI-generated" | Gives the UI a real direction, keeps a DESIGN.md so it sticks, animates with purpose, builds gestures that track the finger, stress-tests it with worst-case data, and checks it on a phone in light and dark. |
 | [modern-web-guidance](skills/modern-web-guidance/SKILL.md) | "use current web guidance" | Searches pinned browser guides before frontend work and checks scoped legacy-pattern findings during review, with telemetry disabled. |
 | [web-graphics](skills/web-graphics/SKILL.md) | "make a hero graphic" | Isometric scenes, animated sticker icons, flat illustrations, ASCII art, icons, share cards and designed PDF documents, built in code. |
 | [deslop](skills/deslop/SKILL.md) | "this sounds like AI" | Finds the tells in copy, UI and code, fixes them, and can learn your voice from your own writing. |
 | [instrument](skills/instrument/SKILL.md) | "can we measure this" | Tracking that fires once, on real success, and a query you can actually trust. |
 | [discoverability](skills/discoverability/SKILL.md) | "why doesn't ChatGPT mention us" | Checks what Google and AI crawlers really see, fixes it, measures before and after. |
 | [dogfood](skills/dogfood/SKILL.md) | "use it like a customer" | Walks the real journeys signed in, fixes what breaks and goes round again. |
-| [ship](skills/ship/SKILL.md) | "ship it" | Clears CI and review comments, verifies the affected behavior, deploys, and proves production is serving it. Also checks other people's "it's shipped". |
-| [launch](skills/launch/SKILL.md) | "we launch tomorrow" | Share cards, page checks, posts for X and Show HN, a tracker and how you'll read the results. |
+| [ship](skills/ship/SKILL.md) | "ship it" | Clears CI and review comments, verifies the affected behavior with a check that can fail, speeds up slow CI without weakening it, deploys, and proves production is serving it. Also checks other people's "it's shipped". |
+| [launch](skills/launch/SKILL.md) | "we launch tomorrow" | Share cards, demo clips and launch films, page checks, posts for X and Show HN, a tracker and how you'll read the results. |
 
 Each one has a short guide in [docs/skills](docs/skills/).
 
