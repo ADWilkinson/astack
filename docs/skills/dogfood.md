@@ -2,7 +2,7 @@
 
 ## What it does
 
-Walks real user journeys to the real outcome, keeps a findings frontier, fixes what breaks and replays until the journeys pass.
+Walks real user journeys to the real outcome, keeps a findings frontier, fixes what breaks and replays until the journeys pass. Each fix gets a test of the kind that catches the class of bug: the journey end to end, a property test for a rule that must always hold, or a differential run for a rewrite.
 
 ## When to reach for it
 

@@ -40,8 +40,10 @@ The `spec-readiness` fixture instead compares the previous and candidate astack 
 
 Whether the skill descriptions make an agent load the right skill, and only when it helps.
 
-- `cases.json`: 48 direct requests, some of which should load nothing.
+- `cases.json`: 50 direct requests, some of which should load nothing.
 - `cases-hard.json`: 27 near-misses: small edits that need no skill, requests that sit between two skills.
+- `cases-modern-web.json`: 6 cases for the web platform guidance, three of which should load nothing.
+- `cases-verification.json`: 10 cases for the 0.13.0 entry points (a designed PDF, a launch film, slow CI, proving a rewrite, a laggy gesture, remembered design feedback), three of which should load nothing.
 - A fresh agent sees only the skill names and descriptions and picks skills per request. `score.py cases.json run.json` scores a run.
 - Every case id must be present, including requests that load no skill. Invalid input exits 2, a routing miss exits 1 and a complete passing run exits 0. Use `score.py cases.json candidate.json --compare baseline.json` to expose improvements and regressions by case.
 
