@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.1
+
+- The CLI writes errors as JSON on stderr when you pass `--json`. Scripts can read the error message and exit code.
+- `list` now rejects `--scope project`, matching its documented options.
+- Added Andrew’s author and funding links to the npm package.
+
 ## 0.13.0
 
 Verification, faster checks, gestures, launch films and designed PDFs. Each idea is folded into an existing skill; no skill was added.

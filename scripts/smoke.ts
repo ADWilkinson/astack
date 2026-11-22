@@ -49,6 +49,10 @@ try {
   const listed = JSON.parse(must([bin, "list", "--json"], project)).skills.map((skill: { name: string }) => skill.name);
   check(JSON.stringify(listed) === JSON.stringify(catalog), `list returned ${listed.join(",")}, catalogue has ${catalog.join(",")}`);
 
+  const invalidList = run([bin, "list", "--scope", "project", "--json"], project);
+  check(invalidList.code === 2 && invalidList.out === "" && JSON.parse(invalidList.err).code === 2,
+    "list must reject install options and report JSON failures on stderr");
+
   const refused = run([bin, "install", "--agent", "claude", "--skill", "../outside"], project);
   check(refused.code !== 0 && !existsSync(resolve(project, ".claude")) && !existsSync(resolve(temp, "outside")), "a traversal skill name was not refused cleanly");
 

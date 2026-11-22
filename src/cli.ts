@@ -80,6 +80,7 @@ export function parseArguments(args: string[]): Options {
     const equal = arg.indexOf("=");
     const flag = equal < 0 ? arg : arg.slice(0, equal);
     const inline = equal < 0 ? undefined : arg.slice(equal + 1);
+    if (command === "list" && flag !== "--json") throw new CliError("astack list accepts only --json", 2);
     if (["--force", "--dry-run", "--json"].includes(flag)) {
       if (inline !== undefined) throw new CliError(`${flag} does not take a value`, 2);
       if (flag === "--force") options.force = true;
@@ -105,8 +106,6 @@ export function parseArguments(args: string[]): Options {
   options.agents = [...new Set(options.agents)];
   options.skills = [...new Set(options.skills)];
   if (command === "install" && !options.agents.length) throw new CliError("Choose --agent claude, codex or all before installing", 2);
-  if (command === "list" && (options.agents.length || options.skills.length || options.force || options.dryRun || options.scope !== "project"))
-    throw new CliError("astack list accepts only --json", 2);
   return options;
 }
 
@@ -290,7 +289,10 @@ export function runCLI(args: string[], runtime: Runtime = {}): Result {
     return { code: 0, stdout: options.json ? `${JSON.stringify({ package: pkg.name, version: pkg.version, dryRun: options.dryRun, actions })}\n`
       : `${actions.map(item => `${options.dryRun ? "would " : ""}${item.action}: ${item.agent}/${item.skill} -> ${item.target}`).join("\n")}\n`, stderr: "" };
   } catch (error) {
-    return { code: error instanceof CliError ? error.code : 1, stdout: "", stderr: `${error instanceof Error ? error.message : String(error)}\n` };
+    const code = error instanceof CliError ? error.code : 1;
+    const message = error instanceof Error ? error.message : String(error);
+    return { code, stdout: "", stderr: args.includes("--json")
+      ? `${JSON.stringify({ error: message, code })}\n` : `${message}\n` };
   }
 }
 
@@ -298,6 +300,6 @@ const invokedPath = process.argv[1];
 if (invokedPath && existsSync(invokedPath) && realpathSync(invokedPath) === realpathSync(fileURLToPath(import.meta.url))) {
   const result = runCLI(process.argv.slice(2));
   if (result.stdout) process.stdout.write(result.stdout);
-  if (result.stderr) process.stderr.write(`astack: ${result.stderr}`);
+  if (result.stderr) process.stderr.write(process.argv.slice(2).includes("--json") ? result.stderr : `astack: ${result.stderr}`);
   process.exitCode = result.code;
 }

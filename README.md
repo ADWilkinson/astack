@@ -18,6 +18,8 @@ npx astack-skills@latest install --agent all
 
 That puts the skills in your project for Claude Code and Codex. `--scope global` installs them for every project, in your home directory, and `--skill ship,deslop` picks a few. An unchanged folder is skipped. If a selected folder differs, nothing is written until you pass `--force`, which replaces that folder.
 
+To see the skills and their example prompts, run `npx astack-skills@latest list --json`. To preview an install, add `--dry-run` to the install command. With `--json`, the CLI writes successful results to stdout and errors to stderr. A failed command exits with a nonzero status.
+
 As a plugin:
 
 ```text
@@ -116,3 +118,5 @@ Nothing here posts, messages, deploys to production or spends money unless you'v
 Working on astack itself: `bun run metadata` syncs shared scripts and picker metadata, `bun run check` validates everything and runs the tests. See [CONTRIBUTING](CONTRIBUTING.md) and [SCOPE](SCOPE.md).
 
 [MIT](LICENSE) 🏴‍☠️
+
+If astack helps you ship, you can [sponsor my work on GitHub](https://github.com/sponsors/ADWilkinson).
