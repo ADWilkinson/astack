@@ -12,6 +12,8 @@ Walks real user journeys to the real outcome, keeps a findings frontier, fixes w
 
 Each journey ends at a checked outcome (the record, the email, the page), each finding has a repro, cause, fix and replay, and anything unreachable is named. A wait on data was compared with `shoot.mjs --shift`, and the phone lines were read.
 
+Screenshot reviews also report unnamed controls from Chrome’s accessibility tree. An icon can look right on a phone while its button has no name for someone using a screen reader.
+
 ## Common questions
 
 **Will it sign in as someone else?** No. It uses the account and session you selected.

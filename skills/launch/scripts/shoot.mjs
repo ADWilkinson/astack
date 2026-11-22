@@ -45,6 +45,7 @@ Also reports, per capture: horizontal overflow, elements wider than the
 viewport, stranded words in wrapped text, tap targets under 44px and
 selectable control text (widths < 768), text under 12px, inputs under 16px,
 a viewport that disables zoom, :hover rules outside @media (hover: hover),
+unnamed interactive controls in Chrome’s main-frame accessibility tree,
 a missing tap-highlight reset when the page has controls, console errors
 and failed requests. Set CHROME_PATH to override browser discovery. The
 temporary browser profile is deleted afterwards. Exits 1 if a page fails
@@ -179,6 +180,38 @@ async function connect(port) {
 }
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Chrome resolves native labels, aria-labelledby and shadow DOM naming.
+const namedControlRoles = new Set([
+  "button", "checkbox", "combobox", "link", "listbox", "menuitem", "menuitemcheckbox",
+  "menuitemradio", "radio", "searchbox", "slider", "spinbutton", "switch", "tab", "textbox",
+]);
+
+async function readControlNames(cdp) {
+  try {
+    const { nodes } = await cdp.send("Accessibility.getFullAXTree");
+    const missing = nodes.filter(node =>
+      !node.ignored && namedControlRoles.has(node.role?.value) && !node.name?.value?.trim());
+    const examples = [];
+    for (const node of missing.slice(0, 5)) {
+      const example = { role: node.role.value };
+      if (node.backendDOMNodeId) {
+        try {
+          const { node: element } = await cdp.send("DOM.describeNode", { backendNodeId: node.backendDOMNodeId });
+          example.tag = element.localName;
+          const attributes = element.attributes || [];
+          for (let i = 0; i < attributes.length; i += 2) {
+            if (attributes[i] === "id") example.id = attributes[i + 1];
+          }
+        } catch { /* The element may have detached since Chrome captured the tree. */ }
+      }
+      examples.push(example);
+    }
+    return { count: missing.length, examples };
+  } catch (error) {
+    return { count: null, error: error.message };
+  }
+}
 
 async function capture(cdp, o, width, theme) {
   const height = o.height || (width < 768 ? 844 : 900);
@@ -364,6 +397,7 @@ async function capture(cdp, o, width, theme) {
   const l = layout.result.value;
   return { width, height, theme, motion: o.motion, files, ...(o.frames ? { frameTimesMs: frameTimes } : {}), title: l.title,
     scrollHeight: l.height, regions: l.regions,
+    unnamedControls: await readControlNames(cdp),
     inputsUnder16: l.inputsUnder16, zoomLocked: l.zoomLocked, ungatedHovers: l.ungatedHovers, ungatedHoverCount: l.ungatedHoverCount,
     tapHighlightDisabled: l.tapHighlightDisabled, selectableControls: l.selectableControls,
     horizontalOverflow: l.scrollWidth > l.viewport ? `${l.scrollWidth - l.viewport}px` : null,
@@ -433,6 +467,13 @@ async function main() {
     for (const e of r.overflowingElements) process.stdout.write(`    wider than viewport: ${e}\n`);
     for (const e of r.strandedWords) process.stdout.write(`    stranded words: ${e}\n`);
     for (const e of r.smallTapTargets) process.stdout.write(`    tap target < 44px: ${e}\n`);
+    const controls = r.unnamedControls;
+    if (controls.count === null) process.stdout.write(`    control names unavailable: ${controls.error}\n`);
+    else if (controls.count) {
+      const examples = controls.examples.map(({ role, tag, id }) =>
+        `${role}${tag ? " <" + tag + ">" : ""}${id ? " #" + id : ""}`);
+      process.stdout.write(`    controls without an accessible name (${controls.count}): ${examples.join(", ")}\n`);
+    }
     for (const e of r.tinyText) process.stdout.write(`    text < 12px: ${e}\n`);
     for (const e of r.inputsUnder16 || []) process.stdout.write(`    input under 16px: ${e}\n`);
     if (r.zoomLocked) process.stdout.write(`    viewport disables zoom\n`);

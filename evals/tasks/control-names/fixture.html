@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout actions</title>
+<style>button:not([hidden]), input, a { min-width: 48px; min-height: 48px; display: inline-block; }</style>
+<h1>Checkout actions</h1>
+<button id="receipt"><svg width="24" height="24" aria-hidden="true"><path d="M1 1h20v20H1z"/></svg></button>
+<a href="#details" id="details-link"><span aria-hidden="true">→</span></a>
+<input id="quantity" type="number">
+<button aria-labelledby="save-label"><span aria-hidden="true">↓</span></button>
+<span hidden id="save-label">Save receipt</span>
+<label>Search orders <input type="search"></label>
+<button hidden></button>
+<label id="details">Details</label>
+<script>
+if (location.hash === "#fixed") {
+  document.querySelector("#receipt").setAttribute("aria-label", "Print receipt");
+  document.querySelector("#details-link").setAttribute("aria-label", "Order details");
+  document.querySelector("#quantity").setAttribute("aria-label", "Order quantity");
+}
+</script>
+</html>

@@ -84,7 +84,7 @@ Each one has a short guide in [docs/skills](docs/skills/).
 
 Most skill packs tell the model to be thorough. These come with small scripts so it can actually check. The scripts use Node 22, and every skill carries its own copy. The Modern Web Guidance adapter also needs npm; its first use downloads the pinned upstream tool with telemetry disabled. Installing astack does not run it.
 
-- `shoot.mjs` screenshots a page on a phone and on desktop, light and dark, and flags stranded words, tiny tap targets, anything spilling sideways, inputs that will zoom the page, hover that is not gated to a real pointer, and (with `--shift`) a loading state whose boxes do not match the loaded page.
+- `shoot.mjs` screenshots a page on a phone and on desktop, light and dark, and flags buttons, links and form controls Chrome exposes without a name, stranded words, tiny tap targets, anything spilling sideways, inputs that will zoom the page, hover that is not gated to a real pointer, and (with `--shift`) a loading state whose boxes do not match the loaded page.
 - `pr-state.mjs` reads every check on the current commit and every unresolved review thread. `--watch` sits in the background and pings you when something changes.
 - `verify-live.mjs` confirms the URL is serving the commit you shipped, not a cached copy of the last one.
 - `slop-scan.mjs` finds the usual suspects, from "seamless" to gradient headlines to emoji bullets, and explains why each one reads as generated. <!-- slop-scan: ignore-line -->

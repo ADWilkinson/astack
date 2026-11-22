@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.0
+
+- Screenshot reviews now report unnamed controls from Chrome’s main-frame accessibility tree, with up to five examples to locate on the page. The existing capture command includes this check.
+
 ## 0.13.1
 
 - The CLI writes errors as JSON on stderr when you pass `--json`. Scripts can read the error message and exit code.
