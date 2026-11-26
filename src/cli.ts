@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 type Agent = "claude" | "codex";
 type Scope = "project" | "global";
-type Entry = { name: string; summary: string };
+type Entry = { name: string; summary: string; example?: string };
 type File = { path: string; data: Buffer; mode: number };
 type Tree = { files: File[]; directories: string[] };
 export type Options = {
@@ -159,8 +159,7 @@ function sameTree(target: string, expected: Tree): boolean {
       (file.mode & 0o111) === (expected.files[index]!.mode & 0o111));
   } catch { return false; }
 }
-function buildPlan(root: string, options: Options, runtime: Runtime): Plan[] {
-  const entries = catalogue(root);
+function buildPlan(root: string, entries: Entry[], options: Options, runtime: Runtime): Plan[] {
   const available = new Set(entries.map(entry => entry.name));
   const names = options.skills.length ? options.skills : entries.map(entry => entry.name);
   for (const name of names) if (!available.has(name)) throw new CliError(`Unknown skill: ${name}. Use astack list`, 2);
@@ -278,16 +277,20 @@ export function runCLI(args: string[], runtime: Runtime = {}): Result {
         typeof pkg.name !== "string" || !pkg.name || typeof pkg.version !== "string" || !pkg.version)
       throw new CliError("Invalid package metadata: name and version are required");
     if (options.command === "version") return { code: 0, stdout: `${pkg.version}\n`, stderr: "" };
+    const skills = catalogue(root);
     if (options.command === "list") {
-      const skills = catalogue(root);
       return { code: 0, stdout: options.json ? `${JSON.stringify({ package: pkg.name, version: pkg.version, skills })}\n`
         : `${skills.map(entry => `${entry.name}\t${entry.summary}`).join("\n")}\n`, stderr: "" };
     }
-    const plan = buildPlan(root, options, runtime);
+    const plan = buildPlan(root, skills, options, runtime);
     if (!options.dryRun) applyPlan(plan);
     const actions = plan.map(({ agent, name, target, action }) => ({ agent, skill: name, target, action }));
-    return { code: 0, stdout: options.json ? `${JSON.stringify({ package: pkg.name, version: pkg.version, dryRun: options.dryRun, actions })}\n`
-      : `${actions.map(item => `${options.dryRun ? "would " : ""}${item.action}: ${item.agent}/${item.skill} -> ${item.target}`).join("\n")}\n`, stderr: "" };
+    if (options.json) return { code: 0, stdout: `${JSON.stringify({ package: pkg.name, version: pkg.version, dryRun: options.dryRun, actions })}\n`, stderr: "" };
+    const lines = actions.map(item => `${options.dryRun ? "would " : ""}${item.action}: ${item.agent}/${item.skill} -> ${item.target}`);
+    const first = skills.find(entry => entry.name === actions[0]?.skill);
+    if (!options.dryRun && typeof first?.example === "string" && first.example)
+      lines.push("", `Example prompt for ${first.name} in your agent`, first.example);
+    return { code: 0, stdout: `${lines.join("\n")}\n`, stderr: "" };
   } catch (error) {
     const code = error instanceof CliError ? error.code : 1;
     const message = error instanceof Error ? error.message : String(error);
