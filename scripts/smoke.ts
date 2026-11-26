@@ -1,6 +1,6 @@
 // Consumer journey: build the CLI, pack it as npm would, install the tarball into a
 // throwaway project offline, then list, install both agents and run every installed script.
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { readJson } from "./package";
@@ -46,7 +46,8 @@ try {
   check(help.code === 0 && help.out.includes("Usage"), "bare astack must print help");
   check(!existsSync(resolve(project, ".claude")) && !existsSync(resolve(project, ".agents")), "help wrote skill folders");
 
-  const listed = JSON.parse(must([bin, "list", "--json"], project)).skills.map((skill: { name: string }) => skill.name);
+  const entries: { name: string; example: string }[] = JSON.parse(must([bin, "list", "--json"], project)).skills;
+  const listed = entries.map(skill => skill.name);
   check(JSON.stringify(listed) === JSON.stringify(catalog), `list returned ${listed.join(",")}, catalogue has ${catalog.join(",")}`);
 
   const invalidList = run([bin, "list", "--scope", "project", "--json"], project);
@@ -55,6 +56,20 @@ try {
 
   const refused = run([bin, "install", "--agent", "claude", "--skill", "../outside"], project);
   check(refused.code !== 0 && !existsSync(resolve(project, ".claude")) && !existsSync(resolve(temp, "outside")), "a traversal skill name was not refused cleanly");
+
+  const firstInstall = [bin, "install", "--agent", "codex", "--skill", "deslop"];
+  const example = entries.find(skill => skill.name === "deslop")!.example;
+  check(!must([...firstInstall, "--dry-run"], project).includes(example), "a preview must not present an installed skill");
+  check(must(firstInstall, project).includes(example), "a single-skill install must show its own example prompt");
+  const scanner = resolve(project, ".agents/skills/deslop/scripts/slop-scan.mjs");
+  const sample = resolve(root, "evals/tasks/copy-landing/fixture/index.html");
+  const scan = run(["node", scanner, sample, "--only", "prose", "--fail-on", "medium", "--json"], project);
+  check(scan.code === 2 && JSON.parse(scan.out).files[0]?.hits.some((hit: { line: number; rule: string }) => hit.line === 6 && hit.rule === "inflated-verb"), "the installed scanner must locate a problem in sample copy");
+
+  const readme = resolve(project, "README.md");
+  writeFileSync(readme, "# Orders\n\nPayments settle on Tuesday.\n");
+  const cleanScan = must(["node", scanner, "README.md", "--only", "prose"], project);
+  check(cleanScan.includes("Scanned 1 file, 0 with findings"), "a clean README must still count as scanned");
 
   must([bin, "install", "--agent", "all", "--json"], project);
   for (const parent of [".claude/skills", ".agents/skills"]) {

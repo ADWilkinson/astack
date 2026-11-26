@@ -20,6 +20,19 @@ That puts the skills in your project for Claude Code and Codex. `--scope global`
 
 To see the skills and their example prompts, run `npx astack-skills@latest list --json`. To preview an install, add `--dry-run` to the install command. With `--json`, the CLI writes successful results to stdout and errors to stderr. A failed command exits with a nonzero status.
 
+### Try one skill on your README
+
+From a project with a `README.md`, install the `deslop` skill and run its copy check on that file:
+
+```sh
+npx astack-skills@latest install --agent codex --skill deslop
+node .agents/skills/deslop/scripts/slop-scan.mjs README.md --only prose
+```
+
+The scanner reports matching lines for you to review. It leaves the file untouched. For Claude Code, use `--agent claude` and run the same script under `.claude/skills/deslop/`. The installer prints an example prompt for the first skill you selected.
+
+### Other installers
+
 As a plugin:
 
 ```text

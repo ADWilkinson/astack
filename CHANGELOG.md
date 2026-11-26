@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.14.1
+
+- The installer prints an example prompt for the first selected skill. The npm quickstart shows how to run the installed copy scanner on a project README.
+- The scanner reports how many files it checked, including clean files.
+
 ## 0.14.0
 
 - Screenshot reviews now report unnamed controls from Chrome’s main-frame accessibility tree, with up to five examples to locate on the page. The existing capture command includes this check.

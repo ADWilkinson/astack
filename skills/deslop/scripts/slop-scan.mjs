@@ -3,7 +3,7 @@
 // Hits are leads to read in context, not verdicts: a phrase can be right in
 // one sentence and filler in the next.
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { extname, join, relative } from "node:path";
+import { extname, join, relative, resolve } from "node:path";
 
 const HELP = `slop-scan: list likely AI-default patterns with file:line
 
@@ -175,11 +175,19 @@ function scanFile(file, o) {
 
 const o = parse(process.argv.slice(2));
 const results = [];
-for (const p of o.paths) for (const f of walk(p)) { const r = scanFile(f, o); if (r && (r.hits.length || r.density.some(d => rank[d.severity] >= rank[o.min]))) results.push(r); }
-for (const r of results) r.density = r.density.filter(d => rank[d.severity] >= rank[o.min]);
+const scanned = new Set();
+for (const path of o.paths) for (const file of walk(path)) {
+  const key = resolve(file);
+  if (scanned.has(key)) continue;
+  const result = scanFile(file, o);
+  if (!result) continue;
+  scanned.add(key);
+  result.density = result.density.filter(detail => rank[detail.severity] >= rank[o.min]);
+  if (result.hits.length || result.density.length) results.push(result);
+}
 const all = results.flatMap(r => [...r.hits, ...r.density]);
 const counts = all.reduce((c, h) => (c[h.severity] = (c[h.severity] ?? 0) + 1, c), {});
-if (o.json) process.stdout.write(JSON.stringify({ counts, files: results }, null, 2) + "\n");
+if (o.json) process.stdout.write(JSON.stringify({ counts, files: results, scannedFiles: scanned.size }, null, 2) + "\n");
 else {
   for (const r of results) {
     const rel = relative(process.cwd(), r.file);
@@ -190,6 +198,6 @@ else {
   }
   const why = new Map(all.map(h => [h.rule, h.why]));
   if (why.size) { process.stdout.write("\nWhy these matter:\n"); for (const [k, v] of why) process.stdout.write(`  ${k}: ${v}\n`); }
-  process.stdout.write(`\n${results.length} file(s): ${counts.high ?? 0} high, ${counts.medium ?? 0} medium, ${counts.info ?? 0} info. Read each hit in context before changing it.\n`);
+  process.stdout.write(`\nScanned ${scanned.size} ${scanned.size === 1 ? "file" : "files"}, ${results.length} with findings: ${counts.high ?? 0} high, ${counts.medium ?? 0} medium, ${counts.info ?? 0} info. Read each hit in context before changing it.\n`);
 }
 if (o.failOn && all.some(h => rank[h.severity] >= rank[o.failOn])) process.exit(2);
